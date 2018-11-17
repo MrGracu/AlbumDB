@@ -22,12 +22,18 @@ namespace AlbumDB
         private void Form1_Load(object sender, EventArgs e)
         {
             // TODO: This line of code loads data into the 'albumyDataSet.album' table. You can move, or remove it, as needed.
-            this.albumTableAdapter.Fill(this.albumyDataSet.album);
-            int i = albumyDataSet.Tables.Count;
-            for (int j = 0; j < i; j++)
+            string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
+            using (OleDbConnection conn = new OleDbConnection(conString))
+            using (OleDbCommand cmd = new OleDbCommand("", conn))
             {
-                comboBox1.Items.Add(Convert.ToString(albumyDataSet.Tables[j].TableName));
-            }
+                conn.Open();
+                DataTable dt = conn.GetSchema("Tables", new string[] { null, null, null, "TABLE" });
+                foreach(DataRow row in dt.Rows)
+                {
+                    comboBox1.Items.Add(row.Field<string>("TABLE_NAME"));
+                }
+                
+            }            
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -43,21 +49,17 @@ namespace AlbumDB
                     DataSet ds = new DataSet();
                     adapter.Fill(ds, tableName);
                     dataGridView1.DataSource = ds.Tables[0];
+
+                    if (tableName == "album")
+                    {
+                        dataGridView1.Columns[7].DefaultCellStyle.Format = "T";
+                    }
+                    if (tableName == "piosenka")
+                    {
+                        dataGridView1.Columns[4].DefaultCellStyle.Format = "T";
+                    }
                 }
             }
-            //DataTable table = new DataTable();
-            //table = albumyDataSet.Tables[comboBox1.SelectedItem.ToString()];
-            //MessageBox.Show(Convert.ToString(albumyDataSet.Tables[comboBox1.SelectedItem.ToString()].Rows[0][1]));
-            //dataGridView1.DataSource = table;
-            //SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM "+ comboBox1.SelectedItem.ToString(), "Data Source=localhost;Initial Catalog=AlbumDB;" + "Integrated Security=true;");
-            //dataGridView1.DataSource = albumyDataSet;
-            //dataGridView1.DataMember = comboBox1.SelectedItem.ToString();
-            //dataGridView1.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader);
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
         }
     }
 }

@@ -35,20 +35,11 @@
             this.albumyDataSet = new AlbumDB.albumyDataSet();
             this.albumTableAdapter = new AlbumDB.albumyDataSetTableAdapters.albumTableAdapter();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.albumBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.albumBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.albumyDataSetBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.albumBindingSource2 = new System.Windows.Forms.BindingSource(this.components);
             this.albumBindingSource3 = new System.Windows.Forms.BindingSource(this.components);
-            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.idzespoluDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.idgatunekDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.idwytworniaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nazwaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.datawydaniaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.iloscpiosenekDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dlugoscDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.opisDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.albumBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.albumyDataSetBindingSource)).BeginInit();
@@ -62,23 +53,12 @@
             // 
             // dataGridView1
             // 
-            this.dataGridView1.AutoGenerateColumns = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.idDataGridViewTextBoxColumn,
-            this.idzespoluDataGridViewTextBoxColumn,
-            this.idgatunekDataGridViewTextBoxColumn,
-            this.idwytworniaDataGridViewTextBoxColumn,
-            this.nazwaDataGridViewTextBoxColumn,
-            this.datawydaniaDataGridViewTextBoxColumn,
-            this.iloscpiosenekDataGridViewTextBoxColumn,
-            this.dlugoscDataGridViewTextBoxColumn,
-            this.opisDataGridViewTextBoxColumn});
-            this.dataGridView1.DataSource = this.albumBindingSource;
             this.dataGridView1.Location = new System.Drawing.Point(1, 61);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(801, 390);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // albumBindingSource
             // 
@@ -108,20 +88,19 @@
             this.panel1.Size = new System.Drawing.Size(802, 33);
             this.panel1.TabIndex = 1;
             // 
-            // albumBindingSource1
-            // 
-            this.albumBindingSource1.DataMember = "album";
-            this.albumBindingSource1.DataSource = this.albumyDataSetBindingSource;
-            // 
             // comboBox1
             // 
-            this.comboBox1.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.albumBindingSource1, "id", true));
-            this.comboBox1.DataSource = this.albumBindingSource1;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(627, 6);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(152, 21);
             this.comboBox1.TabIndex = 0;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // albumBindingSource1
+            // 
+            this.albumBindingSource1.DataMember = "album";
+            this.albumBindingSource1.DataSource = this.albumyDataSetBindingSource;
             // 
             // albumyDataSetBindingSource1
             // 
@@ -137,60 +116,6 @@
             // 
             this.albumBindingSource3.DataMember = "album";
             this.albumBindingSource3.DataSource = this.albumyDataSet;
-            // 
-            // idDataGridViewTextBoxColumn
-            // 
-            this.idDataGridViewTextBoxColumn.DataPropertyName = "id";
-            this.idDataGridViewTextBoxColumn.HeaderText = "id";
-            this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
-            // 
-            // idzespoluDataGridViewTextBoxColumn
-            // 
-            this.idzespoluDataGridViewTextBoxColumn.DataPropertyName = "id_zespolu";
-            this.idzespoluDataGridViewTextBoxColumn.HeaderText = "id_zespolu";
-            this.idzespoluDataGridViewTextBoxColumn.Name = "idzespoluDataGridViewTextBoxColumn";
-            // 
-            // idgatunekDataGridViewTextBoxColumn
-            // 
-            this.idgatunekDataGridViewTextBoxColumn.DataPropertyName = "id_gatunek";
-            this.idgatunekDataGridViewTextBoxColumn.HeaderText = "id_gatunek";
-            this.idgatunekDataGridViewTextBoxColumn.Name = "idgatunekDataGridViewTextBoxColumn";
-            // 
-            // idwytworniaDataGridViewTextBoxColumn
-            // 
-            this.idwytworniaDataGridViewTextBoxColumn.DataPropertyName = "id_wytwornia";
-            this.idwytworniaDataGridViewTextBoxColumn.HeaderText = "id_wytwornia";
-            this.idwytworniaDataGridViewTextBoxColumn.Name = "idwytworniaDataGridViewTextBoxColumn";
-            // 
-            // nazwaDataGridViewTextBoxColumn
-            // 
-            this.nazwaDataGridViewTextBoxColumn.DataPropertyName = "nazwa";
-            this.nazwaDataGridViewTextBoxColumn.HeaderText = "nazwa";
-            this.nazwaDataGridViewTextBoxColumn.Name = "nazwaDataGridViewTextBoxColumn";
-            // 
-            // datawydaniaDataGridViewTextBoxColumn
-            // 
-            this.datawydaniaDataGridViewTextBoxColumn.DataPropertyName = "data_wydania";
-            this.datawydaniaDataGridViewTextBoxColumn.HeaderText = "data_wydania";
-            this.datawydaniaDataGridViewTextBoxColumn.Name = "datawydaniaDataGridViewTextBoxColumn";
-            // 
-            // iloscpiosenekDataGridViewTextBoxColumn
-            // 
-            this.iloscpiosenekDataGridViewTextBoxColumn.DataPropertyName = "ilosc_piosenek";
-            this.iloscpiosenekDataGridViewTextBoxColumn.HeaderText = "ilosc_piosenek";
-            this.iloscpiosenekDataGridViewTextBoxColumn.Name = "iloscpiosenekDataGridViewTextBoxColumn";
-            // 
-            // dlugoscDataGridViewTextBoxColumn
-            // 
-            this.dlugoscDataGridViewTextBoxColumn.DataPropertyName = "dlugosc";
-            this.dlugoscDataGridViewTextBoxColumn.HeaderText = "dlugosc";
-            this.dlugoscDataGridViewTextBoxColumn.Name = "dlugoscDataGridViewTextBoxColumn";
-            // 
-            // opisDataGridViewTextBoxColumn
-            // 
-            this.opisDataGridViewTextBoxColumn.DataPropertyName = "opis";
-            this.opisDataGridViewTextBoxColumn.HeaderText = "opis";
-            this.opisDataGridViewTextBoxColumn.Name = "opisDataGridViewTextBoxColumn";
             // 
             // Form1
             // 
@@ -224,15 +149,6 @@
         private albumyDataSetTableAdapters.albumTableAdapter albumTableAdapter;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.BindingSource albumBindingSource1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn idzespoluDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn idgatunekDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn idwytworniaDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn nazwaDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn datawydaniaDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn iloscpiosenekDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dlugoscDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn opisDataGridViewTextBoxColumn;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.BindingSource albumyDataSetBindingSource1;
         private System.Windows.Forms.BindingSource albumBindingSource2;

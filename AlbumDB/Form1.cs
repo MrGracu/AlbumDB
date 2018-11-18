@@ -21,7 +21,7 @@ namespace AlbumDB
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
+            string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=;";
             using (OleDbConnection conn = new OleDbConnection(conString))
             using (OleDbCommand cmd = new OleDbCommand("", conn))
             {
@@ -31,8 +31,7 @@ namespace AlbumDB
                 {
                     comboBox1.Items.Add(row.Field<string>("TABLE_NAME"));
                 }
-                
-            }            
+            }
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -59,6 +58,12 @@ namespace AlbumDB
                     }
                 }
             }
+            comboBox2.SelectedIndex = -1;
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            comboBox1.SelectedIndex = -1;
         }
     }
 }

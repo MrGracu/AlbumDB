@@ -21,7 +21,6 @@ namespace AlbumDB
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // TODO: This line of code loads data into the 'albumyDataSet.album' table. You can move, or remove it, as needed.
             string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
             using (OleDbConnection conn = new OleDbConnection(conString))
             using (OleDbCommand cmd = new OleDbCommand("", conn))

@@ -41,12 +41,11 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown4 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown5 = new System.Windows.Forms.NumericUpDown();
+            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
@@ -90,7 +89,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(30, 216);
+            this.label3.Location = new System.Drawing.Point(30, 211);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(56, 13);
             this.label3.TabIndex = 4;
@@ -128,9 +127,9 @@
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(30, 159);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(51, 13);
+            this.label7.Size = new System.Drawing.Size(104, 13);
             this.label7.TabIndex = 8;
-            this.label7.Text = "Długość:";
+            this.label7.Text = "Długość [hh:mm:ss]:";
             // 
             // label8
             // 
@@ -151,6 +150,8 @@
             // 
             // dateTimePicker1
             // 
+            this.dateTimePicker1.CustomFormat = "";
+            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dateTimePicker1.Location = new System.Drawing.Point(155, 183);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(131, 20);
@@ -159,47 +160,107 @@
             // numericUpDown1
             // 
             this.numericUpDown1.Location = new System.Drawing.Point(155, 131);
+            this.numericUpDown1.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(130, 20);
             this.numericUpDown1.TabIndex = 13;
-            // 
-            // numericUpDown2
-            // 
-            this.numericUpDown2.Location = new System.Drawing.Point(155, 157);
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(130, 20);
-            this.numericUpDown2.TabIndex = 14;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // numericUpDown3
             // 
             this.numericUpDown3.Location = new System.Drawing.Point(155, 209);
+            this.numericUpDown3.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericUpDown3.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.numericUpDown3.Name = "numericUpDown3";
             this.numericUpDown3.Size = new System.Drawing.Size(130, 20);
             this.numericUpDown3.TabIndex = 15;
+            this.numericUpDown3.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // numericUpDown4
             // 
             this.numericUpDown4.Location = new System.Drawing.Point(155, 261);
+            this.numericUpDown4.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericUpDown4.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.numericUpDown4.Name = "numericUpDown4";
             this.numericUpDown4.Size = new System.Drawing.Size(130, 20);
             this.numericUpDown4.TabIndex = 16;
+            this.numericUpDown4.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // numericUpDown5
             // 
             this.numericUpDown5.Location = new System.Drawing.Point(156, 235);
+            this.numericUpDown5.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericUpDown5.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.numericUpDown5.Name = "numericUpDown5";
             this.numericUpDown5.Size = new System.Drawing.Size(130, 20);
             this.numericUpDown5.TabIndex = 17;
+            this.numericUpDown5.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // dateTimePicker2
+            // 
+            this.dateTimePicker2.CustomFormat = "";
+            this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dateTimePicker2.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.dateTimePicker2.Location = new System.Drawing.Point(154, 157);
+            this.dateTimePicker2.Name = "dateTimePicker2";
+            this.dateTimePicker2.ShowUpDown = true;
+            this.dateTimePicker2.Size = new System.Drawing.Size(131, 20);
+            this.dateTimePicker2.TabIndex = 18;
+            this.dateTimePicker2.Value = new System.DateTime(2018, 11, 28, 0, 0, 0, 0);
             // 
             // AlbumForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(334, 385);
+            this.Controls.Add(this.dateTimePicker2);
             this.Controls.Add(this.numericUpDown5);
             this.Controls.Add(this.numericUpDown4);
             this.Controls.Add(this.numericUpDown3);
-            this.Controls.Add(this.numericUpDown2);
             this.Controls.Add(this.numericUpDown1);
             this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.richTextBox1);
@@ -216,7 +277,6 @@
             this.Name = "AlbumForm";
             this.Text = "AlbumForm";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).EndInit();
@@ -240,9 +300,9 @@
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
         private System.Windows.Forms.NumericUpDown numericUpDown3;
         private System.Windows.Forms.NumericUpDown numericUpDown4;
         private System.Windows.Forms.NumericUpDown numericUpDown5;
+        private System.Windows.Forms.DateTimePicker dateTimePicker2;
     }
 }

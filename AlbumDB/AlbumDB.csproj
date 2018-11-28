@@ -67,19 +67,91 @@
     <Compile Include="FORMS\AlbumForm.Designer.cs">
       <DependentUpon>AlbumForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FORMS\CzlonekZespoluForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FORMS\CzlonekZespoluForm.Designer.cs">
+      <DependentUpon>CzlonekZespoluForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FORMS\GatunekForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FORMS\GatunekForm.Designer.cs">
+      <DependentUpon>GatunekForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="FORMS\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FORMS\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FORMS\MuzykForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FORMS\MuzykForm.Designer.cs">
+      <DependentUpon>MuzykForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FORMS\OcenaAlbumuForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FORMS\OcenaAlbumuForm.Designer.cs">
+      <DependentUpon>OcenaAlbumuForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FORMS\PiosenkaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FORMS\PiosenkaForm.Designer.cs">
+      <DependentUpon>PiosenkaForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FORMS\StanowiskoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FORMS\StanowiskoForm.Designer.cs">
+      <DependentUpon>StanowiskoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FORMS\WytworniaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FORMS\WytworniaForm.Designer.cs">
+      <DependentUpon>WytworniaForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FORMS\ZespolForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FORMS\ZespolForm.Designer.cs">
+      <DependentUpon>ZespolForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FORMS\AlbumForm.resx">
       <DependentUpon>AlbumForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FORMS\CzlonekZespoluForm.resx">
+      <DependentUpon>CzlonekZespoluForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FORMS\GatunekForm.resx">
+      <DependentUpon>GatunekForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FORMS\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FORMS\MuzykForm.resx">
+      <DependentUpon>MuzykForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FORMS\OcenaAlbumuForm.resx">
+      <DependentUpon>OcenaAlbumuForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FORMS\PiosenkaForm.resx">
+      <DependentUpon>PiosenkaForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FORMS\StanowiskoForm.resx">
+      <DependentUpon>StanowiskoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FORMS\WytworniaForm.resx">
+      <DependentUpon>WytworniaForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FORMS\ZespolForm.resx">
+      <DependentUpon>ZespolForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

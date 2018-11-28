@@ -21,6 +21,7 @@ namespace AlbumDB
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
             string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=;";
             using (OleDbConnection conn = new OleDbConnection(conString))
             using (OleDbCommand cmd = new OleDbCommand("", conn))
@@ -30,11 +31,14 @@ namespace AlbumDB
                 foreach (DataRow row in dt.Rows)
                 {
                     comboBox1.Items.Add(row.Field<string>("TABLE_NAME"));
+                    comboBox3.Items.Add(row.Field<string>("TABLE_NAME"));
                 }
             }
             comboBox2.Items.Add("album + zespol + wytwornia + gatunek + piosenka");
             comboBox2.Items.Add("zespol + czlonek_zespolu + muzyk + stanowisko");
             comboBox2.Items.Add("album + ocena + ocena_albumu");
+
+            comboBox1.SelectedIndex = 0;
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)

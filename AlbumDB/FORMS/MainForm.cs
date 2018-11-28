@@ -31,7 +31,8 @@ namespace AlbumDB
                 foreach (DataRow row in dt.Rows)
                 {
                     comboBox1.Items.Add(row.Field<string>("TABLE_NAME"));
-                    comboBox3.Items.Add(row.Field<string>("TABLE_NAME"));
+                    if(!Equals(row.Field<string>("TABLE_NAME"),"ocena"))
+                        comboBox3.Items.Add(row.Field<string>("TABLE_NAME"));
                 }
             }
             comboBox2.Items.Add("album + zespol + wytwornia + gatunek + piosenka");
@@ -94,6 +95,51 @@ namespace AlbumDB
                 }
             }
             comboBox1.SelectedIndex = -1;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (comboBox3.SelectedIndex < 0) return;
+
+            switch (comboBox3.SelectedItem.ToString())
+            {
+                case "album":
+                    FORMS.AlbumForm albumForm = new FORMS.AlbumForm();
+                    albumForm.ShowDialog();
+                    break;
+                case "czlonek_zespolu":
+                    FORMS.CzlonekZespoluForm czlonekZespoluForm = new FORMS.CzlonekZespoluForm();
+                    czlonekZespoluForm.ShowDialog();
+                    break;
+                case "gatunek":
+                    FORMS.GatunekForm gatunekForm = new FORMS.GatunekForm();
+                    gatunekForm.ShowDialog();
+                    break;
+                case "muzyk":
+                    FORMS.MuzykForm muzykForm = new FORMS.MuzykForm();
+                    muzykForm.ShowDialog();
+                    break;
+                case "ocena_albumu":
+                    FORMS.OcenaAlbumuForm ocenaAlbumuForm  = new FORMS.OcenaAlbumuForm();
+                    ocenaAlbumuForm.ShowDialog();
+                    break;
+                case "piosenka":
+                    FORMS.PiosenkaForm piosenkaForm = new FORMS.PiosenkaForm();
+                    piosenkaForm.ShowDialog();
+                    break;
+                case "stanowisko":
+                    FORMS.StanowiskoForm stanowiskoForm = new FORMS.StanowiskoForm();
+                    stanowiskoForm.ShowDialog();
+                    break;
+                case "wytwornia":
+                    FORMS.WytworniaForm wytworniaForm = new FORMS.WytworniaForm();
+                    wytworniaForm.ShowDialog();
+                    break;
+                case "zespol":
+                    FORMS.ZespolForm zespolForm = new FORMS.ZespolForm();
+                    zespolForm.ShowDialog();
+                    break;
+            }
         }
     }
 }

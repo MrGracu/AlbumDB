@@ -103,6 +103,23 @@ namespace AlbumDB
                     }
                 }
 
+                if (table == "piosenka")
+                {
+                    using (OleDbCommand cmd = new OleDbCommand("SELECT COUNT(*) FROM piosenka WHERE ([nr_piosenki] = @first AND [id_albumu] = @second)", conn))
+                    {
+                        cmd.Parameters.AddWithValue("@first", list[2]);
+                        cmd.Parameters.AddWithValue("@second", list[3]);
+                        conn.Open();
+                        dataExists = (int)cmd.ExecuteScalar();
+                        conn.Close();
+                        if (dataExists > 0)
+                        {
+                            MessageBox.Show("Piosenka o danym numerze w danym albumie już istnieje!", "Ostrzeżenie", MessageBoxButtons.OK);
+                            return false;
+                        }
+                    }
+                }
+
                 if (table == "czlonek_zespolu")
                 {
                     using (OleDbCommand cmd = new OleDbCommand("SELECT COUNT(*) FROM stanowisko WHERE ([id] = @third)", conn))

@@ -35,24 +35,25 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(97, 81);
+            this.button1.Location = new System.Drawing.Point(27, 49);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(108, 38);
+            this.button1.Size = new System.Drawing.Size(252, 28);
             this.button1.TabIndex = 39;
             this.button1.Text = "Dodaj";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(156, 29);
+            this.textBox1.Location = new System.Drawing.Point(117, 23);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(129, 20);
+            this.textBox1.Size = new System.Drawing.Size(162, 20);
             this.textBox1.TabIndex = 38;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(30, 32);
+            this.label1.Location = new System.Drawing.Point(24, 26);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(87, 13);
             this.label1.TabIndex = 37;
@@ -62,12 +63,17 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(316, 145);
+            this.ClientSize = new System.Drawing.Size(305, 96);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "WytworniaForm";
-            this.Text = "WytworniaForm";
+            this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "Dodaj Wytwórnię";
             this.ResumeLayout(false);
             this.PerformLayout();
 

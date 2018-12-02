@@ -16,5 +16,15 @@ namespace AlbumDB.FORMS
         {
             InitializeComponent();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (textBox1.Text.Length == 0 || textBox2.Text.Length == 0 || dateTimePicker1.Value.Date.Year >= (DateTime.Now.Date.Year-2)) return;
+
+            if (InsertIntoDatabase.Insert("muzyk", textBox1.Text, textBox2.Text, dateTimePicker1.Value.Date))
+            {
+                this.Close();
+            }
+        }
     }
 }

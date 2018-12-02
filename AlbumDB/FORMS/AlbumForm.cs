@@ -20,7 +20,13 @@ namespace AlbumDB.FORMS
 
         private void button1_Click(object sender, EventArgs e)
         {
+            DateTime date1 = new DateTime(2010, 1, 1, 0, 0, 0);
+            if (textBox1.Text.Length == 0 || richTextBox1.Text.Length == 0 || numericUpDown1.Value == 0 || dateTimePicker2.Value.TimeOfDay <= date1.TimeOfDay || numericUpDown3.Value == 0 || numericUpDown5.Value == 0 || numericUpDown4.Value == 0) return;
 
+            if (InsertIntoDatabase.Insert("album", textBox1.Text, richTextBox1.Text, numericUpDown1.Value, dateTimePicker2.Value.TimeOfDay, dateTimePicker1.Value.Date, numericUpDown3.Value, numericUpDown5.Value, numericUpDown4.Value))
+            {
+                this.Close();
+            }
         }
     }
 }

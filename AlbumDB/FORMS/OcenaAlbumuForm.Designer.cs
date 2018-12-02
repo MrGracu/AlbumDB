@@ -41,33 +41,28 @@
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(155, 47);
-            this.numericUpDown1.Minimum = new decimal(new int[] {
-            1,
+            this.numericUpDown1.Location = new System.Drawing.Point(129, 18);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            2147483640,
             0,
             0,
             0});
             this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(130, 20);
-            this.numericUpDown1.TabIndex = 19;
-            this.numericUpDown1.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            this.numericUpDown1.Size = new System.Drawing.Size(150, 20);
+            this.numericUpDown1.TabIndex = 18;
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(155, 73);
+            this.richTextBox1.Location = new System.Drawing.Point(24, 89);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(130, 65);
-            this.richTextBox1.TabIndex = 18;
+            this.richTextBox1.Size = new System.Drawing.Size(255, 90);
+            this.richTextBox1.TabIndex = 22;
             this.richTextBox1.Text = "";
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(30, 49);
+            this.label8.Location = new System.Drawing.Point(21, 46);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(59, 13);
             this.label8.TabIndex = 17;
@@ -76,7 +71,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(30, 76);
+            this.label2.Location = new System.Drawing.Point(21, 73);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(55, 13);
             this.label2.TabIndex = 16;
@@ -85,43 +80,39 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(30, 24);
+            this.label1.Location = new System.Drawing.Point(21, 21);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(56, 13);
+            this.label1.Size = new System.Drawing.Size(62, 13);
             this.label1.TabIndex = 14;
-            this.label1.Text = "ID_Album:";
+            this.label1.Text = "ID_Albumu:";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(88, 162);
+            this.button1.Location = new System.Drawing.Point(24, 185);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(108, 38);
-            this.button1.TabIndex = 22;
+            this.button1.Size = new System.Drawing.Size(255, 28);
+            this.button1.TabIndex = 23;
             this.button1.Text = "Dodaj";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // numericUpDown2
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(155, 21);
-            this.numericUpDown2.Minimum = new decimal(new int[] {
-            1,
+            this.numericUpDown2.Location = new System.Drawing.Point(129, 44);
+            this.numericUpDown2.Maximum = new decimal(new int[] {
+            13,
             0,
             0,
             0});
             this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(130, 20);
-            this.numericUpDown2.TabIndex = 23;
-            this.numericUpDown2.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            this.numericUpDown2.Size = new System.Drawing.Size(150, 20);
+            this.numericUpDown2.TabIndex = 19;
             // 
             // OcenaAlbumuForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(309, 235);
+            this.ClientSize = new System.Drawing.Size(301, 230);
             this.Controls.Add(this.numericUpDown2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.numericUpDown1);
@@ -129,8 +120,13 @@
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "OcenaAlbumuForm";
-            this.Text = "OcenaAlbumuForm";
+            this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "Dodaj Ocenę Albumu";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             this.ResumeLayout(false);

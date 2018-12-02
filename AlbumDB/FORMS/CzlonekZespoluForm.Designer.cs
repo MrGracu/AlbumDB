@@ -42,96 +42,82 @@
             // 
             // numericUpDown2
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(180, 23);
-            this.numericUpDown2.Minimum = new decimal(new int[] {
-            1,
+            this.numericUpDown2.Location = new System.Drawing.Point(152, 47);
+            this.numericUpDown2.Maximum = new decimal(new int[] {
+            2147483640,
             0,
             0,
             0});
             this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(130, 20);
-            this.numericUpDown2.TabIndex = 30;
-            this.numericUpDown2.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            this.numericUpDown2.Size = new System.Drawing.Size(129, 20);
+            this.numericUpDown2.TabIndex = 29;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(113, 125);
+            this.button1.Location = new System.Drawing.Point(24, 102);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(108, 38);
-            this.button1.TabIndex = 29;
+            this.button1.Size = new System.Drawing.Size(257, 28);
+            this.button1.TabIndex = 31;
             this.button1.Text = "Dodaj";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(180, 49);
-            this.numericUpDown1.Minimum = new decimal(new int[] {
-            1,
+            this.numericUpDown1.Location = new System.Drawing.Point(152, 21);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            2147483640,
             0,
             0,
             0});
             this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(130, 20);
+            this.numericUpDown1.Size = new System.Drawing.Size(129, 20);
             this.numericUpDown1.TabIndex = 28;
-            this.numericUpDown1.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(55, 51);
+            this.label8.Location = new System.Drawing.Point(21, 49);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(58, 13);
+            this.label8.Size = new System.Drawing.Size(64, 13);
             this.label8.TabIndex = 26;
-            this.label8.Text = "ID_Muzyk:";
+            this.label8.Text = "ID_Muzyka:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(55, 78);
+            this.label2.Location = new System.Drawing.Point(21, 76);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(82, 13);
             this.label2.TabIndex = 25;
-            this.label2.Text = "ID_Stanowisko:";
+            this.label2.Text = "ID_Stanowiska:";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(55, 26);
+            this.label1.Location = new System.Drawing.Point(21, 24);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(56, 13);
+            this.label1.Size = new System.Drawing.Size(65, 13);
             this.label1.TabIndex = 24;
-            this.label1.Text = "ID_Album:";
+            this.label1.Text = "ID_Zespolu:";
             // 
             // numericUpDown3
             // 
-            this.numericUpDown3.Location = new System.Drawing.Point(180, 78);
-            this.numericUpDown3.Minimum = new decimal(new int[] {
-            1,
+            this.numericUpDown3.Location = new System.Drawing.Point(152, 74);
+            this.numericUpDown3.Maximum = new decimal(new int[] {
+            2147483640,
             0,
             0,
             0});
             this.numericUpDown3.Name = "numericUpDown3";
-            this.numericUpDown3.Size = new System.Drawing.Size(130, 20);
-            this.numericUpDown3.TabIndex = 31;
-            this.numericUpDown3.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            this.numericUpDown3.Size = new System.Drawing.Size(129, 20);
+            this.numericUpDown3.TabIndex = 30;
             // 
             // CzlonekZespoluForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(362, 193);
+            this.ClientSize = new System.Drawing.Size(305, 145);
             this.Controls.Add(this.numericUpDown3);
             this.Controls.Add(this.numericUpDown2);
             this.Controls.Add(this.button1);
@@ -139,8 +125,13 @@
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "CzlonekZespoluForm";
-            this.Text = "CzlonekZespoluForm";
+            this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "Dodaj Członka Zespołu";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();

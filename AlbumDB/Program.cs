@@ -79,19 +79,85 @@ namespace AlbumDB
             string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=..\\..\\albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
             using (OleDbConnection conn = new OleDbConnection(conString))
             {
-                
+                string sqlQuery = "";
+                int dataExists = 0;
 
-                Dictionary<string, string> sqlInsertTab = new Dictionary<string, string>();
-                sqlInsertTab["gatunek"] = "INSERT INTO gatunek ([nazwa]) VALUES (@first)";
+                if (table == "gatunek") sqlQuery = "SELECT COUNT(*) FROM gatunek WHERE ([nazwa] = @first)";
+                if (table == "wytwornia") sqlQuery = "SELECT COUNT(*) FROM wytwornia WHERE ([nazwa] = @first)";
+                if (table == "stanowisko") sqlQuery = "SELECT COUNT(*) FROM stanowisko WHERE ([nazwa] = @first)";
+                if (table == "muzyk") sqlQuery = "SELECT COUNT(*) FROM muzyk WHERE ([imie] = @first AND [nazwisko] = @second AND [data_urodzenia] = @third)";
+                if (table == "piosenka") sqlQuery = "SELECT COUNT(*) FROM piosenka WHERE ([tytul] = @first AND [czas] = @second AND [nr_piosenki] = @third AND [id_albumu] = @fourth)";
+                if (table == "ocena_albumu") sqlQuery = "SELECT COUNT(*) FROM ocena_albumu WHERE ([id_albumu] = @first AND [id_ocena] = @second AND [recenzja] = @third)";
+                if (table == "czlonek_zespolu") sqlQuery = "SELECT COUNT(*) FROM czlonek_zespolu WHERE ([id_zespolu] = @first AND [id_muzyka] = @second AND [id_stanowiska] = @third)";
+                if (table == "zespol") sqlQuery = "SELECT COUNT(*) FROM zespol WHERE ([nazwa] = @first AND [pochodzenie] = @second AND [rok_zalozenia] = @third AND [liczba_czlonkow] = @fourth)";
+                if (table == "album") sqlQuery = "SELECT COUNT(*) FROM album WHERE ([nazwa] = @first AND [opis] = @second AND [ilosc_piosenek] = @third AND [dlugosc] = @fourth AND [data_wydania] = @fifth AND [id_zespolu] = @sixth AND [id_gatunek] = @seventh AND [id_wytwornia] = @eigth)";
 
-                using (OleDbCommand cmd = new OleDbCommand(sqlInsertTab[table], conn))
+                using (OleDbCommand cmd = new OleDbCommand(sqlQuery, conn))
                 {
                     cmd.Parameters.AddWithValue("@first", list[0]);
+                    if(table == "muzyk" || table == "piosenka" || table == "ocena_albumu" || table == "czlonek_zespolu" || table == "zespol" || table == "album")
+                    {
+                        cmd.Parameters.AddWithValue("@second", list[1]);
+                        cmd.Parameters.AddWithValue("@third", list[2]);
+                    }
+                    if(table == "piosenka" || table == "zespol" || table == "album")
+                    {
+                        cmd.Parameters.AddWithValue("@fourth", list[3]);
+                    }
+                    if (table == "album")
+                    {
+                        cmd.Parameters.AddWithValue("@fifth", list[4]);
+                        cmd.Parameters.AddWithValue("@sixth", list[5]);
+                        cmd.Parameters.AddWithValue("@seventh", list[6]);
+                        cmd.Parameters.AddWithValue("@eigth", list[7]);
+                    }
                     conn.Open();
-                    cmd.ExecuteNonQuery();
+                    dataExists = (int)cmd.ExecuteScalar();
                     conn.Close();
-                    returnValue = true;
-                    MessageBox.Show("Pomyślnie dodano nowy element.", "Utworzono", MessageBoxButtons.OK);
+                }
+
+                if(dataExists > 0)
+                {
+                    MessageBox.Show("Podany element juz istnieje!", "Ostrzeżenie", MessageBoxButtons.OK);
+                }
+                else
+                {
+                    Dictionary<string, string> sqlInsertTab = new Dictionary<string, string>();
+                    sqlInsertTab["gatunek"] = "INSERT INTO gatunek ([nazwa]) VALUES (@first)";
+                    sqlInsertTab["wytwornia"] = "INSERT INTO wytwornia ([nazwa]) VALUES (@first)";
+                    sqlInsertTab["stanowisko"] = "INSERT INTO stanowisko ([nazwa]) VALUES (@first)";
+                    sqlInsertTab["muzyk"] = "INSERT INTO muzyk ([imie],[nazwisko],[data_urodzenia]) VALUES (@first,@second,@third)";
+                    sqlInsertTab["piosenka"] = "INSERT INTO piosenka ([tytul],[czas],[nr_piosenki],[id_albumu]) VALUES (@first,@second,@third,@fourth)";
+                    sqlInsertTab["ocena_albumu"] = "INSERT INTO ocena_albumu ([id_albumu],[id_ocena],[recenzja]) VALUES (@first,@second,@third)";
+                    sqlInsertTab["czlonek_zespolu"] = "INSERT INTO czlonek_zespolu ([id_zespolu],[id_muzyka],[id_stanowiska]) VALUES (@first,@second,@third)";
+                    sqlInsertTab["zespol"] = "INSERT INTO zespol ([nazwa],[pochodzenie],[rok_zalozenia],[liczba_czlonkow]) VALUES (@first,@second,@third,@fourth)";
+                    sqlInsertTab["album"] = "INSERT INTO album ([nazwa],[opis],[ilosc_piosenek],[dlugosc],[data_wydania],[id_zespolu],[id_gatunek],[id_wytwornia]) VALUES (@first,@second,@third,@fourth,@fifth,@sixth,@seventh,@eigth)";
+
+                    using (OleDbCommand cmd = new OleDbCommand(sqlInsertTab[table], conn))
+                    {
+                        cmd.Parameters.AddWithValue("@first", list[0]);
+                        if (table == "muzyk" || table == "piosenka" || table == "ocena_albumu" || table == "czlonek_zespolu" || table == "zespol" || table == "album")
+                        {
+                            cmd.Parameters.AddWithValue("@second", list[1]);
+                            cmd.Parameters.AddWithValue("@third", list[2]);
+                        }
+                        if (table == "piosenka" || table == "zespol" || table == "album")
+                        {
+                            cmd.Parameters.AddWithValue("@fourth", list[3]);
+                        }
+                        if (table == "album")
+                        {
+                            cmd.Parameters.AddWithValue("@fifth", list[4]);
+                            cmd.Parameters.AddWithValue("@sixth", list[5]);
+                            cmd.Parameters.AddWithValue("@seventh", list[6]);
+                            cmd.Parameters.AddWithValue("@eigth", list[7]);
+                        }
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                        conn.Close();
+                        returnValue = true;
+                        MessageBox.Show("Pomyślnie dodano nowy element.", "Utworzono", MessageBoxButtons.OK);
+                    }
                 }
             }
             return returnValue;

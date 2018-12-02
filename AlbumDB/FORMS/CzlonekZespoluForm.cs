@@ -16,5 +16,15 @@ namespace AlbumDB.FORMS
         {
             InitializeComponent();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (numericUpDown1.Value == 0 || numericUpDown2.Value == 0 || numericUpDown3.Value == 0) return;
+
+            if (InsertIntoDatabase.Insert("czlonek_zespolu", numericUpDown1.Value, numericUpDown2.Value, numericUpDown3.Value))
+            {
+                this.Close();
+            }
+        }
     }
 }

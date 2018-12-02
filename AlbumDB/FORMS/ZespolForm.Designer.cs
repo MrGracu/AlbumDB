@@ -154,6 +154,7 @@
             this.MinimizeBox = false;
             this.Name = "ZespolForm";
             this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Dodaj Zespół";
             this.Load += new System.EventHandler(this.ZespolForm_Load);

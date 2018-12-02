@@ -115,6 +115,7 @@
             this.MinimizeBox = false;
             this.Name = "MuzykForm";
             this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Dodaj Muzyka";
             this.ResumeLayout(false);

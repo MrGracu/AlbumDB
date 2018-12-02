@@ -144,6 +144,7 @@
             this.MinimizeBox = false;
             this.Name = "PiosenkaForm";
             this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Dodaj Piosenkę";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();

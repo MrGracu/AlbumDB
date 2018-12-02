@@ -239,6 +239,7 @@
             this.MinimizeBox = false;
             this.Name = "AlbumForm";
             this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Dodaj Album";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();

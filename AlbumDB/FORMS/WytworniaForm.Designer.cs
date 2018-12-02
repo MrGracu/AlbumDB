@@ -72,6 +72,7 @@
             this.MinimizeBox = false;
             this.Name = "WytworniaForm";
             this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Dodaj Wytwórnię";
             this.ResumeLayout(false);

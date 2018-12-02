@@ -125,6 +125,7 @@
             this.MinimizeBox = false;
             this.Name = "OcenaAlbumuForm";
             this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Dodaj Ocenę Albumu";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();

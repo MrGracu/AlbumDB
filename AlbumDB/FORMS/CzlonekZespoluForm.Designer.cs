@@ -130,6 +130,7 @@
             this.MinimizeBox = false;
             this.Name = "CzlonekZespoluForm";
             this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Dodaj Członka Zespołu";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();

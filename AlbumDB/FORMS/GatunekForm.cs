@@ -16,5 +16,15 @@ namespace AlbumDB.FORMS
         {
             InitializeComponent();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (textBox1.Text.Length == 0) return;
+
+            if(InsertIntoDatabase.Insert("gatunek",textBox1.Text))
+            {
+                this.Close();
+            }
+        }
     }
 }

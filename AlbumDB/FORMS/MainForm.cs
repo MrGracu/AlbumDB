@@ -34,6 +34,7 @@ namespace AlbumDB
                     if(!Equals(row.Field<string>("TABLE_NAME"),"ocena"))
                         comboBox3.Items.Add(row.Field<string>("TABLE_NAME"));
                 }
+                conn.Close();
             }
             comboBox2.Items.Add("album + zespol + wytwornia + gatunek + piosenka");
             comboBox2.Items.Add("zespol + czlonek_zespolu + muzyk + stanowisko");
@@ -66,6 +67,7 @@ namespace AlbumDB
                         dataGridView1.Columns[4].DefaultCellStyle.Format = "T";
                     }
                 }
+                conn.Close();
             }
             comboBox2.SelectedIndex = -1;
         }
@@ -74,7 +76,7 @@ namespace AlbumDB
         {
             if (comboBox1.SelectedIndex >= 0 && comboBox2.SelectedIndex < 0) return;
             string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
-            string[] commandTab = { "SELECT album.nazwa AS[Nazwa albumu], zespol.nazwa AS[Zespół], wytwornia.nazwa AS[Wytwórnia], gatunek.nazwa AS[Gatunek], piosenka.nr_piosenki AS[Nr piosenki], piosenka.tytul AS[Tytuł], piosenka.czas AS[Czas trwania] FROM((((album INNER JOIN piosenka ON album.id = piosenka.id_albumu) INNER JOIN wytwornia ON album.id_wytwornia = wytwornia.id) INNER JOIN gatunek ON album.id_gatunek = gatunek.id) INNER JOIN zespol ON album.id_zespolu = zespol.id) ORDER BY album.id",
+            string[] commandTab = { "SELECT album.nazwa AS [Nazwa albumu], zespol.nazwa AS [Zespół], wytwornia.nazwa AS [Wytwórnia], gatunek.nazwa AS [Gatunek], piosenka.nr_piosenki AS [Nr piosenki], piosenka.tytul AS [Tytuł], piosenka.czas AS [Czas trwania] FROM((((album INNER JOIN piosenka ON album.id = piosenka.id_albumu) INNER JOIN wytwornia ON album.id_wytwornia = wytwornia.id) INNER JOIN gatunek ON album.id_gatunek = gatunek.id) INNER JOIN zespol ON album.id_zespolu = zespol.id) ORDER BY album.id",
                                     "SELECT zespol.nazwa AS [Zespół], muzyk.imie AS [Imie], muzyk.nazwisko AS [Nazwisko], muzyk.data_urodzenia AS [Data urodzenia], stanowisko.nazwa AS [Stanowisko] FROM (((zespol INNER JOIN czlonek_zespolu ON zespol.id=czlonek_zespolu.id_zespolu) INNER JOIN muzyk ON czlonek_zespolu.id_muzyka=muzyk.id) INNER JOIN stanowisko ON czlonek_zespolu.id_stanowiska=stanowisko.id) ORDER BY zespol.id",
                                     "SELECT album.nazwa AS [Nazwa albumu], ocena.wartosc AS [Ocena], ocena_albumu.recenzja AS [Recenzja] FROM ((album INNER JOIN ocena_albumu ON album.id = ocena_albumu.id_albumu) INNER JOIN ocena ON ocena_albumu.id_ocena = ocena.id) ORDER BY album.id" };
             int selectedNumber = comboBox2.SelectedIndex;
@@ -93,53 +95,19 @@ namespace AlbumDB
                         dataGridView1.Columns[6].DefaultCellStyle.Format = "T";
                     }
                 }
+                conn.Close();
             }
             comboBox1.SelectedIndex = -1;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (comboBox3.SelectedIndex < 0) return;
+            WindowManage.SwitchWindow(comboBox3.SelectedIndex, comboBox3.SelectedItem.ToString());
+        }
 
-            switch (comboBox3.SelectedItem.ToString())
-            {
-                case "album":
-                    FORMS.AlbumForm albumForm = new FORMS.AlbumForm();
-                    albumForm.ShowDialog();
-                    break;
-                case "czlonek_zespolu":
-                    FORMS.CzlonekZespoluForm czlonekZespoluForm = new FORMS.CzlonekZespoluForm();
-                    czlonekZespoluForm.ShowDialog();
-                    break;
-                case "gatunek":
-                    FORMS.GatunekForm gatunekForm = new FORMS.GatunekForm();
-                    gatunekForm.ShowDialog();
-                    break;
-                case "muzyk":
-                    FORMS.MuzykForm muzykForm = new FORMS.MuzykForm();
-                    muzykForm.ShowDialog();
-                    break;
-                case "ocena_albumu":
-                    FORMS.OcenaAlbumuForm ocenaAlbumuForm  = new FORMS.OcenaAlbumuForm();
-                    ocenaAlbumuForm.ShowDialog();
-                    break;
-                case "piosenka":
-                    FORMS.PiosenkaForm piosenkaForm = new FORMS.PiosenkaForm();
-                    piosenkaForm.ShowDialog();
-                    break;
-                case "stanowisko":
-                    FORMS.StanowiskoForm stanowiskoForm = new FORMS.StanowiskoForm();
-                    stanowiskoForm.ShowDialog();
-                    break;
-                case "wytwornia":
-                    FORMS.WytworniaForm wytworniaForm = new FORMS.WytworniaForm();
-                    wytworniaForm.ShowDialog();
-                    break;
-                case "zespol":
-                    FORMS.ZespolForm zespolForm = new FORMS.ZespolForm();
-                    zespolForm.ShowDialog();
-                    break;
-            }
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

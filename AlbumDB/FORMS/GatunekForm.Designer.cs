@@ -35,18 +35,19 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(93, 58);
+            this.button1.Location = new System.Drawing.Point(26, 68);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(108, 38);
+            this.button1.Size = new System.Drawing.Size(250, 28);
             this.button1.TabIndex = 38;
             this.button1.Text = "Dodaj";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(147, 21);
+            this.textBox1.Location = new System.Drawing.Point(114, 21);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(129, 20);
+            this.textBox1.Size = new System.Drawing.Size(162, 20);
             this.textBox1.TabIndex = 37;
             // 
             // label1
@@ -62,12 +63,15 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(300, 118);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "GatunekForm";
-            this.Text = "GatunekForm";
+            this.Text = "Dodaj Gatunek";
             this.ResumeLayout(false);
             this.PerformLayout();
 

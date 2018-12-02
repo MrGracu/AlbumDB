@@ -113,7 +113,7 @@ namespace AlbumDB
                         conn.Close();
                         if (dataExists < 1)
                         {
-                            result = MessageBox.Show("Stanowisko o podanym ID nie istnieje!\nCzy chcesz go utworzyć teraz?", "Ostrzeżenie", MessageBoxButtons.YesNo);
+                            result = MessageBox.Show("Stanowisko o podanym ID nie istnieje!\nCzy chcesz utworzyć je teraz?", "Ostrzeżenie", MessageBoxButtons.YesNo);
                             if (result == DialogResult.Yes)
                             {
                                 WindowManage.SwitchWindow("stanowisko");
@@ -192,7 +192,7 @@ namespace AlbumDB
                         conn.Close();
                         if (dataExists < 1)
                         {
-                            result = MessageBox.Show("Wytwórnia o podanym ID nie istnieje!\nCzy chcesz go utworzyć teraz?", "Ostrzeżenie", MessageBoxButtons.YesNo);
+                            result = MessageBox.Show("Wytwórnia o podanym ID nie istnieje!\nCzy chcesz utworzyć ją teraz?", "Ostrzeżenie", MessageBoxButtons.YesNo);
                             if (result == DialogResult.Yes)
                             {
                                 WindowManage.SwitchWindow("wytwornia");

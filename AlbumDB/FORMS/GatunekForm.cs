@@ -19,9 +19,13 @@ namespace AlbumDB.FORMS
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text.Length == 0) return;
+            if (textBox1.Text.Length == 0)
+            {
+                MessageBox.Show("Wprowadż poprawne wartości do wszystkich pól", "Ostrzeżenie", MessageBoxButtons.OK);
+                return;
+            }
 
-            if(InsertIntoDatabase.Insert("gatunek",textBox1.Text))
+            if (InsertIntoDatabase.Insert("gatunek",textBox1.Text))
             {
                 this.Close();
             }

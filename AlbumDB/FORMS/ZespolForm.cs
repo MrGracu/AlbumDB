@@ -19,7 +19,11 @@ namespace AlbumDB.FORMS
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text.Length == 0 || textBox2.Text.Length == 0 || numericUpDown1.Value == 0 || numericUpDown3.Value == 0) return;
+            if (textBox1.Text.Length == 0 || textBox2.Text.Length == 0 || numericUpDown1.Value == 0 || numericUpDown3.Value == 0)
+            {
+                MessageBox.Show("Wprowadż poprawne wartości do wszystkich pól", "Ostrzeżenie", MessageBoxButtons.OK);
+                return;
+            }
 
             if (InsertIntoDatabase.Insert("zespol", textBox1.Text, textBox2.Text, numericUpDown1.Value, numericUpDown3.Value))
             {

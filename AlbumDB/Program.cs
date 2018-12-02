@@ -76,13 +76,15 @@ namespace AlbumDB
         {
             bool returnValue = false;
 
-            string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=D:\\GitHub\\source\\repos\\AlbumDB\\AlbumDB\\albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
+            string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=..\\..\\albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
             using (OleDbConnection conn = new OleDbConnection(conString))
             {
-                Dictionary<string, string> sqlTab = new Dictionary<string, string>();
-                sqlTab["gatunek"] = "INSERT INTO gatunek ([nazwa]) VALUES (@first)";
+                
 
-                using (OleDbCommand cmd = new OleDbCommand(sqlTab[table], conn))
+                Dictionary<string, string> sqlInsertTab = new Dictionary<string, string>();
+                sqlInsertTab["gatunek"] = "INSERT INTO gatunek ([nazwa]) VALUES (@first)";
+
+                using (OleDbCommand cmd = new OleDbCommand(sqlInsertTab[table], conn))
                 {
                     cmd.Parameters.AddWithValue("@first", list[0]);
                     conn.Open();

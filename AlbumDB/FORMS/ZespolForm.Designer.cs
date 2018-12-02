@@ -57,13 +57,23 @@
             // 
             this.numericUpDown1.Location = new System.Drawing.Point(140, 74);
             this.numericUpDown1.Maximum = new decimal(new int[] {
-            2147483640,
+            2019,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Minimum = new decimal(new int[] {
+            1600,
             0,
             0,
             0});
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(141, 20);
             this.numericUpDown1.TabIndex = 31;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            2018,
+            0,
+            0,
+            0});
             // 
             // label8
             // 
@@ -146,6 +156,7 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Dodaj Zespół";
+            this.Load += new System.EventHandler(this.ZespolForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);

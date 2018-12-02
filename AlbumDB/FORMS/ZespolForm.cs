@@ -26,5 +26,11 @@ namespace AlbumDB.FORMS
                 this.Close();
             }
         }
+
+        private void ZespolForm_Load(object sender, EventArgs e)
+        {
+            numericUpDown1.Maximum = DateTime.Now.Year;
+            numericUpDown1.Value = DateTime.Now.Year;
+        }
     }
 }

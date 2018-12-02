@@ -24,10 +24,8 @@ namespace AlbumDB
 
     public static class WindowManage
     {
-        public static void SwitchWindow(int selectedForm, string selectedItem)
+        public static void SwitchWindow(string selectedItem)
         {
-            if (selectedForm < 0) return;
-
             switch (selectedItem)
             {
                 case "album":
@@ -75,12 +73,140 @@ namespace AlbumDB
         public static bool Insert(string table, params object[] list)
         {
             bool returnValue = false;
+            bool requireChange = false;
+            DialogResult result;
 
             string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=..\\..\\albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
             using (OleDbConnection conn = new OleDbConnection(conString))
             {
-                string sqlQuery = "";
                 int dataExists = 0;
+
+                if (table == "ocena_albumu" || table == "piosenka")
+                {
+                    using (OleDbCommand cmd = new OleDbCommand("SELECT COUNT(*) FROM album WHERE ([id] = @first)", conn))
+                    {
+                        if(table == "ocena_albumu") cmd.Parameters.AddWithValue("@first", list[0]);
+                        else cmd.Parameters.AddWithValue("@first", list[3]);
+                        conn.Open();
+                        dataExists = (int)cmd.ExecuteScalar();
+                        conn.Close();
+                        if(dataExists < 1)
+                        {
+                            result = MessageBox.Show("Album o podanym ID nie istnieje!\nCzy chcesz go utworzyć teraz?", "Ostrzeżenie", MessageBoxButtons.YesNo);
+                            if (result == DialogResult.Yes)
+                            {
+                                WindowManage.SwitchWindow("album");
+                                requireChange = true;
+                            }
+                            else return false;
+                        }
+                    }
+                }
+
+                if (table == "czlonek_zespolu")
+                {
+                    using (OleDbCommand cmd = new OleDbCommand("SELECT COUNT(*) FROM stanowisko WHERE ([id] = @third)", conn))
+                    {
+                        cmd.Parameters.AddWithValue("@third", list[2]);
+                        conn.Open();
+                        dataExists = (int)cmd.ExecuteScalar();
+                        conn.Close();
+                        if (dataExists < 1)
+                        {
+                            result = MessageBox.Show("Stanowisko o podanym ID nie istnieje!\nCzy chcesz go utworzyć teraz?", "Ostrzeżenie", MessageBoxButtons.YesNo);
+                            if (result == DialogResult.Yes)
+                            {
+                                WindowManage.SwitchWindow("stanowisko");
+                                requireChange = true;
+                            }
+                            else return false;
+                        }
+                    }
+
+                    using (OleDbCommand cmd = new OleDbCommand("SELECT COUNT(*) FROM muzyk WHERE ([id] = @second)", conn))
+                    {
+                        cmd.Parameters.AddWithValue("@second", list[1]);
+                        conn.Open();
+                        dataExists = (int)cmd.ExecuteScalar();
+                        conn.Close();
+                        if (dataExists < 1)
+                        {
+                            result = MessageBox.Show("Muzyk o podanym ID nie istnieje!\nCzy chcesz go utworzyć teraz?", "Ostrzeżenie", MessageBoxButtons.YesNo);
+                            if (result == DialogResult.Yes)
+                            {
+                                WindowManage.SwitchWindow("muzyk");
+                                requireChange = true;
+                            }
+                            else return false;
+                        }
+                    }
+                }
+
+                if (table == "czlonek_zespolu" || table == "album")
+                {
+                    using (OleDbCommand cmd = new OleDbCommand("SELECT COUNT(*) FROM zespol WHERE ([id] = @first)", conn))
+                    {
+                        if (table == "czlonek_zespolu") cmd.Parameters.AddWithValue("@first", list[0]);
+                        else cmd.Parameters.AddWithValue("@first", list[5]);
+                        conn.Open();
+                        dataExists = (int)cmd.ExecuteScalar();
+                        conn.Close();
+                        if (dataExists < 1)
+                        {
+                            result = MessageBox.Show("Zespół o podanym ID nie istnieje!\nCzy chcesz go utworzyć teraz?", "Ostrzeżenie", MessageBoxButtons.YesNo);
+                            if (result == DialogResult.Yes)
+                            {
+                                WindowManage.SwitchWindow("zespol");
+                                requireChange = true;
+                            }
+                            else return false;
+                        }
+                    }
+                }
+
+                if (table == "album")
+                {
+                    using (OleDbCommand cmd = new OleDbCommand("SELECT COUNT(*) FROM gatunek WHERE ([id] = @seventh)", conn))
+                    {
+                        cmd.Parameters.AddWithValue("@seventh", list[6]);
+                        conn.Open();
+                        dataExists = (int)cmd.ExecuteScalar();
+                        conn.Close();
+                        if (dataExists < 1)
+                        {
+                            result = MessageBox.Show("Gatunek o podanym ID nie istnieje!\nCzy chcesz go utworzyć teraz?", "Ostrzeżenie", MessageBoxButtons.YesNo);
+                            if (result == DialogResult.Yes)
+                            {
+                                WindowManage.SwitchWindow("gatunek");
+                                requireChange = true;
+                            }
+                            else return false;
+                        }
+                    }
+
+                    using (OleDbCommand cmd = new OleDbCommand("SELECT COUNT(*) FROM wytwornia WHERE ([id] = @eigth)", conn))
+                    {
+                        cmd.Parameters.AddWithValue("@eigth", list[7]);
+                        conn.Open();
+                        dataExists = (int)cmd.ExecuteScalar();
+                        conn.Close();
+                        if (dataExists < 1)
+                        {
+                            result = MessageBox.Show("Wytwórnia o podanym ID nie istnieje!\nCzy chcesz go utworzyć teraz?", "Ostrzeżenie", MessageBoxButtons.YesNo);
+                            if (result == DialogResult.Yes)
+                            {
+                                WindowManage.SwitchWindow("wytwornia");
+                                requireChange = true;
+                            }
+                            else return false;
+                        }
+                    }
+                }
+
+                if (requireChange) return InsertIntoDatabase.Insert(table, list);
+
+                string sqlQuery = "";
+                dataExists = 0;
 
                 if (table == "gatunek") sqlQuery = "SELECT COUNT(*) FROM gatunek WHERE ([nazwa] = @first)";
                 if (table == "wytwornia") sqlQuery = "SELECT COUNT(*) FROM wytwornia WHERE ([nazwa] = @first)";

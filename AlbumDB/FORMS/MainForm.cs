@@ -103,7 +103,7 @@ namespace AlbumDB
         {
             if (comboBox3.SelectedIndex < 0) return;
 
-            WindowManage.SwitchWindow(comboBox3.SelectedIndex, comboBox3.SelectedItem.ToString());
+            WindowManage.SwitchWindow(comboBox3.SelectedItem.ToString());
 
             /* Update loaded table */
             if (comboBox1.SelectedIndex >= 0)
@@ -111,8 +111,7 @@ namespace AlbumDB
                 int temp = comboBox1.SelectedIndex;
                 comboBox1.SelectedIndex = -1;
                 comboBox1.SelectedIndex = temp;
-            }
-            if (comboBox2.SelectedIndex >= 0)
+            } else if (comboBox2.SelectedIndex >= 0)
             {
                 int temp = comboBox2.SelectedIndex;
                 comboBox2.SelectedIndex = -1;

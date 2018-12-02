@@ -76,7 +76,7 @@ namespace AlbumDB
         {
             bool returnValue = false;
 
-            string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
+            string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=D:\\GitHub\\source\\repos\\AlbumDB\\AlbumDB\\albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
             using (OleDbConnection conn = new OleDbConnection(conString))
             {
                 Dictionary<string, string> sqlTab = new Dictionary<string, string>();

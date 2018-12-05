@@ -29,6 +29,7 @@ namespace AlbumDB
                 DataTable dt = conn.GetSchema("Tables", new string[] { null, null, null, "TABLE" });
                 foreach (DataRow row in dt.Rows)
                 {
+                    tabControl1.TabPages.Add(row.Field<string>("TABLE_NAME"));
                     comboBox1.Items.Add(row.Field<string>("TABLE_NAME"));
                     if(!Equals(row.Field<string>("TABLE_NAME"),"ocena"))
                         comboBox3.Items.Add(row.Field<string>("TABLE_NAME"));

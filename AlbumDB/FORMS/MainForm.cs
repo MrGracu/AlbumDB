@@ -35,6 +35,22 @@ namespace AlbumDB
                     tabControl1.TabPages.Add(row.Field<string>("TABLE_NAME"));
                 }
             }
+
+            for (int i = 0; i < tabControl1.TabCount; i++)
+            {
+                tabControl1.TabPages[i].Name = tabControl1.TabPages[i].Text;
+                if (tabControl1.TabPages[i].Name == "ocena") tabControl1.TabPages[i].Text = "Ocena";
+                if (tabControl1.TabPages[i].Name == "gatunek") tabControl1.TabPages[i].Text = "Gatunek";
+                if (tabControl1.TabPages[i].Name == "wytwornia") tabControl1.TabPages[i].Text = "Wytwórnia";
+                if (tabControl1.TabPages[i].Name == "stanowisko") tabControl1.TabPages[i].Text = "Stanowisko";
+                if (tabControl1.TabPages[i].Name == "muzyk") tabControl1.TabPages[i].Text = "Muzyk";
+                if (tabControl1.TabPages[i].Name == "piosenka") tabControl1.TabPages[i].Text = "Piosenka";
+                if (tabControl1.TabPages[i].Name == "ocena_albumu") tabControl1.TabPages[i].Text = "Ocena albumu";
+                if (tabControl1.TabPages[i].Name == "zespol") tabControl1.TabPages[i].Text = "Zespół";
+                if (tabControl1.TabPages[i].Name == "czlonek_zespolu") tabControl1.TabPages[i].Text = "Członek zespołu";
+                if (tabControl1.TabPages[i].Name == "album") tabControl1.TabPages[i].Text = "Album";
+            }
+
             tabControl1.SelectedIndex = -1;
             tabControl1.SelectedIndex = 0;
         }
@@ -55,7 +71,7 @@ namespace AlbumDB
         {
             if (tabControl1.SelectedIndex < 0) return;
             string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=..\\..\\albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
-            string tableName = tabControl1.SelectedTab.Text;
+            string tableName = tabControl1.SelectedTab.Name;
 
             Dictionary<string, string> sqlSelectTab = new Dictionary<string, string>();
             sqlSelectTab["ocena"] = "SELECT [ocena.id] As [ID], [ocena.wartosc] As [Wartość] FROM [ocena]";

@@ -33,8 +33,6 @@ namespace AlbumDB
                 foreach (DataRow row in dt.Rows)
                 {
                     tabControl1.TabPages.Add(row.Field<string>("TABLE_NAME"));
-                    if (!Equals(row.Field<string>("TABLE_NAME"), "ocena"))
-                        comboBox3.Items.Add(row.Field<string>("TABLE_NAME"));
                 }
             }
 
@@ -59,9 +57,7 @@ namespace AlbumDB
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (comboBox3.SelectedIndex < 0) return;
-
-            WindowManage.SwitchWindow(comboBox3.SelectedItem.ToString());
+            WindowManage.SwitchWindow(tabControl1.SelectedTab.Name);
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)

@@ -122,7 +122,7 @@ namespace AlbumDB
 
                 if (table == "czlonek_zespolu")
                 {
-                    using (OleDbCommand cmd = new OleDbCommand("SELECT COUNT(*) FROM stanowisko WHERE ([id] = @third)", conn))
+                    using (OleDbCommand cmd = new OleDbCommand("SELECT ID FROM stanowisko WHERE ([nazwa] = @third)", conn))
                     {
                         cmd.Parameters.AddWithValue("@third", list[2]);
                         conn.Open();
@@ -138,13 +138,17 @@ namespace AlbumDB
                             }
                             else return false;
                         }
+                        list[2] = dataExists;
                     }
 
-                    using (OleDbCommand cmd = new OleDbCommand("SELECT COUNT(*) FROM muzyk WHERE ([id] = @second)", conn))
+                    using (OleDbCommand cmd = new OleDbCommand("SELECT ID FROM muzyk WHERE (nazwisko + ' ' + imie LIKE @second)", conn))
                     {
                         cmd.Parameters.AddWithValue("@second", list[1]);
                         conn.Open();
-                        dataExists = (int)cmd.ExecuteScalar();
+                        if (string.Equals(list[1].ToString(), "DODAJ NOWĄ WARTOŚĆ..."))
+                            dataExists = 0;
+                        else
+                            dataExists = (int)cmd.ExecuteScalar();
                         conn.Close();
                         if (dataExists < 1)
                         {
@@ -156,12 +160,14 @@ namespace AlbumDB
                             }
                             else return false;
                         }
+                        list[1] = dataExists;
+                        //MessageBox.Show(list[1].ToString());
                     }
                 }
 
                 if (table == "czlonek_zespolu" || table == "album")
                 {
-                    using (OleDbCommand cmd = new OleDbCommand("SELECT COUNT(*) FROM zespol WHERE ([id] = @first)", conn))
+                    using (OleDbCommand cmd = new OleDbCommand("SELECT ID FROM zespol WHERE ([nazwa] = @first)", conn))
                     {
                         if (table == "czlonek_zespolu") cmd.Parameters.AddWithValue("@first", list[0]);
                         else cmd.Parameters.AddWithValue("@first", list[5]);
@@ -178,6 +184,8 @@ namespace AlbumDB
                             }
                             else return false;
                         }
+                        if (table == "czlonek_zespolu") list[0] = dataExists;
+                        else list[5] = dataExists;
                     }
                 }
 
@@ -235,6 +243,7 @@ namespace AlbumDB
                 if (table == "zespol") sqlQuery = "SELECT COUNT(*) FROM zespol WHERE ([nazwa] = @first AND [pochodzenie] = @second AND [rok_zalozenia] = @third AND [liczba_czlonkow] = @fourth)";
                 if (table == "album") sqlQuery = "SELECT COUNT(*) FROM album WHERE ([nazwa] = @first AND [opis] = @second AND [ilosc_piosenek] = @third AND [dlugosc] = @fourth AND [data_wydania] = @fifth AND [id_zespolu] = @sixth AND [id_gatunek] = @seventh AND [id_wytwornia] = @eigth)";
 
+                if(table=="czlonek_zespolu")
                 using (OleDbCommand cmd = new OleDbCommand(sqlQuery, conn))
                 {
                     cmd.Parameters.AddWithValue("@first", list[0]);

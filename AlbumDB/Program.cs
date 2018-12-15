@@ -18,7 +18,6 @@ namespace AlbumDB
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
-            //Application.Run(new FORMS.AlbumForm());
         }
     }
 
@@ -83,26 +82,32 @@ namespace AlbumDB
 
                 if (table == "ocena_albumu" || table == "piosenka")
                 {
-                    using (OleDbCommand cmd = new OleDbCommand("SELECT COUNT(*) FROM album WHERE ([id] = @first)", conn))
+                    using (OleDbCommand cmd = new OleDbCommand("SELECT ID FROM album WHERE ([nazwa] = @first)", conn))
                     {
                         if(table == "ocena_albumu") cmd.Parameters.AddWithValue("@first", list[0]);
                         else cmd.Parameters.AddWithValue("@first", list[3]);
                         conn.Open();
                         dataExists = (int)cmd.ExecuteScalar();
                         conn.Close();
-                        if(dataExists < 1)
-                        {
-                            result = MessageBox.Show("Album o podanym ID nie istnieje!\nCzy chcesz go utworzyć teraz?", "Ostrzeżenie", MessageBoxButtons.YesNo);
-                            if (result == DialogResult.Yes)
-                            {
-                                WindowManage.SwitchWindow("album");
-                                requireChange = true;
-                            }
-                            else return false;
-                        }
+                        if (table == "ocena_albumu") list[0] = dataExists;
+                        else list[3] = dataExists;
                     }
                 }
 
+                if (table == "ocena_albumu")
+                {
+                    using (OleDbCommand cmd = new OleDbCommand("SELECT ID FROM ocena WHERE ([wartosc] = @second)", conn))
+                    {
+                        cmd.Parameters.AddWithValue("@second", list[1]);
+                        conn.Open();
+                        dataExists = (int)cmd.ExecuteScalar();
+                        conn.Close();
+                        list[1] = dataExists;
+                    }
+                }
+
+
+                //???????????????? działa - nic nie zmieniłem
                 if (table == "piosenka")
                 {
                     using (OleDbCommand cmd = new OleDbCommand("SELECT COUNT(*) FROM piosenka WHERE ([nr_piosenki] = @first AND [id_albumu] = @second)", conn))
@@ -128,16 +133,6 @@ namespace AlbumDB
                         conn.Open();
                         dataExists = (int)cmd.ExecuteScalar();
                         conn.Close();
-                        if (dataExists < 1)
-                        {
-                            result = MessageBox.Show("Stanowisko o podanym ID nie istnieje!\nCzy chcesz utworzyć je teraz?", "Ostrzeżenie", MessageBoxButtons.YesNo);
-                            if (result == DialogResult.Yes)
-                            {
-                                WindowManage.SwitchWindow("stanowisko");
-                                requireChange = true;
-                            }
-                            else return false;
-                        }
                         list[2] = dataExists;
                     }
 
@@ -145,23 +140,10 @@ namespace AlbumDB
                     {
                         cmd.Parameters.AddWithValue("@second", list[1]);
                         conn.Open();
-                        if (string.Equals(list[1].ToString(), "DODAJ NOWĄ WARTOŚĆ..."))
-                            dataExists = 0;
-                        else
-                            dataExists = (int)cmd.ExecuteScalar();
+                        dataExists = (int)cmd.ExecuteScalar();
                         conn.Close();
-                        if (dataExists < 1)
-                        {
-                            result = MessageBox.Show("Muzyk o podanym ID nie istnieje!\nCzy chcesz go utworzyć teraz?", "Ostrzeżenie", MessageBoxButtons.YesNo);
-                            if (result == DialogResult.Yes)
-                            {
-                                WindowManage.SwitchWindow("muzyk");
-                                requireChange = true;
-                            }
-                            else return false;
-                        }
                         list[1] = dataExists;
-                        //MessageBox.Show(list[1].ToString());
+
                     }
                 }
 
@@ -170,61 +152,33 @@ namespace AlbumDB
                     using (OleDbCommand cmd = new OleDbCommand("SELECT ID FROM zespol WHERE ([nazwa] = @first)", conn))
                     {
                         if (table == "czlonek_zespolu") cmd.Parameters.AddWithValue("@first", list[0]);
-                        else cmd.Parameters.AddWithValue("@first", list[5]);
+                        else cmd.Parameters.AddWithValue("@first", list[4]);
                         conn.Open();
                         dataExists = (int)cmd.ExecuteScalar();
                         conn.Close();
-                        if (dataExists < 1)
-                        {
-                            result = MessageBox.Show("Zespół o podanym ID nie istnieje!\nCzy chcesz go utworzyć teraz?", "Ostrzeżenie", MessageBoxButtons.YesNo);
-                            if (result == DialogResult.Yes)
-                            {
-                                WindowManage.SwitchWindow("zespol");
-                                requireChange = true;
-                            }
-                            else return false;
-                        }
                         if (table == "czlonek_zespolu") list[0] = dataExists;
-                        else list[5] = dataExists;
+                        else list[4] = dataExists;
                     }
                 }
 
                 if (table == "album")
                 {
-                    using (OleDbCommand cmd = new OleDbCommand("SELECT COUNT(*) FROM gatunek WHERE ([id] = @seventh)", conn))
+                    using (OleDbCommand cmd = new OleDbCommand("SELECT ID FROM gatunek WHERE ([nazwa] = @sixth)", conn))
                     {
-                        cmd.Parameters.AddWithValue("@seventh", list[6]);
+                        cmd.Parameters.AddWithValue("@seventh", list[5]);
                         conn.Open();
                         dataExists = (int)cmd.ExecuteScalar();
                         conn.Close();
-                        if (dataExists < 1)
-                        {
-                            result = MessageBox.Show("Gatunek o podanym ID nie istnieje!\nCzy chcesz go utworzyć teraz?", "Ostrzeżenie", MessageBoxButtons.YesNo);
-                            if (result == DialogResult.Yes)
-                            {
-                                WindowManage.SwitchWindow("gatunek");
-                                requireChange = true;
-                            }
-                            else return false;
-                        }
+                        list[5]= dataExists;
                     }
 
-                    using (OleDbCommand cmd = new OleDbCommand("SELECT COUNT(*) FROM wytwornia WHERE ([id] = @eigth)", conn))
+                    using (OleDbCommand cmd = new OleDbCommand("SELECT ID FROM wytwornia WHERE ([nazwa] = @seventh)", conn))
                     {
-                        cmd.Parameters.AddWithValue("@eigth", list[7]);
+                        cmd.Parameters.AddWithValue("@eigth", list[6]);
                         conn.Open();
                         dataExists = (int)cmd.ExecuteScalar();
                         conn.Close();
-                        if (dataExists < 1)
-                        {
-                            result = MessageBox.Show("Wytwórnia o podanym ID nie istnieje!\nCzy chcesz utworzyć ją teraz?", "Ostrzeżenie", MessageBoxButtons.YesNo);
-                            if (result == DialogResult.Yes)
-                            {
-                                WindowManage.SwitchWindow("wytwornia");
-                                requireChange = true;
-                            }
-                            else return false;
-                        }
+                        list[6] = dataExists;
                     }
                 }
 
@@ -282,8 +236,8 @@ namespace AlbumDB
                     sqlInsertTab["piosenka"] = "INSERT INTO piosenka ([tytul],[czas],[nr_piosenki],[id_albumu]) VALUES (@first,@second,@third,@fourth)";
                     sqlInsertTab["ocena_albumu"] = "INSERT INTO ocena_albumu ([id_albumu],[id_ocena],[recenzja]) VALUES (@first,@second,@third)";
                     sqlInsertTab["czlonek_zespolu"] = "INSERT INTO czlonek_zespolu ([id_zespolu],[id_muzyka],[id_stanowiska]) VALUES (@first,@second,@third)";
-                    sqlInsertTab["zespol"] = "INSERT INTO zespol ([nazwa],[pochodzenie],[rok_zalozenia],[liczba_czlonkow]) VALUES (@first,@second,@third,@fourth)";
-                    sqlInsertTab["album"] = "INSERT INTO album ([nazwa],[opis],[ilosc_piosenek],[dlugosc],[data_wydania],[id_zespolu],[id_gatunek],[id_wytwornia]) VALUES (@first,@second,@third,@fourth,@fifth,@sixth,@seventh,@eigth)";
+                    sqlInsertTab["zespol"] = "INSERT INTO zespol ([nazwa],[pochodzenie],[rok_zalozenia]) VALUES (@first,@second,@third)";
+                    sqlInsertTab["album"] = "INSERT INTO album ([nazwa],[opis],[dlugosc],[data_wydania],[id_zespolu],[id_gatunek],[id_wytwornia]) VALUES (@first,@second,@third,@fourth,@fifth,@sixth,@seventh)";
 
                     using (OleDbCommand cmd = new OleDbCommand(sqlInsertTab[table], conn))
                     {
@@ -293,16 +247,15 @@ namespace AlbumDB
                             cmd.Parameters.AddWithValue("@second", list[1]);
                             cmd.Parameters.AddWithValue("@third", list[2]);
                         }
-                        if (table == "piosenka" || table == "zespol" || table == "album")
+                        if (table == "piosenka" || table == "album")
                         {
                             cmd.Parameters.AddWithValue("@fourth", list[3]);
                         }
                         if (table == "album")
-                        {
+                        { 
                             cmd.Parameters.AddWithValue("@fifth", list[4]);
                             cmd.Parameters.AddWithValue("@sixth", list[5]);
                             cmd.Parameters.AddWithValue("@seventh", list[6]);
-                            cmd.Parameters.AddWithValue("@eigth", list[7]);
                         }
                         conn.Open();
                         cmd.ExecuteNonQuery();

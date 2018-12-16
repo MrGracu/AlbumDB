@@ -191,7 +191,6 @@ namespace AlbumDB
                 {
                     if (e.KeyCode == Keys.Enter)
                     {
-                        MessageBox.Show("ENTER", "Informacja", MessageBoxButtons.OK);
                         if (tabControl1.SelectedTab.Name != "ocena")
                         {
                             if (WindowManage.SwitchWindow(tabControl1.SelectedTab.Name, true, (int)dataGridView1.Rows[dataGridView1.SelectedRows[0].Index].Cells[1].Value))

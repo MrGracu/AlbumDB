@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.OleDb;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -12,9 +13,36 @@ namespace AlbumDB.FORMS
 {
     public partial class WytworniaForm : Form
     {
-        public WytworniaForm()
+        bool modeForm; //0 - insert, 1 - update
+        int IDToSQLQuery;
+        public WytworniaForm(bool mode, int id)
         {
             InitializeComponent();
+            modeForm = mode;
+            IDToSQLQuery = id + 1; //przekazuje zmniejszony
+            if (modeForm)
+            {
+                this.Text = "Edycja wytwórni";
+                button1.Text = "Zamień";
+                loadValueFromQuery();
+            }
+        }
+
+        public void loadValueFromQuery()
+        {
+            string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=..\\..\\albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
+            using (OleDbConnection conn = new OleDbConnection(conString))
+            {
+                conn.Open();
+                OleDbDataReader reader;
+                using (OleDbCommand cmd = new OleDbCommand("SELECT nazwa FROM wytwornia WHERE ID=" + IDToSQLQuery, conn))
+                {
+                    reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                        textBox1.Text = reader["nazwa"].ToString();
+                }
+                conn.Close();
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -25,7 +53,7 @@ namespace AlbumDB.FORMS
                 return;
             }
 
-            if (InsertIntoDatabase.Insert("wytwornia", textBox1.Text))
+            if (InsertIntoDatabase.Insert("wytwornia", textBox1.Text, modeForm, IDToSQLQuery))
             {
                 this.DialogResult = DialogResult.OK;
                 this.Close();

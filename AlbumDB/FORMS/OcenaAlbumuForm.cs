@@ -13,11 +13,55 @@ namespace AlbumDB.FORMS
 {
     public partial class OcenaAlbumuForm : Form
     {
-        public OcenaAlbumuForm()
+        bool modeForm; //0 - insert, 1 - update
+        int IDToSQLQuery;
+        public OcenaAlbumuForm(bool mode, int id)
         {
             InitializeComponent();
             fillComboBox(comboBox1, 1);
             fillComboBox(comboBox2, 2);
+            modeForm = mode;
+            IDToSQLQuery = id + 1; //przekazuje zmniejszony
+            if (modeForm)
+            {
+                this.Text = "Edycja oceny albumu";
+                button1.Text = "Zamień";
+                loadValueFromQuery();
+            }
+        }
+
+        public void loadValueFromQuery()
+        {
+            string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=..\\..\\albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
+            using (OleDbConnection conn = new OleDbConnection(conString))
+            {
+                conn.Open();
+                OleDbDataReader reader;
+                using (OleDbCommand cmd = new OleDbCommand("SELECT id_albumu,id_ocena,recenzja FROM ocena_albumu WHERE ID=" + IDToSQLQuery, conn))
+                {
+                    reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        richTextBox1.Text = reader["recenzja"].ToString();
+
+                        using (OleDbCommand cmdID = new OleDbCommand("SELECT nazwa FROM album WHERE id=" + (int)reader["id_albumu"], conn))
+                        {
+                            OleDbDataReader readerTemporary = cmdID.ExecuteReader();
+                            while (readerTemporary.Read())
+                                comboBox1.Text = readerTemporary["nazwa"].ToString();
+                        }
+
+                        using (OleDbCommand cmdID = new OleDbCommand("SELECT wartosc FROM ocena WHERE id=" + (int)reader["id_ocena"], conn))
+                        {
+                            OleDbDataReader readerTemporary = cmdID.ExecuteReader();
+                            while (readerTemporary.Read())
+                                comboBox2.Text = readerTemporary["wartosc"].ToString();
+                        }
+
+                    }
+                }
+                conn.Close();
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -28,7 +72,7 @@ namespace AlbumDB.FORMS
                 return;
             }
 
-            if (InsertIntoDatabase.Insert("ocena_albumu", comboBox1.SelectedItem.ToString(), comboBox2.SelectedItem.ToString(), richTextBox1.Text))
+            if (InsertIntoDatabase.Insert("ocena_albumu", comboBox1.SelectedItem.ToString(), comboBox2.SelectedItem.ToString(), richTextBox1.Text, modeForm, IDToSQLQuery))
             {
                 this.DialogResult = DialogResult.OK;
                 this.Close();
@@ -72,7 +116,7 @@ namespace AlbumDB.FORMS
         {
             if (comboBox1.SelectedIndex == 0)
             {
-                WindowManage.SwitchWindow("album");
+                WindowManage.SwitchWindow("album", false, 0);
                 comboBox1.Items.Clear();
                 fillComboBox(comboBox1, 1);
             }

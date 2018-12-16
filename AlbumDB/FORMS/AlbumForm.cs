@@ -13,12 +13,66 @@ namespace AlbumDB.FORMS
 {
     public partial class AlbumForm : Form
     {
-        public AlbumForm()
+        bool modeForm; //0 - insert, 1 - update
+        int IDToSQLQuery;
+
+        public AlbumForm(bool mode, int id)
         {
             InitializeComponent();
             fillComboBox(comboBox1, 1);
             fillComboBox(comboBox2, 2);
             fillComboBox(comboBox3, 3);
+            modeForm = mode;
+            IDToSQLQuery = id+1; //przekazuje zmniejszony
+            if (modeForm)
+            {
+                this.Text = "Edycja albumu";
+                button1.Text = "Zamień";
+                loadValueFromQuery();
+            }
+        }
+
+        public void loadValueFromQuery()
+        {
+            string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=..\\..\\albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
+            using (OleDbConnection conn = new OleDbConnection(conString))
+            {
+                conn.Open();
+                OleDbDataReader reader;                
+                using (OleDbCommand cmd = new OleDbCommand("SELECT id_zespolu,id_gatunek,id_wytwornia,nazwa,data_wydania,dlugosc,opis FROM album WHERE ID="+ IDToSQLQuery, conn))
+                {
+                    reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        textBox1.Text = reader["nazwa"].ToString();
+                        richTextBox1.Text = reader["opis"].ToString();
+                        dateTimePicker1.Value = (DateTime)reader["data_wydania"];
+                        dateTimePicker2.Value = (DateTime)reader["dlugosc"];
+
+                        using (OleDbCommand cmdID = new OleDbCommand("SELECT nazwa FROM zespol WHERE id="+ (int)reader["id_zespolu"], conn))
+                        {
+                            OleDbDataReader readerTemporary = cmdID.ExecuteReader();
+                            while (readerTemporary.Read())
+                                comboBox1.Text = readerTemporary["nazwa"].ToString();
+                        }
+
+                        using (OleDbCommand cmdID = new OleDbCommand("SELECT nazwa FROM gatunek WHERE id=" + (int)reader["id_gatunek"], conn))
+                        {
+                            OleDbDataReader readerTemporary = cmdID.ExecuteReader();
+                            while (readerTemporary.Read())
+                                comboBox2.Text = readerTemporary["nazwa"].ToString();
+                        }
+
+                        using (OleDbCommand cmdID = new OleDbCommand("SELECT nazwa FROM wytwornia WHERE id=" + (int)reader["id_wytwornia"], conn))
+                        {
+                            OleDbDataReader readerTemporary = cmdID.ExecuteReader();
+                            while (readerTemporary.Read())
+                                comboBox3.Text = readerTemporary["nazwa"].ToString();
+                        }
+                    }
+                }
+                conn.Close();
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -30,7 +84,8 @@ namespace AlbumDB.FORMS
                 return;
             }
 
-            if (InsertIntoDatabase.Insert("album", textBox1.Text, richTextBox1.Text, dateTimePicker2.Value.TimeOfDay, dateTimePicker1.Value.Date, comboBox1.SelectedItem.ToString(), comboBox2.SelectedItem.ToString(), comboBox3.SelectedItem.ToString()))
+
+            if (InsertIntoDatabase.Insert("album", textBox1.Text, richTextBox1.Text, dateTimePicker2.Value.TimeOfDay, dateTimePicker1.Value.Date, comboBox1.SelectedItem.ToString(), comboBox2.SelectedItem.ToString(), comboBox3.SelectedItem.ToString(),modeForm,IDToSQLQuery))
             {
                 this.DialogResult = DialogResult.OK;
                 this.Close();
@@ -80,7 +135,7 @@ namespace AlbumDB.FORMS
         {
             if (comboBox1.SelectedIndex == 0)
             {
-                WindowManage.SwitchWindow("zespol");
+                WindowManage.SwitchWindow("zespol",false,0);
                 comboBox1.Items.Clear();
                 fillComboBox(comboBox1, 1);
             }
@@ -90,7 +145,7 @@ namespace AlbumDB.FORMS
         {
             if (comboBox2.SelectedIndex == 0)
             {
-                WindowManage.SwitchWindow("gatunek");
+                WindowManage.SwitchWindow("gatunek", false, 0);
                 comboBox2.Items.Clear();
                 fillComboBox(comboBox1, 2);
             }
@@ -100,7 +155,7 @@ namespace AlbumDB.FORMS
         {
             if (comboBox3.SelectedIndex == 0)
             {
-                WindowManage.SwitchWindow("wytwornia");
+                WindowManage.SwitchWindow("wytwornia", false, 0);
                 comboBox3.Items.Clear();
                 fillComboBox(comboBox1, 3);
             }

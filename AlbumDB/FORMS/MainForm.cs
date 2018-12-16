@@ -59,7 +59,7 @@ namespace AlbumDB
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if(WindowManage.SwitchWindow(tabControl1.SelectedTab.Name))
+            if(WindowManage.SwitchWindow(tabControl1.SelectedTab.Name,false,0))
             {
                 int temp = tabControl1.SelectedIndex;
                 tabControl1.SelectedIndex = -1;
@@ -69,7 +69,29 @@ namespace AlbumDB
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            var senderGrid = (DataGridView)sender;
+            if(e.ColumnIndex == dataGridView1.Columns[0].Index && e.RowIndex >= 0)
+            {
+                if (WindowManage.SwitchWindow(tabControl1.SelectedTab.Name, true, e.RowIndex))
+                {
+                    int temp = tabControl1.SelectedIndex;
+                    tabControl1.SelectedIndex = -1;
+                    tabControl1.SelectedIndex = temp;
+                }
+            }
+        }
 
+        private void dataGridView1_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                if (WindowManage.SwitchWindow(tabControl1.SelectedTab.Name, true, e.RowIndex))
+                {
+                    int temp = tabControl1.SelectedIndex;
+                    tabControl1.SelectedIndex = -1;
+                    tabControl1.SelectedIndex = temp;
+                }
+            }
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
@@ -131,6 +153,14 @@ namespace AlbumDB
                     dataGridView1.Columns.Insert(0, imageColumnEdit);
                 }
             }
+        }
+
+        private void dataGridView1_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == dataGridView1.Columns[0].Index && e.RowIndex >= 0)
+                dataGridView1.Cursor = Cursors.Hand;
+            else
+                dataGridView1.Cursor = Cursors.Default;
         }
     }
 }

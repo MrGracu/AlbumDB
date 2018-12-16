@@ -23,46 +23,46 @@ namespace AlbumDB
 
     public static class WindowManage
     {
-        public static bool SwitchWindow(string selectedItem)
+        public static bool SwitchWindow(string selectedItem, bool mode, int id)
         {
             bool returnValue = false;
             DialogResult result = DialogResult.Cancel;
             switch (selectedItem)
             {
                 case "album":
-                    FORMS.AlbumForm albumForm = new FORMS.AlbumForm();
+                    FORMS.AlbumForm albumForm = new FORMS.AlbumForm(mode,id);
                     result = albumForm.ShowDialog();
                     break;
                 case "czlonek_zespolu":
-                    FORMS.CzlonekZespoluForm czlonekZespoluForm = new FORMS.CzlonekZespoluForm();
+                    FORMS.CzlonekZespoluForm czlonekZespoluForm = new FORMS.CzlonekZespoluForm(mode, id);
                     result = czlonekZespoluForm.ShowDialog();
                     break;
                 case "gatunek":
-                    FORMS.GatunekForm gatunekForm = new FORMS.GatunekForm();
+                    FORMS.GatunekForm gatunekForm = new FORMS.GatunekForm(mode,id);
                     result = gatunekForm.ShowDialog();
                     break;
                 case "muzyk":
-                    FORMS.MuzykForm muzykForm = new FORMS.MuzykForm();
+                    FORMS.MuzykForm muzykForm = new FORMS.MuzykForm(mode, id);
                     result = muzykForm.ShowDialog();
                     break;
                 case "ocena_albumu":
-                    FORMS.OcenaAlbumuForm ocenaAlbumuForm = new FORMS.OcenaAlbumuForm();
+                    FORMS.OcenaAlbumuForm ocenaAlbumuForm = new FORMS.OcenaAlbumuForm(mode,id);
                     result = ocenaAlbumuForm.ShowDialog();
                     break;
                 case "piosenka":
-                    FORMS.PiosenkaForm piosenkaForm = new FORMS.PiosenkaForm();
+                    FORMS.PiosenkaForm piosenkaForm = new FORMS.PiosenkaForm(mode, id);
                     result = piosenkaForm.ShowDialog();
                     break;
                 case "stanowisko":
-                    FORMS.StanowiskoForm stanowiskoForm = new FORMS.StanowiskoForm();
+                    FORMS.StanowiskoForm stanowiskoForm = new FORMS.StanowiskoForm(mode, id);
                     result = stanowiskoForm.ShowDialog();
                     break;
                 case "wytwornia":
-                    FORMS.WytworniaForm wytworniaForm = new FORMS.WytworniaForm();
+                    FORMS.WytworniaForm wytworniaForm = new FORMS.WytworniaForm(mode, id);
                     result = wytworniaForm.ShowDialog();
                     break;
                 case "zespol":
-                    FORMS.ZespolForm zespolForm = new FORMS.ZespolForm();
+                    FORMS.ZespolForm zespolForm = new FORMS.ZespolForm(mode, id);
                     result = zespolForm.ShowDialog();
                     break;
             }
@@ -78,11 +78,13 @@ namespace AlbumDB
         public static bool Insert(string table, params object[] list)
         {
             bool returnValue = false;
-
+            bool modeForm = false;
+            int IDSQLToQuery = 0;
             string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=..\\..\\albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
             using (OleDbConnection conn = new OleDbConnection(conString))
             {
                 int dataExists = 0;
+                //MessageBox.Show()
 
                 if (table == "ocena_albumu" || table == "piosenka")
                 {
@@ -114,19 +116,20 @@ namespace AlbumDB
                 //???????????????? działa - nic nie zmieniłem
                 if (table == "piosenka")
                 {
-                    using (OleDbCommand cmd = new OleDbCommand("SELECT COUNT(*) FROM piosenka WHERE ([nr_piosenki] = @first AND [id_albumu] = @second)", conn))
-                    {
-                        cmd.Parameters.AddWithValue("@first", list[2]);
-                        cmd.Parameters.AddWithValue("@second", list[3]);
-                        conn.Open();
-                        dataExists = (int)cmd.ExecuteScalar();
-                        conn.Close();
-                        if (dataExists > 0)
+                    if((bool)list[4]==false)
+                        using (OleDbCommand cmd = new OleDbCommand("SELECT COUNT(*) FROM piosenka WHERE ([nr_piosenki] = @first AND [id_albumu] = @second)", conn))
                         {
-                            MessageBox.Show("Piosenka o danym numerze w danym albumie już istnieje!", "Ostrzeżenie", MessageBoxButtons.OK);
-                            return false;
+                            cmd.Parameters.AddWithValue("@first", list[2]);
+                            cmd.Parameters.AddWithValue("@second", list[3]);
+                            conn.Open();
+                            dataExists = (int)cmd.ExecuteScalar();
+                            conn.Close();
+                            if (dataExists > 0)
+                            {
+                                MessageBox.Show("Piosenka o danym numerze w danym albumie już istnieje!", "Ostrzeżenie", MessageBoxButtons.OK);
+                                return false;
+                            }
                         }
-                    }
                 }
 
                 if (table == "czlonek_zespolu")
@@ -197,17 +200,18 @@ namespace AlbumDB
                 if (table == "ocena_albumu") sqlQuery = "SELECT COUNT(*) FROM ocena_albumu WHERE ([id_albumu] = @first AND [id_ocena] = @second AND [recenzja] = @third)";
                 if (table == "czlonek_zespolu") sqlQuery = "SELECT COUNT(*) FROM czlonek_zespolu WHERE ([id_zespolu] = @first AND [id_muzyka] = @second AND [id_stanowiska] = @third)";
                 if (table == "zespol") sqlQuery = "SELECT COUNT(*) FROM zespol WHERE ([nazwa] = @first AND [pochodzenie] = @second AND [rok_zalozenia] = @third AND [liczba_czlonkow] = @fourth)";
-                if (table == "album") sqlQuery = "SELECT COUNT(*) FROM album WHERE ([nazwa] = @first AND [opis] = @second AND [ilosc_piosenek] = @third AND [dlugosc] = @fourth AND [data_wydania] = @fifth AND [id_zespolu] = @sixth AND [id_gatunek] = @seventh AND [id_wytwornia] = @eigth)";
+                if (table == "album") sqlQuery = "SELECT COUNT(*) FROM album WHERE ([nazwa] = @first AND [opis] = @second AND [dlugosc] = @third AND [data_wydania] = @fourth AND [id_zespolu] = @fifth AND [id_gatunek] = @sixth AND [id_wytwornia] = @seventh)";
 
+                
                 using (OleDbCommand cmd = new OleDbCommand(sqlQuery, conn))
                 {
                     cmd.Parameters.AddWithValue("@first", list[0]);
-                    if(table == "muzyk" || table == "piosenka" || table == "ocena_albumu" || table == "czlonek_zespolu" || table == "zespol" || table == "album")
+                    if (table == "muzyk" || table == "piosenka" || table == "ocena_albumu" || table == "czlonek_zespolu" || table == "zespol" || table == "album")
                     {
                         cmd.Parameters.AddWithValue("@second", list[1]);
                         cmd.Parameters.AddWithValue("@third", list[2]);
                     }
-                    if(table == "piosenka" || table == "zespol" || table == "album")
+                    if (table == "piosenka" || table == "zespol" || table == "album")
                     {
                         cmd.Parameters.AddWithValue("@fourth", list[3]);
                     }
@@ -216,8 +220,51 @@ namespace AlbumDB
                         cmd.Parameters.AddWithValue("@fifth", list[4]);
                         cmd.Parameters.AddWithValue("@sixth", list[5]);
                         cmd.Parameters.AddWithValue("@seventh", list[6]);
-                        cmd.Parameters.AddWithValue("@eigth", list[7]);
                     }
+
+                    //********ZMIENIONE NUMERKI GDYBY KIEDYŚ NIE DZIAŁAŁO ******************
+                    //cmd.Parameters.AddWithValue("@first", list[0]);
+                    //cmd.Parameters.AddWithValue("@second", list[1]);
+                    //cmd.Parameters.AddWithValue("@third", list[2]);
+                    //if (table == "muzyk" || table == "piosenka" || table == "ocena_albumu" || table == "czlonek_zespolu" || table == "zespol" || table == "album")
+                    //{
+                    //    cmd.Parameters.AddWithValue("@fourth", list[3]);
+                    //    cmd.Parameters.AddWithValue("@fifth", list[4]);
+                    //}
+                    //if (table == "piosenka" || table == "album")
+                    //{
+                    //    cmd.Parameters.AddWithValue("@sixth", list[5]);
+                    //}
+                    //if (table == "album")
+                    //{
+                    //    cmd.Parameters.AddWithValue("@seventh", list[6]);
+                    //    cmd.Parameters.AddWithValue("@eight", list[7]);
+                    //    cmd.Parameters.AddWithValue("@ninth", list[8]);
+                    //    //cmd.Parameters.AddWithValue("@eigth", list[7]);
+                    //}
+
+                    //sprawdzenie jaki tryb się wykonuje + przypisanie ID wiersza do zmiany
+                    if (table=="gatunek" || table=="wytwornia" || table == "stanowisko")
+                    {
+                        modeForm = (bool)list[1];
+                        IDSQLToQuery = (int)list[2];
+                    }
+                    if (table == "muzyk" || table == "ocena_albumu" || table == "czlonek_zespolu" || table=="zespol")
+                    {
+                        modeForm = (bool)list[3];
+                        IDSQLToQuery = (int)list[4];
+                    }
+                    if (table == "piosenka")
+                    {
+                        modeForm = (bool)list[4];
+                        IDSQLToQuery = (int)list[5];
+                    }
+                    if (table == "album")
+                    {
+                        modeForm = (bool)list[7];
+                        IDSQLToQuery = (int)list[8];
+                    }
+
                     conn.Open();
                     dataExists = (int)cmd.ExecuteScalar();
                     conn.Close();
@@ -229,40 +276,83 @@ namespace AlbumDB
                 }
                 else
                 {
-                    Dictionary<string, string> sqlInsertTab = new Dictionary<string, string>();
-                    sqlInsertTab["gatunek"] = "INSERT INTO gatunek ([nazwa]) VALUES (@first)";
-                    sqlInsertTab["wytwornia"] = "INSERT INTO wytwornia ([nazwa]) VALUES (@first)";
-                    sqlInsertTab["stanowisko"] = "INSERT INTO stanowisko ([nazwa]) VALUES (@first)";
-                    sqlInsertTab["muzyk"] = "INSERT INTO muzyk ([imie],[nazwisko],[data_urodzenia]) VALUES (@first,@second,@third)";
-                    sqlInsertTab["piosenka"] = "INSERT INTO piosenka ([tytul],[czas],[nr_piosenki],[id_albumu]) VALUES (@first,@second,@third,@fourth)";
-                    sqlInsertTab["ocena_albumu"] = "INSERT INTO ocena_albumu ([id_albumu],[id_ocena],[recenzja]) VALUES (@first,@second,@third)";
-                    sqlInsertTab["czlonek_zespolu"] = "INSERT INTO czlonek_zespolu ([id_zespolu],[id_muzyka],[id_stanowiska]) VALUES (@first,@second,@third)";
-                    sqlInsertTab["zespol"] = "INSERT INTO zespol ([nazwa],[pochodzenie],[rok_zalozenia]) VALUES (@first,@second,@third)";
-                    sqlInsertTab["album"] = "INSERT INTO album ([nazwa],[opis],[dlugosc],[data_wydania],[id_zespolu],[id_gatunek],[id_wytwornia]) VALUES (@first,@second,@third,@fourth,@fifth,@sixth,@seventh)";
-
-                    using (OleDbCommand cmd = new OleDbCommand(sqlInsertTab[table], conn))
+                    if (modeForm == false)
                     {
-                        cmd.Parameters.AddWithValue("@first", list[0]);
-                        if (table == "muzyk" || table == "piosenka" || table == "ocena_albumu" || table == "czlonek_zespolu" || table == "zespol" || table == "album")
+                        Dictionary<string, string> sqlInsertTab = new Dictionary<string, string>();
+                        sqlInsertTab["gatunek"] = "INSERT INTO gatunek ([nazwa]) VALUES (@first)";
+                        sqlInsertTab["wytwornia"] = "INSERT INTO wytwornia ([nazwa]) VALUES (@first)";
+                        sqlInsertTab["stanowisko"] = "INSERT INTO stanowisko ([nazwa]) VALUES (@first)";
+                        sqlInsertTab["muzyk"] = "INSERT INTO muzyk ([imie],[nazwisko],[data_urodzenia]) VALUES (@first,@second,@third)";
+                        sqlInsertTab["piosenka"] = "INSERT INTO piosenka ([tytul],[czas],[nr_piosenki],[id_albumu]) VALUES (@first,@second,@third,@fourth)";
+                        sqlInsertTab["ocena_albumu"] = "INSERT INTO ocena_albumu ([id_albumu],[id_ocena],[recenzja]) VALUES (@first,@second,@third)";
+                        sqlInsertTab["czlonek_zespolu"] = "INSERT INTO czlonek_zespolu ([id_zespolu],[id_muzyka],[id_stanowiska]) VALUES (@first,@second,@third)";
+                        sqlInsertTab["zespol"] = "INSERT INTO zespol ([nazwa],[pochodzenie],[rok_zalozenia]) VALUES (@first,@second,@third)";
+                        sqlInsertTab["album"] = "INSERT INTO album ([nazwa],[opis],[dlugosc],[data_wydania],[id_zespolu],[id_gatunek],[id_wytwornia]) VALUES (@first,@second,@third,@fourth,@fifth,@sixth,@seventh)";
+
+                        using (OleDbCommand cmd = new OleDbCommand(sqlInsertTab[table], conn))
                         {
-                            cmd.Parameters.AddWithValue("@second", list[1]);
-                            cmd.Parameters.AddWithValue("@third", list[2]);
+                            cmd.Parameters.AddWithValue("@first", list[0]);
+                            if (table == "muzyk" || table == "piosenka" || table == "ocena_albumu" || table == "czlonek_zespolu" || table == "zespol" || table == "album")
+                            {
+                                cmd.Parameters.AddWithValue("@second", list[1]);
+                                cmd.Parameters.AddWithValue("@third", list[2]);
+                            }
+                            if (table == "piosenka" || table == "album")
+                            {
+                                cmd.Parameters.AddWithValue("@fourth", list[3]);
+                            }
+                            if (table == "album")
+                            {
+                                cmd.Parameters.AddWithValue("@fifth", list[4]);
+                                cmd.Parameters.AddWithValue("@sixth", list[5]);
+                                cmd.Parameters.AddWithValue("@seventh", list[6]);
+                            }
+
+                            conn.Open();
+                            cmd.ExecuteNonQuery();
+                            conn.Close();
+                            returnValue = true;
+                            MessageBox.Show("Pomyślnie dodano nowy element.", "Utworzono", MessageBoxButtons.OK);
                         }
-                        if (table == "piosenka" || table == "album")
+                    }
+                    else
+                    {
+                        Dictionary<string, string> sqlInsertTab = new Dictionary<string, string>();
+                        sqlInsertTab["gatunek"] = "UPDATE gatunek SET [nazwa]=@first WHERE ID=" + IDSQLToQuery;
+                        sqlInsertTab["wytwornia"] = "UPDATE wytwornia SET [nazwa]=@first WHERE ID=" + IDSQLToQuery;
+                        sqlInsertTab["stanowisko"] = "UPDATE stanowisko SET [nazwa]=@first WHERE ID=" + IDSQLToQuery;
+                        sqlInsertTab["muzyk"] = "UPDATE muzyk SET [imie]=@first,[nazwisko]=@second,[data_urodzenia]=@third WHERE ID=" + IDSQLToQuery;
+                        sqlInsertTab["piosenka"] = "UPDATE piosenka SET [tytul]=@first,[czas]=@second,[nr_piosenki]=@third,[id_albumu]=@fourth WHERE ID=" + IDSQLToQuery; ;
+                        sqlInsertTab["ocena_albumu"] = "UPDATE ocena_albumu SET [id_albumu]=@first,[id_ocena]=@second,[recenzja]=@third WHERE ID=" + IDSQLToQuery;
+                        sqlInsertTab["czlonek_zespolu"] = "UPDATE czlonek_zespolu SET [id_zespolu]=@first,[id_muzyka]=@second,[id_stanowiska]=@third WHERE ID=" + IDSQLToQuery;
+                        sqlInsertTab["zespol"] = "UPDATE zespol SET [nazwa]=@first,[pochodzenie]=@second,[rok_zalozenia]=@third WHERE ID=" + IDSQLToQuery;
+                        sqlInsertTab["album"] = "UPDATE album SET [nazwa]=@first, [opis]=@second, [dlugosc]=@third, [data_wydania]=@fourth,[id_zespolu]=@fifth,[id_gatunek]=@sixth,[id_wytwornia]=@seventh WHERE ID="+ IDSQLToQuery;
+
+                        using (OleDbCommand cmd = new OleDbCommand(sqlInsertTab[table], conn))
                         {
-                            cmd.Parameters.AddWithValue("@fourth", list[3]);
+                            cmd.Parameters.AddWithValue("@first", list[0]);
+                            if (table == "muzyk" || table == "piosenka" || table == "ocena_albumu" || table == "czlonek_zespolu" || table == "zespol" || table == "album")
+                            {
+                                cmd.Parameters.AddWithValue("@second", list[1]);
+                                cmd.Parameters.AddWithValue("@third", list[2]);
+                            }
+                            if (table == "piosenka" || table == "album")
+                            {
+                                cmd.Parameters.AddWithValue("@fourth", list[3]);
+                            }
+                            if (table == "album")
+                            {
+                                cmd.Parameters.AddWithValue("@fifth", list[4]);
+                                cmd.Parameters.AddWithValue("@sixth", list[5]);
+                                cmd.Parameters.AddWithValue("@seventh", list[6]);
+                            }
+
+                            conn.Open();
+                            cmd.ExecuteNonQuery();
+                            conn.Close();
+                            returnValue = true;
+                            MessageBox.Show("Pomyślnie zedytowano wybrany element.", "Edycja zakończona", MessageBoxButtons.OK);
                         }
-                        if (table == "album")
-                        { 
-                            cmd.Parameters.AddWithValue("@fifth", list[4]);
-                            cmd.Parameters.AddWithValue("@sixth", list[5]);
-                            cmd.Parameters.AddWithValue("@seventh", list[6]);
-                        }
-                        conn.Open();
-                        cmd.ExecuteNonQuery();
-                        conn.Close();
-                        returnValue = true;
-                        MessageBox.Show("Pomyślnie dodano nowy element.", "Utworzono", MessageBoxButtons.OK);
                     }
                 }
             }

@@ -69,10 +69,9 @@ namespace AlbumDB
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            var senderGrid = (DataGridView)sender;
-            if(e.ColumnIndex == dataGridView1.Columns[0].Index && e.RowIndex >= 0)
+            if(e.ColumnIndex == dataGridView1.Columns[0].Index && e.RowIndex >= 0 && tabControl1.SelectedTab.Name != "ocena")
             {
-                if (WindowManage.SwitchWindow(tabControl1.SelectedTab.Name, true, e.RowIndex))
+                if (WindowManage.SwitchWindow(tabControl1.SelectedTab.Name, true, (int)dataGridView1.Rows[e.RowIndex].Cells[1].Value))
                 {
                     int temp = tabControl1.SelectedIndex;
                     tabControl1.SelectedIndex = -1;
@@ -83,9 +82,9 @@ namespace AlbumDB
 
         private void dataGridView1_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (e.RowIndex >= 0)
+            if (e.RowIndex >= 0 && tabControl1.SelectedTab.Name != "ocena")
             {
-                if (WindowManage.SwitchWindow(tabControl1.SelectedTab.Name, true, e.RowIndex))
+                if (WindowManage.SwitchWindow(tabControl1.SelectedTab.Name, true, (int)dataGridView1.Rows[e.RowIndex].Cells[1].Value))
                 {
                     int temp = tabControl1.SelectedIndex;
                     tabControl1.SelectedIndex = -1;
@@ -120,7 +119,7 @@ namespace AlbumDB
             sqlSelectTab["ocena_albumu"] = "SELECT [ocena_albumu.id] As [ID], [album.nazwa] As [Tytuł albumu], [ocena.wartosc] As [Ocena], [ocena_albumu.recenzja] As [Recenzja] FROM (([ocena_albumu] INNER JOIN album ON ocena_albumu.id_albumu=album.id) INNER JOIN ocena ON ocena_albumu.id_ocena=ocena.id) WHERE ocena_albumu.czy_usuniete=False";
             sqlSelectTab["czlonek_zespolu"] = "SELECT [czlonek_zespolu.id] As [ID], [zespol.nazwa] As [Nazwa zespołu], [muzyk.imie] As [Imię muzyka], [muzyk.nazwisko] As [Nazwisko muzyka], [stanowisko.nazwa] As [Stanowisko] FROM ((([czlonek_zespolu] INNER JOIN zespol ON czlonek_zespolu.id_zespolu=zespol.id) INNER JOIN muzyk ON czlonek_zespolu.id_muzyka=muzyk.id) INNER JOIN stanowisko ON czlonek_zespolu.id_stanowiska=stanowisko.id) WHERE czlonek_zespolu.czy_usuniete=False";
             sqlSelectTab["zespol"] = "SELECT [zespol.id] As [ID], [zespol.nazwa] As [Nazwa zespołu], [zespol.rok_zalozenia] As [Rok założenia], [zespol.pochodzenie] As [Pochodzenie], (SELECT COUNT(*) FROM czlonek_zespolu WHERE czlonek_zespolu.id_zespolu=zespol.id AND czlonek_zespolu.czy_usuniete = False) As [Liczba członków] FROM [zespol] WHERE zespol.czy_usuniete=False";
-            sqlSelectTab["album"] = "SELECT [album.id] As [ID], [zespol.nazwa] As [Nazwa zespołu], [gatunek.nazwa] As [Gatunek], [wytwornia.nazwa] As [Wytwórnia], [album.nazwa] As [Tytuł albumu], [album.data_wydania] As [Data wydania], (SELECT COUNT(*) FROM piosenka WHERE piosenka.id_albumu=album.id AND piosenka.czy_usuniete = False) As [Liczba piosenek], [album.dlugosc] As [Czas trwania], [album.opis] As [Opis albumu] FROM ((([album] INNER JOIN zespol ON album.id_zespolu=zespol.id) INNER JOIN gatunek ON album.id_gatunek=gatunek.id) INNER JOIN wytwornia ON album.id_wytwornia=wytwornia.id) WHERE album.czy_usuniete=False";
+            sqlSelectTab["album"] = "SELECT [album.id] As [ID], [album.nazwa] As [Tytuł albumu], [zespol.nazwa] As [Nazwa zespołu], [gatunek.nazwa] As [Gatunek], [wytwornia.nazwa] As [Wytwórnia], [album.data_wydania] As [Data wydania], (SELECT COUNT(*) FROM piosenka WHERE piosenka.id_albumu=album.id AND piosenka.czy_usuniete = False) As [Liczba piosenek], [album.dlugosc] As [Czas trwania], [album.opis] As [Opis albumu] FROM ((([album] INNER JOIN zespol ON album.id_zespolu=zespol.id) INNER JOIN gatunek ON album.id_gatunek=gatunek.id) INNER JOIN wytwornia ON album.id_wytwornia=wytwornia.id) WHERE album.czy_usuniete=False";
 
             using (OleDbConnection conn = new OleDbConnection(conString))
             using (OleDbCommand cmd = new OleDbCommand(sqlSelectTab[tableName], conn))
@@ -157,10 +156,67 @@ namespace AlbumDB
 
         private void dataGridView1_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == dataGridView1.Columns[0].Index && e.RowIndex >= 0)
+            if (e.ColumnIndex == dataGridView1.Columns[0].Index && e.RowIndex >= 0 && tabControl1.SelectedTab.Name != "ocena")
                 dataGridView1.Cursor = Cursors.Hand;
             else
                 dataGridView1.Cursor = Cursors.Default;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (DeleteFromDatabase.Delete(tabControl1.SelectedTab.Name, dataGridView1.SelectedCells))
+            {
+                int temp = tabControl1.SelectedIndex;
+                tabControl1.SelectedIndex = -1;
+                tabControl1.SelectedIndex = temp;
+                MessageBox.Show("Pomyślnie usunięto podany rekord wraz z jego powiązaniami (jeśli występowały).", "Informacja", MessageBoxButtons.OK);
+            }
+        }
+
+        private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(tabControl1.SelectedTab.Name != "ocena")
+            {
+                if(e.KeyCode == Keys.Delete)
+                {
+                    if (DeleteFromDatabase.Delete(tabControl1.SelectedTab.Name, dataGridView1.SelectedCells))
+                    {
+                        int temp = tabControl1.SelectedIndex;
+                        tabControl1.SelectedIndex = -1;
+                        tabControl1.SelectedIndex = temp;
+                        MessageBox.Show("Pomyślnie usunięto podany rekord wraz z jego powiązaniami (jeśli występowały).", "Informacja", MessageBoxButtons.OK);
+                    }
+                }
+                else
+                {
+                    if (e.KeyCode == Keys.Enter)
+                    {
+                        MessageBox.Show("ENTER", "Informacja", MessageBoxButtons.OK);
+                        if (tabControl1.SelectedTab.Name != "ocena")
+                        {
+                            if (WindowManage.SwitchWindow(tabControl1.SelectedTab.Name, true, (int)dataGridView1.Rows[dataGridView1.SelectedRows[0].Index].Cells[1].Value))
+                            {
+                                int temp = tabControl1.SelectedIndex;
+                                tabControl1.SelectedIndex = -1;
+                                tabControl1.SelectedIndex = temp;
+                            }
+                        }
+                        e.SuppressKeyPress = true; //avoid default behavior
+                    }
+                    else
+                    {
+                        if(e.KeyCode == Keys.Insert)
+                        {
+                            if (WindowManage.SwitchWindow(tabControl1.SelectedTab.Name, false, 0))
+                            {
+                                int temp = tabControl1.SelectedIndex;
+                                tabControl1.SelectedIndex = -1;
+                                tabControl1.SelectedIndex = temp;
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

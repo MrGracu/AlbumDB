@@ -23,10 +23,10 @@ namespace AlbumDB.FORMS
             fillComboBox(comboBox2, 2);
             fillComboBox(comboBox3, 3);
             modeForm = mode;
-            IDToSQLQuery = id+1; //przekazuje zmniejszony
+            IDToSQLQuery = id; //przekazuje zmniejszony
             if (modeForm)
             {
-                this.Text = "Edycja albumu";
+                this.Text = "Edytuj Album";
                 button1.Text = "Zamień";
                 loadValueFromQuery();
             }
@@ -84,7 +84,6 @@ namespace AlbumDB.FORMS
                 return;
             }
 
-
             if (InsertIntoDatabase.Insert("album", textBox1.Text, richTextBox1.Text, dateTimePicker2.Value.TimeOfDay, dateTimePicker1.Value.Date, comboBox1.SelectedItem.ToString(), comboBox2.SelectedItem.ToString(), comboBox3.SelectedItem.ToString(),modeForm,IDToSQLQuery))
             {
                 this.DialogResult = DialogResult.OK;
@@ -104,7 +103,7 @@ namespace AlbumDB.FORMS
                 comboBox.Text = "";
 
                 if (comboValue == 1)
-                    using (OleDbCommand cmd = new OleDbCommand("SELECT nazwa FROM zespol ORDER BY nazwa", conn))
+                    using (OleDbCommand cmd = new OleDbCommand("SELECT nazwa FROM zespol WHERE [czy_usuniete] = false ORDER BY nazwa", conn))
                     {
                         reader = cmd.ExecuteReader();
                         while (reader.Read())
@@ -112,7 +111,7 @@ namespace AlbumDB.FORMS
                     }
 
                 if (comboValue == 2)
-                    using (OleDbCommand cmd = new OleDbCommand("SELECT nazwa FROM gatunek ORDER BY nazwa", conn))
+                    using (OleDbCommand cmd = new OleDbCommand("SELECT nazwa FROM gatunek WHERE [czy_usuniete] = false ORDER BY nazwa", conn))
                     {
                         reader = cmd.ExecuteReader();
                         while (reader.Read())
@@ -120,7 +119,7 @@ namespace AlbumDB.FORMS
                     }
 
                 if (comboValue == 3)
-                    using (OleDbCommand cmd = new OleDbCommand("SELECT nazwa FROM wytwornia ORDER BY nazwa", conn))
+                    using (OleDbCommand cmd = new OleDbCommand("SELECT nazwa FROM wytwornia WHERE [czy_usuniete] = false ORDER BY nazwa", conn))
                     {
                         reader = cmd.ExecuteReader();
                         while (reader.Read())

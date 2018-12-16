@@ -22,10 +22,10 @@ namespace AlbumDB.FORMS
             fillComboBox(comboBox2, 2);
             fillComboBox(comboBox3, 3);
             modeForm = mode;
-            IDToSQLQuery = id + 1; //przekazuje zmniejszony
+            IDToSQLQuery = id; //przekazuje zmniejszony
             if (modeForm)
             {
-                this.Text = "Edycja zespołu";
+                this.Text = "Edytuj Członka Zespołu";
                 button1.Text = "Zamień";
                 loadValueFromQuery();
             }
@@ -96,7 +96,7 @@ namespace AlbumDB.FORMS
                 comboBox.Text = "";
 
                 if (comboValue == 1)
-                    using (OleDbCommand cmd = new OleDbCommand("SELECT nazwa FROM zespol ORDER BY nazwa", conn))
+                    using (OleDbCommand cmd = new OleDbCommand("SELECT nazwa FROM zespol WHERE [czy_usuniete] = false ORDER BY nazwa", conn))
                     {
                         reader = cmd.ExecuteReader();
                         while (reader.Read())
@@ -104,7 +104,7 @@ namespace AlbumDB.FORMS
                     }
 
                 if (comboValue == 2)
-                    using (OleDbCommand cmd = new OleDbCommand("SELECT nazwisko + ' ' + imie AS osoba FROM muzyk ORDER BY nazwisko", conn))
+                    using (OleDbCommand cmd = new OleDbCommand("SELECT nazwisko + ' ' + imie AS osoba FROM muzyk WHERE [czy_usuniete] = false ORDER BY nazwisko", conn))
                     {
                         reader = cmd.ExecuteReader();
                         while (reader.Read())
@@ -112,7 +112,7 @@ namespace AlbumDB.FORMS
                     }
 
                 if (comboValue == 3)
-                    using (OleDbCommand cmd = new OleDbCommand("SELECT nazwa FROM stanowisko ORDER BY nazwa", conn))
+                    using (OleDbCommand cmd = new OleDbCommand("SELECT nazwa FROM stanowisko WHERE [czy_usuniete] = false ORDER BY nazwa", conn))
                     {
                         reader = cmd.ExecuteReader();
                         while (reader.Read())

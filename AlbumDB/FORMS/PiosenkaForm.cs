@@ -20,10 +20,10 @@ namespace AlbumDB.FORMS
             InitializeComponent();
             fillComboBox(comboBox1, 1);
             modeForm = mode;
-            IDToSQLQuery = id + 1; //przekazuje zmniejszony
+            IDToSQLQuery = id; //przekazuje zmniejszony
             if (modeForm)
             {
-                this.Text = "Edycja piosenki";
+                this.Text = "Edytuj Piosenkę";
                 button1.Text = "Zamień";
                 loadValueFromQuery();
             }
@@ -86,7 +86,7 @@ namespace AlbumDB.FORMS
                 if (comboValue == 1)
                 {
                     comboBox.Items.Add("DODAJ NOWĄ WARTOŚĆ...");
-                    using (OleDbCommand cmd = new OleDbCommand("SELECT nazwa FROM album ORDER BY nazwa", conn))
+                    using (OleDbCommand cmd = new OleDbCommand("SELECT nazwa FROM album WHERE [czy_usuniete] = false ORDER BY nazwa", conn))
                     {
                         reader = cmd.ExecuteReader();
                         while (reader.Read())

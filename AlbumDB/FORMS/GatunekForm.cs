@@ -19,10 +19,10 @@ namespace AlbumDB.FORMS
         {
             InitializeComponent();
             modeForm = mode;
-            IDToSQLQuery = id + 1; //przekazuje zmniejszony
+            IDToSQLQuery = id; //przekazuje zmniejszony
             if (modeForm)
             {
-                this.Text = "Edycja albumu";
+                this.Text = "Edytuj Gatunek";
                 button1.Text = "Zamień";
                 loadValueFromQuery();
             }

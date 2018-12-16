@@ -22,6 +22,8 @@ namespace AlbumDB
         private void Form1_Load(object sender, EventArgs e)
         {
             this.Icon = Properties.Resources.icon;
+            button1.Image = new Bitmap(Properties.Resources.add, 16, 16);
+            button2.Image = new Bitmap(Properties.Resources.remove, 16, 16);
             string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=..\\..\\albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=;";
             using (OleDbConnection conn = new OleDbConnection(conString))
             using (OleDbCommand cmd = new OleDbCommand("", conn))
@@ -57,7 +59,12 @@ namespace AlbumDB
 
         private void button1_Click(object sender, EventArgs e)
         {
-            WindowManage.SwitchWindow(tabControl1.SelectedTab.Name);
+            if(WindowManage.SwitchWindow(tabControl1.SelectedTab.Name))
+            {
+                int temp = tabControl1.SelectedIndex;
+                tabControl1.SelectedIndex = -1;
+                tabControl1.SelectedIndex = temp;
+            }
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -68,6 +75,16 @@ namespace AlbumDB
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (tabControl1.SelectedIndex < 0) return;
+            if(tabControl1.SelectedTab.Name == "ocena")
+            {
+                button1.Enabled = false;
+                button2.Enabled = false;
+            }
+            else
+            {
+                button1.Enabled = true;
+                button2.Enabled = true;
+            }
             string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=..\\..\\albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
             string tableName = tabControl1.SelectedTab.Name;
 
@@ -91,6 +108,7 @@ namespace AlbumDB
                 {
                     DataSet ds = new DataSet();
                     adapter.Fill(ds, tableName);
+                    dataGridView1.Columns.Clear();
                     dataGridView1.DataSource = ds.Tables[0];
 
                     if (tableName == "album")
@@ -103,6 +121,15 @@ namespace AlbumDB
                     }
                 }
                 conn.Close();
+
+                if(tableName != "ocena")
+                {
+                    DataGridViewImageColumn imageColumnEdit = new DataGridViewImageColumn();
+                    imageColumnEdit.Name = "edytuj";
+                    imageColumnEdit.HeaderText = "     ";
+                    imageColumnEdit.Image = new Bitmap(Properties.Resources.edit, 16, 16);
+                    dataGridView1.Columns.Insert(0, imageColumnEdit);
+                }
             }
         }
     }

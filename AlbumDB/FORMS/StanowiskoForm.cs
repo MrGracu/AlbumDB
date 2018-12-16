@@ -27,6 +27,7 @@ namespace AlbumDB.FORMS
 
             if (InsertIntoDatabase.Insert("stanowisko", textBox1.Text))
             {
+                this.DialogResult = DialogResult.OK;
                 this.Close();
             }
         }

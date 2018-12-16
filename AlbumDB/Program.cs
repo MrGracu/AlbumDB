@@ -23,47 +23,53 @@ namespace AlbumDB
 
     public static class WindowManage
     {
-        public static void SwitchWindow(string selectedItem)
+        public static bool SwitchWindow(string selectedItem)
         {
+            bool returnValue = false;
+            DialogResult result = DialogResult.Cancel;
             switch (selectedItem)
             {
                 case "album":
                     FORMS.AlbumForm albumForm = new FORMS.AlbumForm();
-                    albumForm.ShowDialog();
+                    result = albumForm.ShowDialog();
                     break;
                 case "czlonek_zespolu":
                     FORMS.CzlonekZespoluForm czlonekZespoluForm = new FORMS.CzlonekZespoluForm();
-                    czlonekZespoluForm.ShowDialog();
+                    result = czlonekZespoluForm.ShowDialog();
                     break;
                 case "gatunek":
                     FORMS.GatunekForm gatunekForm = new FORMS.GatunekForm();
-                    gatunekForm.ShowDialog();
+                    result = gatunekForm.ShowDialog();
                     break;
                 case "muzyk":
                     FORMS.MuzykForm muzykForm = new FORMS.MuzykForm();
-                    muzykForm.ShowDialog();
+                    result = muzykForm.ShowDialog();
                     break;
                 case "ocena_albumu":
                     FORMS.OcenaAlbumuForm ocenaAlbumuForm = new FORMS.OcenaAlbumuForm();
-                    ocenaAlbumuForm.ShowDialog();
+                    result = ocenaAlbumuForm.ShowDialog();
                     break;
                 case "piosenka":
                     FORMS.PiosenkaForm piosenkaForm = new FORMS.PiosenkaForm();
-                    piosenkaForm.ShowDialog();
+                    result = piosenkaForm.ShowDialog();
                     break;
                 case "stanowisko":
                     FORMS.StanowiskoForm stanowiskoForm = new FORMS.StanowiskoForm();
-                    stanowiskoForm.ShowDialog();
+                    result = stanowiskoForm.ShowDialog();
                     break;
                 case "wytwornia":
                     FORMS.WytworniaForm wytworniaForm = new FORMS.WytworniaForm();
-                    wytworniaForm.ShowDialog();
+                    result = wytworniaForm.ShowDialog();
                     break;
                 case "zespol":
                     FORMS.ZespolForm zespolForm = new FORMS.ZespolForm();
-                    zespolForm.ShowDialog();
+                    result = zespolForm.ShowDialog();
                     break;
             }
+
+            if (result == DialogResult.OK) returnValue = true;
+            else returnValue = false;
+            return returnValue;
         }
     }
 
@@ -72,8 +78,6 @@ namespace AlbumDB
         public static bool Insert(string table, params object[] list)
         {
             bool returnValue = false;
-            bool requireChange = false;
-            DialogResult result;
 
             string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=..\\..\\albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
             using (OleDbConnection conn = new OleDbConnection(conString))
@@ -182,8 +186,6 @@ namespace AlbumDB
                     }
                 }
 
-                if (requireChange) return InsertIntoDatabase.Insert(table, list);
-
                 string sqlQuery = "";
                 dataExists = 0;
 
@@ -197,7 +199,6 @@ namespace AlbumDB
                 if (table == "zespol") sqlQuery = "SELECT COUNT(*) FROM zespol WHERE ([nazwa] = @first AND [pochodzenie] = @second AND [rok_zalozenia] = @third AND [liczba_czlonkow] = @fourth)";
                 if (table == "album") sqlQuery = "SELECT COUNT(*) FROM album WHERE ([nazwa] = @first AND [opis] = @second AND [ilosc_piosenek] = @third AND [dlugosc] = @fourth AND [data_wydania] = @fifth AND [id_zespolu] = @sixth AND [id_gatunek] = @seventh AND [id_wytwornia] = @eigth)";
 
-                if(table=="czlonek_zespolu")
                 using (OleDbCommand cmd = new OleDbCommand(sqlQuery, conn))
                 {
                     cmd.Parameters.AddWithValue("@first", list[0]);

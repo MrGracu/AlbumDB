@@ -32,6 +32,7 @@ namespace AlbumDB.FORMS
 
             if (InsertIntoDatabase.Insert("album", textBox1.Text, richTextBox1.Text, dateTimePicker2.Value.TimeOfDay, dateTimePicker1.Value.Date, comboBox1.SelectedItem.ToString(), comboBox2.SelectedItem.ToString(), comboBox3.SelectedItem.ToString()))
             {
+                this.DialogResult = DialogResult.OK;
                 this.Close();
             }
         }

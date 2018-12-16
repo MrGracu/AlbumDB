@@ -27,6 +27,7 @@ namespace AlbumDB.FORMS
 
             if (InsertIntoDatabase.Insert("zespol", textBox1.Text, textBox2.Text, numericUpDown1.Value))
             {
+                this.DialogResult = DialogResult.OK;
                 this.Close();
             }
         }

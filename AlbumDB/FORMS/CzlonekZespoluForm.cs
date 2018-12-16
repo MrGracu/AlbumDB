@@ -31,6 +31,7 @@ namespace AlbumDB.FORMS
 
             if (InsertIntoDatabase.Insert("czlonek_zespolu", comboBox1.SelectedItem.ToString(), comboBox2.SelectedItem.ToString(), comboBox3.SelectedItem.ToString()))
             {
+                this.DialogResult = DialogResult.OK;
                 this.Close();
             }
         }

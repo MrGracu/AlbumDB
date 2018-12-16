@@ -27,6 +27,7 @@ namespace AlbumDB.FORMS
 
             if (InsertIntoDatabase.Insert("muzyk", textBox1.Text, textBox2.Text, dateTimePicker1.Value.Date))
             {
+                this.DialogResult = DialogResult.OK;
                 this.Close();
             }
         }

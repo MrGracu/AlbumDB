@@ -30,6 +30,7 @@ namespace AlbumDB.FORMS
 
             if (InsertIntoDatabase.Insert("ocena_albumu", comboBox1.SelectedItem.ToString(), comboBox2.SelectedItem.ToString(), richTextBox1.Text))
             {
+                this.DialogResult = DialogResult.OK;
                 this.Close();
             }
         }

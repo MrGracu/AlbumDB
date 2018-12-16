@@ -30,6 +30,7 @@ namespace AlbumDB.FORMS
 
             if (InsertIntoDatabase.Insert("piosenka", textBox1.Text, dateTimePicker2.Value.TimeOfDay, numericUpDown1.Value, comboBox1.SelectedItem.ToString()))
             {
+                this.DialogResult = DialogResult.OK;
                 this.Close();
             }
         }

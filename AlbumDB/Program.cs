@@ -99,21 +99,19 @@ namespace AlbumDB
         private static bool deleteAlbum(int id)
         {
             bool returnValue = false;
-            if (deleteOcena_albumu_Piosenka(false, "piosenka", id))
-                if (deleteOcena_albumu_Piosenka(false, "ocena_albumu", id))
+            deleteOcena_albumu_Piosenka(false, "piosenka", id);
+            deleteOcena_albumu_Piosenka(false, "ocena_albumu", id);
+            string wybor = "UPDATE album SET [czy_usuniete]=true WHERE id=" + id.ToString() + " AND [czy_usuniete]=false";
+            using (OleDbConnection conn = new OleDbConnection(conString))
+            {
+                using (OleDbCommand cmd = new OleDbCommand(wybor, conn))
                 {
-                    string wybor = "UPDATE album SET [czy_usuniete]=true WHERE id=" + id.ToString() + " AND [czy_usuniete]=false";
-                    using (OleDbConnection conn = new OleDbConnection(conString))
-                    {
-                        using (OleDbCommand cmd = new OleDbCommand(wybor, conn))
-                        {
-                            conn.Open();
-                            cmd.ExecuteNonQuery();
-                            conn.Close();
-                            returnValue = true;
-                        }
-                    }
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+                    returnValue = true;
                 }
+            }
             return returnValue;
         }
 
@@ -131,18 +129,15 @@ namespace AlbumDB
                 }
                 conn.Close();
             }
-            if(returnValue)
+            string wybor = "UPDATE wytwornia SET [czy_usuniete]=true WHERE id=" + id.ToString() + " AND [czy_usuniete]=false";
+            using (OleDbConnection conn = new OleDbConnection(conString))
             {
-                string wybor = "UPDATE wytwornia SET [czy_usuniete]=true WHERE id=" + id.ToString() + " AND [czy_usuniete]=false";
-                using (OleDbConnection conn = new OleDbConnection(conString))
+                using (OleDbCommand cmd = new OleDbCommand(wybor, conn))
                 {
-                    using (OleDbCommand cmd = new OleDbCommand(wybor, conn))
-                    {
-                        conn.Open();
-                        cmd.ExecuteNonQuery();
-                        conn.Close();
-                        returnValue = true;
-                    }
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+                    returnValue = true;
                 }
             }
             return returnValue;
@@ -158,22 +153,19 @@ namespace AlbumDB
                 OleDbDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    returnValue = deleteAlbum((int)reader["id"]);
+                    deleteAlbum((int)reader["id"]);
                 }
                 conn.Close();
             }
-            if (returnValue)
+            string wybor = "UPDATE gatunek SET [czy_usuniete]=true WHERE id=" + id.ToString() + " AND [czy_usuniete]=false";
+            using (OleDbConnection conn = new OleDbConnection(conString))
             {
-                string wybor = "UPDATE gatunek SET [czy_usuniete]=true WHERE id=" + id.ToString() + " AND [czy_usuniete]=false";
-                using (OleDbConnection conn = new OleDbConnection(conString))
+                using (OleDbCommand cmd = new OleDbCommand(wybor, conn))
                 {
-                    using (OleDbCommand cmd = new OleDbCommand(wybor, conn))
-                    {
-                        conn.Open();
-                        cmd.ExecuteNonQuery();
-                        conn.Close();
-                        returnValue = true;
-                    }
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+                    returnValue = true;
                 }
             }
             return returnValue;
@@ -206,36 +198,30 @@ namespace AlbumDB
                 OleDbDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    returnValue = deleteAlbum((int)reader["id"]);
+                    deleteAlbum((int)reader["id"]);
                 }
                 conn.Close();
             }
-            if(returnValue)
+            using (OleDbConnection conn = new OleDbConnection(conString))
+            using (OleDbCommand cmd = new OleDbCommand("SELECT id FROM czlonek_zespolu WHERE id_zespolu=" + id.ToString() + " AND [czy_usuniete]=false", conn))
             {
-                using (OleDbConnection conn = new OleDbConnection(conString))
-                using (OleDbCommand cmd = new OleDbCommand("SELECT id FROM czlonek_zespolu WHERE id_zespolu=" + id.ToString() + " AND [czy_usuniete]=false", conn))
+                conn.Open();
+                OleDbDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    deleteCzlonek_zespolu((int)reader["id"]);
+                }
+                conn.Close();
+            }
+            string wybor = "UPDATE zespol SET [czy_usuniete]=true WHERE id=" + id.ToString() + " AND [czy_usuniete]=false";
+            using (OleDbConnection conn = new OleDbConnection(conString))
+            {
+                using (OleDbCommand cmd = new OleDbCommand(wybor, conn))
                 {
                     conn.Open();
-                    OleDbDataReader reader = cmd.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        returnValue = deleteCzlonek_zespolu((int)reader["id"]);
-                    }
+                    cmd.ExecuteNonQuery();
                     conn.Close();
-                }
-                if (returnValue)
-                {
-                    string wybor = "UPDATE zespol SET [czy_usuniete]=true WHERE id=" + id.ToString() + " AND [czy_usuniete]=false";
-                    using (OleDbConnection conn = new OleDbConnection(conString))
-                    {
-                        using (OleDbCommand cmd = new OleDbCommand(wybor, conn))
-                        {
-                            conn.Open();
-                            cmd.ExecuteNonQuery();
-                            conn.Close();
-                            returnValue = true;
-                        }
-                    }
+                    returnValue = true;
                 }
             }
             return returnValue;
@@ -251,22 +237,19 @@ namespace AlbumDB
                 OleDbDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    returnValue = deleteCzlonek_zespolu((int)reader["id"]);
+                    deleteCzlonek_zespolu((int)reader["id"]);
                 }
                 conn.Close();
             }
-            if (returnValue)
+            string wybor = "UPDATE muzyk SET [czy_usuniete]=true WHERE id=" + id.ToString() + " AND [czy_usuniete]=false";
+            using (OleDbConnection conn = new OleDbConnection(conString))
             {
-                string wybor = "UPDATE muzyk SET [czy_usuniete]=true WHERE id=" + id.ToString() + " AND [czy_usuniete]=false";
-                using (OleDbConnection conn = new OleDbConnection(conString))
+                using (OleDbCommand cmd = new OleDbCommand(wybor, conn))
                 {
-                    using (OleDbCommand cmd = new OleDbCommand(wybor, conn))
-                    {
-                        conn.Open();
-                        cmd.ExecuteNonQuery();
-                        conn.Close();
-                        returnValue = true;
-                    }
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+                    returnValue = true;
                 }
             }
             return returnValue;
@@ -282,22 +265,19 @@ namespace AlbumDB
                 OleDbDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    returnValue = deleteCzlonek_zespolu((int)reader["id"]);
+                    deleteCzlonek_zespolu((int)reader["id"]);
                 }
                 conn.Close();
             }
-            if (returnValue)
+            string wybor = "UPDATE stanowisko SET [czy_usuniete]=true WHERE id=" + id.ToString() + " AND [czy_usuniete]=false";
+            using (OleDbConnection conn = new OleDbConnection(conString))
             {
-                string wybor = "UPDATE stanowisko SET [czy_usuniete]=true WHERE id=" + id.ToString() + " AND [czy_usuniete]=false";
-                using (OleDbConnection conn = new OleDbConnection(conString))
+                using (OleDbCommand cmd = new OleDbCommand(wybor, conn))
                 {
-                    using (OleDbCommand cmd = new OleDbCommand(wybor, conn))
-                    {
-                        conn.Open();
-                        cmd.ExecuteNonQuery();
-                        conn.Close();
-                        returnValue = true;
-                    }
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+                    returnValue = true;
                 }
             }
             return returnValue;
@@ -358,7 +338,7 @@ namespace AlbumDB
 
                 if (table == "ocena_albumu" || table == "piosenka")
                 {
-                    using (OleDbCommand cmd = new OleDbCommand("SELECT ID FROM album WHERE ([nazwa] = @first)", conn))
+                    using (OleDbCommand cmd = new OleDbCommand("SELECT ID FROM album WHERE ([nazwa] = @first AND [czy_usuniete]=false)", conn))
                     {
                         if(table == "ocena_albumu") cmd.Parameters.AddWithValue("@first", list[0]);
                         else cmd.Parameters.AddWithValue("@first", list[3]);
@@ -385,7 +365,7 @@ namespace AlbumDB
                 if (table == "piosenka")
                 {
                     if((bool)list[4]==false)
-                        using (OleDbCommand cmd = new OleDbCommand("SELECT COUNT(*) FROM piosenka WHERE ([nr_piosenki] = @first AND [id_albumu] = @second)", conn))
+                        using (OleDbCommand cmd = new OleDbCommand("SELECT COUNT(*) FROM piosenka WHERE ([nr_piosenki] = @first AND [id_albumu] = @second AND [czy_usuniete]=false)", conn))
                         {
                             cmd.Parameters.AddWithValue("@first", list[2]);
                             cmd.Parameters.AddWithValue("@second", list[3]);
@@ -402,7 +382,7 @@ namespace AlbumDB
 
                 if (table == "czlonek_zespolu")
                 {
-                    using (OleDbCommand cmd = new OleDbCommand("SELECT ID FROM stanowisko WHERE ([nazwa] = @third)", conn))
+                    using (OleDbCommand cmd = new OleDbCommand("SELECT ID FROM stanowisko WHERE ([nazwa] = @third AND [czy_usuniete]=false)", conn))
                     {
                         cmd.Parameters.AddWithValue("@third", list[2]);
                         conn.Open();
@@ -411,7 +391,7 @@ namespace AlbumDB
                         list[2] = dataExists;
                     }
 
-                    using (OleDbCommand cmd = new OleDbCommand("SELECT ID FROM muzyk WHERE (nazwisko + ' ' + imie LIKE @second)", conn))
+                    using (OleDbCommand cmd = new OleDbCommand("SELECT ID FROM muzyk WHERE (nazwisko + ' ' + imie LIKE @second AND [czy_usuniete]=false)", conn))
                     {
                         cmd.Parameters.AddWithValue("@second", list[1]);
                         conn.Open();
@@ -424,7 +404,7 @@ namespace AlbumDB
 
                 if (table == "czlonek_zespolu" || table == "album")
                 {
-                    using (OleDbCommand cmd = new OleDbCommand("SELECT ID FROM zespol WHERE ([nazwa] = @first)", conn))
+                    using (OleDbCommand cmd = new OleDbCommand("SELECT ID FROM zespol WHERE ([nazwa] = @first AND [czy_usuniete]=false)", conn))
                     {
                         if (table == "czlonek_zespolu") cmd.Parameters.AddWithValue("@first", list[0]);
                         else cmd.Parameters.AddWithValue("@first", list[4]);
@@ -438,7 +418,7 @@ namespace AlbumDB
 
                 if (table == "album")
                 {
-                    using (OleDbCommand cmd = new OleDbCommand("SELECT ID FROM gatunek WHERE ([nazwa] = @sixth)", conn))
+                    using (OleDbCommand cmd = new OleDbCommand("SELECT ID FROM gatunek WHERE ([nazwa] = @sixth AND [czy_usuniete]=false)", conn))
                     {
                         cmd.Parameters.AddWithValue("@seventh", list[5]);
                         conn.Open();
@@ -447,7 +427,7 @@ namespace AlbumDB
                         list[5]= dataExists;
                     }
 
-                    using (OleDbCommand cmd = new OleDbCommand("SELECT ID FROM wytwornia WHERE ([nazwa] = @seventh)", conn))
+                    using (OleDbCommand cmd = new OleDbCommand("SELECT ID FROM wytwornia WHERE ([nazwa] = @seventh AND [czy_usuniete]=false)", conn))
                     {
                         cmd.Parameters.AddWithValue("@eigth", list[6]);
                         conn.Open();
@@ -460,15 +440,15 @@ namespace AlbumDB
                 string sqlQuery = "";
                 dataExists = 0;
 
-                if (table == "gatunek") sqlQuery = "SELECT COUNT(*) FROM gatunek WHERE ([nazwa] = @first)";
-                if (table == "wytwornia") sqlQuery = "SELECT COUNT(*) FROM wytwornia WHERE ([nazwa] = @first)";
-                if (table == "stanowisko") sqlQuery = "SELECT COUNT(*) FROM stanowisko WHERE ([nazwa] = @first)";
-                if (table == "muzyk") sqlQuery = "SELECT COUNT(*) FROM muzyk WHERE ([imie] = @first AND [nazwisko] = @second AND [data_urodzenia] = @third)";
-                if (table == "piosenka") sqlQuery = "SELECT COUNT(*) FROM piosenka WHERE ([tytul] = @first AND [czas] = @second AND [nr_piosenki] = @third AND [id_albumu] = @fourth)";
-                if (table == "ocena_albumu") sqlQuery = "SELECT COUNT(*) FROM ocena_albumu WHERE ([id_albumu] = @first AND [id_ocena] = @second AND [recenzja] = @third)";
-                if (table == "czlonek_zespolu") sqlQuery = "SELECT COUNT(*) FROM czlonek_zespolu WHERE ([id_zespolu] = @first AND [id_muzyka] = @second AND [id_stanowiska] = @third)";
-                if (table == "zespol") sqlQuery = "SELECT COUNT(*) FROM zespol WHERE ([nazwa] = @first AND [pochodzenie] = @second AND [rok_zalozenia] = @third)";
-                if (table == "album") sqlQuery = "SELECT COUNT(*) FROM album WHERE ([nazwa] = @first AND [opis] = @second AND [dlugosc] = @third AND [data_wydania] = @fourth AND [id_zespolu] = @fifth AND [id_gatunek] = @sixth AND [id_wytwornia] = @seventh)";
+                if (table == "gatunek") sqlQuery = "SELECT COUNT(*) FROM gatunek WHERE ([nazwa] = @first AND [czy_usuniete]=false)";
+                if (table == "wytwornia") sqlQuery = "SELECT COUNT(*) FROM wytwornia WHERE ([nazwa] = @first AND [czy_usuniete]=false)";
+                if (table == "stanowisko") sqlQuery = "SELECT COUNT(*) FROM stanowisko WHERE ([nazwa] = @first AND [czy_usuniete]=false)";
+                if (table == "muzyk") sqlQuery = "SELECT COUNT(*) FROM muzyk WHERE ([imie] = @first AND [nazwisko] = @second AND [data_urodzenia] = @third AND [czy_usuniete]=false)";
+                if (table == "piosenka") sqlQuery = "SELECT COUNT(*) FROM piosenka WHERE ([tytul] = @first AND [czas] = @second AND [nr_piosenki] = @third AND [id_albumu] = @fourth AND [czy_usuniete]=false)";
+                if (table == "ocena_albumu") sqlQuery = "SELECT COUNT(*) FROM ocena_albumu WHERE ([id_albumu] = @first AND [id_ocena] = @second AND [recenzja] = @third AND [czy_usuniete]=false)";
+                if (table == "czlonek_zespolu") sqlQuery = "SELECT COUNT(*) FROM czlonek_zespolu WHERE ([id_zespolu] = @first AND [id_muzyka] = @second AND [id_stanowiska] = @third AND [czy_usuniete]=false)";
+                if (table == "zespol") sqlQuery = "SELECT COUNT(*) FROM zespol WHERE ([nazwa] = @first AND [pochodzenie] = @second AND [rok_zalozenia] = @third AND [czy_usuniete]=false)";
+                if (table == "album") sqlQuery = "SELECT COUNT(*) FROM album WHERE ([nazwa] = @first AND [opis] = @second AND [dlugosc] = @third AND [data_wydania] = @fourth AND [id_zespolu] = @fifth AND [id_gatunek] = @sixth AND [id_wytwornia] = @seventh AND [czy_usuniete]=false)";
                 
                 using (OleDbCommand cmd = new OleDbCommand(sqlQuery, conn))
                 {

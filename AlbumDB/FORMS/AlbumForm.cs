@@ -39,7 +39,7 @@ namespace AlbumDB.FORMS
             {
                 conn.Open();
                 OleDbDataReader reader;                
-                using (OleDbCommand cmd = new OleDbCommand("SELECT id_zespolu,id_gatunek,id_wytwornia,nazwa,data_wydania,dlugosc,opis FROM album WHERE ID="+ IDToSQLQuery, conn))
+                using (OleDbCommand cmd = new OleDbCommand("SELECT id_zespolu,id_gatunek,id_wytwornia,nazwa,data_wydania,opis FROM album WHERE ID="+ IDToSQLQuery, conn))
                 {
                     reader = cmd.ExecuteReader();
                     while (reader.Read())
@@ -47,7 +47,6 @@ namespace AlbumDB.FORMS
                         textBox1.Text = reader["nazwa"].ToString();
                         richTextBox1.Text = reader["opis"].ToString();
                         dateTimePicker1.Value = (DateTime)reader["data_wydania"];
-                        dateTimePicker2.Value = (DateTime)reader["dlugosc"];
 
                         using (OleDbCommand cmdID = new OleDbCommand("SELECT nazwa FROM zespol WHERE id="+ (int)reader["id_zespolu"], conn))
                         {
@@ -78,13 +77,13 @@ namespace AlbumDB.FORMS
         private void button1_Click(object sender, EventArgs e)
         {
             DateTime date1 = new DateTime(2010, 1, 1, 0, 0, 0);
-            if (textBox1.Text.Length == 0 || richTextBox1.Text.Length == 0 || dateTimePicker2.Value.TimeOfDay <= date1.TimeOfDay || comboBox1.Text == "" || comboBox2.Text == "" || comboBox3.Text == "")
+            if (textBox1.Text.Length == 0 || richTextBox1.Text.Length == 0 || comboBox1.Text == "" || comboBox2.Text == "" || comboBox3.Text == "")
             {
                 MessageBox.Show("Wprowadż poprawne wartości do wszystkich pól", "Ostrzeżenie", MessageBoxButtons.OK);
                 return;
             }
 
-            if (InsertIntoDatabase.Insert("album", textBox1.Text, richTextBox1.Text, dateTimePicker2.Value.TimeOfDay, dateTimePicker1.Value.Date, comboBox1.SelectedItem.ToString(), comboBox2.SelectedItem.ToString(), comboBox3.SelectedItem.ToString(),modeForm,IDToSQLQuery))
+            if (InsertIntoDatabase.Insert("album", textBox1.Text, richTextBox1.Text, dateTimePicker1.Value.Date, comboBox1.SelectedItem.ToString(), comboBox2.SelectedItem.ToString(), comboBox3.SelectedItem.ToString(),modeForm,IDToSQLQuery))
             {
                 this.DialogResult = DialogResult.OK;
                 this.Close();

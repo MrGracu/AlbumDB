@@ -51,6 +51,8 @@ namespace AlbumDB
                 if (tabControl1.TabPages[i].Name == "zespol") tabControl1.TabPages[i].Text = "Zespół";
                 if (tabControl1.TabPages[i].Name == "czlonek_zespolu") tabControl1.TabPages[i].Text = "Członek zespołu";
                 if (tabControl1.TabPages[i].Name == "album") tabControl1.TabPages[i].Text = "Album";
+                if (tabControl1.TabPages[i].Name == "uzytkownik") tabControl1.TabPages[i].Text = "Użytkownik";
+                if (tabControl1.TabPages[i].Name == "grupa") tabControl1.TabPages[i].Text = "Grupa";
             }
 
             tabControl1.SelectedIndex = -1;
@@ -112,6 +114,8 @@ namespace AlbumDB
             Dictionary<string, string> sqlSelectTab = new Dictionary<string, string>();
             sqlSelectTab["ocena"] = "SELECT [ocena.id] As [ID], [ocena.wartosc] As [Wartość] FROM [ocena]";
             sqlSelectTab["gatunek"] = "SELECT [gatunek.id] As [ID], [gatunek.nazwa] As [Nazwa] FROM [gatunek] WHERE gatunek.czy_usuniete=False";
+            sqlSelectTab["grupa"] = "SELECT [grupa.id] As [ID], [grupa.nazwa] As [Nazwa] FROM [grupa] WHERE grupa.czy_usuniete=False";
+            sqlSelectTab["uzytkownik"] = "SELECT [uzytkownik.id] As [ID], [grupa.nazwa] As [Nazwa grupy], [uzytkownik.login] AS [Login], [uzytkownik.haslo] AS [Hasło] FROM ([uzytkownik] INNER JOIN grupa ON uzytkownik.id_grupy = grupa.id) WHERE grupa.czy_usuniete=False";
             sqlSelectTab["wytwornia"] = "SELECT [wytwornia.id] As [ID], [wytwornia.nazwa] As [Nazwa] FROM [wytwornia] WHERE wytwornia.czy_usuniete=False";
             sqlSelectTab["stanowisko"] = "SELECT [stanowisko.id] As [ID], [stanowisko.nazwa] As [Nazwa] FROM [stanowisko] WHERE stanowisko.czy_usuniete=False";
             sqlSelectTab["muzyk"] = "SELECT [muzyk.id] AS [ID], [muzyk.imie] As [Imię], [muzyk.nazwisko] As [Nazwisko], [muzyk.data_urodzenia] As [Data urodzenia] FROM [muzyk] WHERE muzyk.czy_usuniete=False";

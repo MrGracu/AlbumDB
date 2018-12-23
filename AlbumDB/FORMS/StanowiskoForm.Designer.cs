@@ -35,9 +35,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(24, 49);
+            this.button1.Location = new System.Drawing.Point(24, 59);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(252, 28);
+            this.button1.Size = new System.Drawing.Size(302, 28);
             this.button1.TabIndex = 42;
             this.button1.Text = "Dodaj";
             this.button1.UseVisualStyleBackColor = true;
@@ -45,9 +45,9 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(126, 23);
+            this.textBox1.Location = new System.Drawing.Point(135, 23);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(150, 20);
+            this.textBox1.Size = new System.Drawing.Size(191, 20);
             this.textBox1.TabIndex = 41;
             // 
             // label1
@@ -63,7 +63,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(298, 99);
+            this.ClientSize = new System.Drawing.Size(349, 105);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);

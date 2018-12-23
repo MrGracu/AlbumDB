@@ -45,18 +45,18 @@
             this.dateTimePicker2.CustomFormat = "";
             this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.dateTimePicker2.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.dateTimePicker2.Location = new System.Drawing.Point(131, 42);
+            this.dateTimePicker2.Location = new System.Drawing.Point(142, 42);
             this.dateTimePicker2.Name = "dateTimePicker2";
             this.dateTimePicker2.ShowUpDown = true;
-            this.dateTimePicker2.Size = new System.Drawing.Size(152, 20);
+            this.dateTimePicker2.Size = new System.Drawing.Size(183, 20);
             this.dateTimePicker2.TabIndex = 21;
             this.dateTimePicker2.Value = new System.DateTime(2018, 11, 28, 0, 0, 0, 0);
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(131, 68);
+            this.numericUpDown1.Location = new System.Drawing.Point(142, 68);
             this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(153, 20);
+            this.numericUpDown1.Size = new System.Drawing.Size(183, 20);
             this.numericUpDown1.TabIndex = 31;
             // 
             // label8
@@ -88,9 +88,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(24, 120);
+            this.button1.Location = new System.Drawing.Point(24, 132);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(260, 28);
+            this.button1.Size = new System.Drawing.Size(301, 28);
             this.button1.TabIndex = 35;
             this.button1.Text = "Dodaj";
             this.button1.UseVisualStyleBackColor = true;
@@ -98,9 +98,9 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(131, 16);
+            this.textBox1.Location = new System.Drawing.Point(142, 16);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(153, 20);
+            this.textBox1.Size = new System.Drawing.Size(183, 20);
             this.textBox1.TabIndex = 20;
             // 
             // label1
@@ -116,9 +116,9 @@
             // 
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(131, 93);
+            this.comboBox1.Location = new System.Drawing.Point(142, 93);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(153, 21);
+            this.comboBox1.Size = new System.Drawing.Size(183, 21);
             this.comboBox1.TabIndex = 37;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
@@ -126,7 +126,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(311, 164);
+            this.ClientSize = new System.Drawing.Size(349, 180);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.dateTimePicker2);
             this.Controls.Add(this.numericUpDown1);

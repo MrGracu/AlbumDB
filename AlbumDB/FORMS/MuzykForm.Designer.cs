@@ -43,7 +43,7 @@
             this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dateTimePicker1.Location = new System.Drawing.Point(149, 71);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(131, 20);
+            this.dateTimePicker1.Size = new System.Drawing.Size(175, 20);
             this.dateTimePicker1.TabIndex = 30;
             this.dateTimePicker1.Value = new System.DateTime(2018, 12, 2, 0, 0, 0, 0);
             // 
@@ -69,7 +69,7 @@
             // 
             this.textBox1.Location = new System.Drawing.Point(149, 19);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(131, 20);
+            this.textBox1.Size = new System.Drawing.Size(175, 20);
             this.textBox1.TabIndex = 20;
             // 
             // label1
@@ -83,9 +83,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(25, 97);
+            this.button1.Location = new System.Drawing.Point(25, 111);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(255, 28);
+            this.button1.Size = new System.Drawing.Size(299, 28);
             this.button1.TabIndex = 31;
             this.button1.Text = "Dodaj";
             this.button1.UseVisualStyleBackColor = true;
@@ -95,14 +95,14 @@
             // 
             this.textBox2.Location = new System.Drawing.Point(149, 45);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(131, 20);
+            this.textBox2.Size = new System.Drawing.Size(175, 20);
             this.textBox2.TabIndex = 26;
             // 
             // MuzykForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(304, 145);
+            this.ClientSize = new System.Drawing.Size(349, 160);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.dateTimePicker1);

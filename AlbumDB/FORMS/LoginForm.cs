@@ -19,6 +19,7 @@ namespace AlbumDB.FORMS
 
         private void LoginForm_Load(object sender, EventArgs e)
         {
+            this.Icon = Properties.Resources.icon;
             this.textBox1.Enter += new EventHandler(textBox1_Enter);
             this.textBox1.Leave += new EventHandler(textBox1_Leave);
             this.textBox2.Enter += new EventHandler(textBox1_Enter);

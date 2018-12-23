@@ -79,6 +79,12 @@
     <Compile Include="FORMS\GatunekForm.Designer.cs">
       <DependentUpon>GatunekForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FORMS\LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FORMS\LoginForm.Designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="FORMS\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,6 +137,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FORMS\GatunekForm.resx">
       <DependentUpon>GatunekForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FORMS\LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FORMS\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

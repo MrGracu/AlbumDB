@@ -17,6 +17,7 @@ namespace AlbumDB
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            
             DialogResult mainResult = DialogResult.OK;
             while (mainResult == DialogResult.OK)
             {

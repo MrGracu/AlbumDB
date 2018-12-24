@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.login = new System.Windows.Forms.TabPage();
+            this.label1 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
@@ -42,7 +43,6 @@
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.login.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -81,6 +81,18 @@
             this.login.Size = new System.Drawing.Size(353, 276);
             this.login.TabIndex = 0;
             this.login.Text = "LOGOWANIE";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label1.ForeColor = System.Drawing.Color.Red;
+            this.label1.Location = new System.Drawing.Point(66, 13);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(228, 18);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Podany użytkownik nie istnieje!";
+            this.label1.Visible = false;
             // 
             // pictureBox2
             // 
@@ -209,18 +221,6 @@
             this.textBox3.Text = "Wpisz swój login...";
             this.textBox3.Enter += new System.EventHandler(this.textBox3_Enter);
             this.textBox3.Leave += new System.EventHandler(this.textBox3_Leave);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label1.ForeColor = System.Drawing.Color.Red;
-            this.label1.Location = new System.Drawing.Point(66, 13);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(228, 18);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "Podany użytkownik nie istnieje!";
-            this.label1.Visible = false;
             // 
             // LoginForm
             // 

@@ -14,8 +14,13 @@ namespace AlbumDB
 {
     public partial class MainForm : Form
     {
-        public MainForm()
+        int userGroup = 0;
+        string userName = "";
+
+        public MainForm(int group, string user)
         {
+            userGroup = group;
+            userName = user;
             InitializeComponent();
         }
 
@@ -24,6 +29,10 @@ namespace AlbumDB
             this.Icon = Properties.Resources.icon;
             button1.Image = new Bitmap(Properties.Resources.add, 16, 16);
             button2.Image = new Bitmap(Properties.Resources.remove, 16, 16);
+            button3.Text = "Wyloguj (" + userName + ")";
+            /* SET MainForm WIDTH & HEIGHT */
+            this.MinimumSize = new Size(340 + button3.Width, 240);
+            /* END SET MainForm WIDTH & HEIGHT */
             string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=..\\..\\albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=;";
             using (OleDbConnection conn = new OleDbConnection(conString))
             using (OleDbCommand cmd = new OleDbCommand("", conn))
@@ -220,6 +229,12 @@ namespace AlbumDB
                     }
                 }
             }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
     }
 }

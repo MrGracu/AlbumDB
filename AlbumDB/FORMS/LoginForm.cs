@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.OleDb;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,11 @@ namespace AlbumDB.FORMS
 {
     public partial class LoginForm : Form
     {
+        string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=..\\..\\albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
+
+        public int ReturnGroup { get; set; }
+        public string ReturnUser { get; set; }
+
         public LoginForm()
         {
             InitializeComponent();
@@ -20,16 +26,6 @@ namespace AlbumDB.FORMS
         private void LoginForm_Load(object sender, EventArgs e)
         {
             this.Icon = Properties.Resources.icon;
-            this.textBox1.Enter += new EventHandler(textBox1_Enter);
-            this.textBox1.Leave += new EventHandler(textBox1_Leave);
-            this.textBox2.Enter += new EventHandler(textBox1_Enter);
-            this.textBox2.Leave += new EventHandler(textBox1_Leave);
-            this.textBox3.Enter += new EventHandler(textBox1_Enter);
-            this.textBox3.Leave += new EventHandler(textBox1_Leave);
-            this.textBox4.Enter += new EventHandler(textBox1_Enter);
-            this.textBox4.Leave += new EventHandler(textBox1_Leave);
-            this.textBox5.Enter += new EventHandler(textBox1_Enter);
-            this.textBox5.Leave += new EventHandler(textBox1_Leave);
             textBox1_SetText();
             textBox2_SetText();
             textBox3_SetText();
@@ -135,6 +131,65 @@ namespace AlbumDB.FORMS
         {
             if (textBox5.Text.Trim() == "")
                 textBox5_SetText();
+        }
+
+        private void button1_Click(object sender, EventArgs e) //inny
+        {
+            if (textBox1.Text.Trim().Length == 0 || textBox1.ForeColor == Color.Gray || textBox2.Text.Trim().Length == 0 || textBox2.ForeColor == Color.Gray) return;
+
+            string password = textBox2.Text;
+
+            using (OleDbConnection conn = new OleDbConnection(conString))
+            using (OleDbCommand cmd = new OleDbCommand("SELECT id_grupy FROM uzytkownik WHERE [login]=\"" + textBox1.Text + "\" AND [haslo]=\"" + password + "\" AND [czy_usuniete]=false", conn))
+            {
+                conn.Open();
+                OleDbDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    this.ReturnUser = textBox1.Text;
+                    this.ReturnGroup = (int)reader["id_grupy"];
+                    this.DialogResult = DialogResult.OK;
+                    label1.Visible = false;
+                }
+                conn.Close();
+            }
+
+            if (this.DialogResult == DialogResult.OK) this.Close();
+            else label1.Visible = true;
+        }
+
+        private void button2_Click(object sender, EventArgs e) //gosc
+        {
+            this.ReturnGroup = 3; //GOŚĆ!!!
+            this.ReturnUser = "Gość";
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            textBox1.Focus();
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            textBox2.Focus();
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl1.SelectedIndex == 0)
+            {
+                label1.Visible = false;
+                textBox1_SetText();
+                textBox2_SetText();
+            }
+            else
+            {
+                textBox3_SetText();
+                textBox4_SetText();
+                textBox5_SetText();
+            }
         }
     }
 }

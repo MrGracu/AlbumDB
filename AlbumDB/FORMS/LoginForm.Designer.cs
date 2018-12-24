@@ -42,6 +42,7 @@
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.login.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -62,10 +63,12 @@
             this.tabControl1.Size = new System.Drawing.Size(361, 334);
             this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl1.TabIndex = 0;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // login
             // 
             this.login.BackColor = System.Drawing.Color.White;
+            this.login.Controls.Add(this.label1);
             this.login.Controls.Add(this.pictureBox2);
             this.login.Controls.Add(this.pictureBox1);
             this.login.Controls.Add(this.textBox2);
@@ -88,6 +91,7 @@
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 5;
             this.pictureBox2.TabStop = false;
+            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
             // pictureBox1
             // 
@@ -98,6 +102,7 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // textBox2
             // 
@@ -105,7 +110,7 @@
             this.textBox2.Location = new System.Drawing.Point(85, 95);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(209, 27);
-            this.textBox2.TabIndex = 1;
+            this.textBox2.TabIndex = 2;
             this.textBox2.Text = "Twoje hasło...";
             this.textBox2.Enter += new System.EventHandler(this.textBox2_Enter);
             this.textBox2.Leave += new System.EventHandler(this.textBox2_Leave);
@@ -117,7 +122,7 @@
             this.textBox1.MaxLength = 60;
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(209, 27);
-            this.textBox1.TabIndex = 0;
+            this.textBox1.TabIndex = 1;
             this.textBox1.Text = "Twój login...";
             this.textBox1.Enter += new System.EventHandler(this.textBox1_Enter);
             this.textBox1.Leave += new System.EventHandler(this.textBox1_Leave);
@@ -129,9 +134,10 @@
             this.button2.Location = new System.Drawing.Point(95, 235);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(153, 26);
-            this.button2.TabIndex = 3;
+            this.button2.TabIndex = 4;
             this.button2.Text = "Zaloguj jako gość";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button1
             // 
@@ -140,9 +146,10 @@
             this.button1.Location = new System.Drawing.Point(53, 160);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(241, 46);
-            this.button1.TabIndex = 2;
+            this.button1.TabIndex = 3;
             this.button1.Text = "ZALOGUJ";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // register
             // 
@@ -203,6 +210,18 @@
             this.textBox3.Enter += new System.EventHandler(this.textBox3_Enter);
             this.textBox3.Leave += new System.EventHandler(this.textBox3_Leave);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label1.ForeColor = System.Drawing.Color.Red;
+            this.label1.Location = new System.Drawing.Point(66, 13);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(228, 18);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Podany użytkownik nie istnieje!";
+            this.label1.Visible = false;
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -241,5 +260,6 @@
         private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.Label label1;
     }
 }

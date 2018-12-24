@@ -17,8 +17,18 @@ namespace AlbumDB
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FORMS.LoginForm());
-            Application.Run(new MainForm()); 
+            DialogResult mainResult = DialogResult.OK;
+            while (mainResult == DialogResult.OK)
+            {
+                FORMS.LoginForm loginForm = new FORMS.LoginForm();
+                DialogResult result = loginForm.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    MainForm mainForm = new MainForm(loginForm.ReturnGroup, loginForm.ReturnUser);
+                    mainResult = mainForm.ShowDialog();
+                }
+                else mainResult = DialogResult.Cancel;
+            }
         }
     }
 
@@ -469,27 +479,6 @@ namespace AlbumDB
                         cmd.Parameters.AddWithValue("@sixth", list[4]);
                         cmd.Parameters.AddWithValue("@seventh", list[5]);
                     }
-
-                    //********ZMIENIONE NUMERKI GDYBY KIEDYŚ NIE DZIAŁAŁO ******************
-                    //cmd.Parameters.AddWithValue("@first", list[0]);
-                    //cmd.Parameters.AddWithValue("@second", list[1]);
-                    //cmd.Parameters.AddWithValue("@third", list[2]);
-                    //if (table == "muzyk" || table == "piosenka" || table == "ocena_albumu" || table == "czlonek_zespolu" || table == "zespol" || table == "album")
-                    //{
-                    //    cmd.Parameters.AddWithValue("@fourth", list[3]);
-                    //    cmd.Parameters.AddWithValue("@fifth", list[4]);
-                    //}
-                    //if (table == "piosenka" || table == "album")
-                    //{
-                    //    cmd.Parameters.AddWithValue("@sixth", list[5]);
-                    //}
-                    //if (table == "album")
-                    //{
-                    //    cmd.Parameters.AddWithValue("@seventh", list[6]);
-                    //    cmd.Parameters.AddWithValue("@eight", list[7]);
-                    //    cmd.Parameters.AddWithValue("@ninth", list[8]);
-                    //    //cmd.Parameters.AddWithValue("@eigth", list[7]);
-                    //}
 
                     //sprawdzenie jaki tryb się wykonuje + przypisanie ID wiersza do zmiany
                     if (table=="gatunek" || table=="wytwornia" || table == "stanowisko")

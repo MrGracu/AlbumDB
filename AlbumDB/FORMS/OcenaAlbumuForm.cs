@@ -28,6 +28,7 @@ namespace AlbumDB.FORMS
                 button1.Text = "Zamień";
                 loadValueFromQuery();
             }
+            this.AcceptButton = button1;
         }
 
         public void loadValueFromQuery()

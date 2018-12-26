@@ -20,9 +20,14 @@ namespace AlbumDB.FORMS
         public int ReturnGroup { get; set; }
         public string ReturnUser { get; set; }
 
+        private Button registerButton = new Button();
+        private Button loginButton = new Button();
+
         public LoginForm()
         {
             InitializeComponent();
+            registerButton.Click += delegate { Register(); };
+            loginButton.Click += delegate { LogIn(); };
         }
 
         private void LoginForm_Load(object sender, EventArgs e)
@@ -34,7 +39,7 @@ namespace AlbumDB.FORMS
             textBox4_SetText();
             textBox5_SetText();
             tabControl1.SelectedIndex = 0;
-            this.AcceptButton = button1;
+            this.AcceptButton = loginButton;
         }
 
         private void textBox1_SetText()
@@ -255,14 +260,14 @@ namespace AlbumDB.FORMS
         {
             if (tabControl1.SelectedIndex == 0)
             {
-                this.AcceptButton = button1;
+                this.AcceptButton = loginButton;
                 label1.Visible = false;
                 textBox1_SetText();
                 textBox2_SetText();
             }
             else
             {
-                this.AcceptButton = button3;
+                this.AcceptButton = registerButton;
                 label2.Visible = false;
                 textBox3_SetText();
                 textBox4_SetText();

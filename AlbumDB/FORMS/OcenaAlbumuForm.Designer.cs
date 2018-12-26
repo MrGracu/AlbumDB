@@ -42,7 +42,7 @@
             this.richTextBox1.Location = new System.Drawing.Point(24, 89);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(301, 90);
-            this.richTextBox1.TabIndex = 22;
+            this.richTextBox1.TabIndex = 24;
             this.richTextBox1.Text = "";
             // 
             // label8
@@ -77,7 +77,7 @@
             this.button1.Location = new System.Drawing.Point(24, 196);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(301, 28);
-            this.button1.TabIndex = 23;
+            this.button1.TabIndex = 25;
             this.button1.Text = "Dodaj";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -89,7 +89,7 @@
             this.comboBox1.Location = new System.Drawing.Point(105, 16);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(220, 21);
-            this.comboBox1.TabIndex = 24;
+            this.comboBox1.TabIndex = 22;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // comboBox2
@@ -99,7 +99,7 @@
             this.comboBox2.Location = new System.Drawing.Point(105, 43);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(220, 21);
-            this.comboBox2.TabIndex = 25;
+            this.comboBox2.TabIndex = 23;
             // 
             // OcenaAlbumuForm
             // 

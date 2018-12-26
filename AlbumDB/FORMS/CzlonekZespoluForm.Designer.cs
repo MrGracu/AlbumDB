@@ -42,7 +42,7 @@
             this.button1.Location = new System.Drawing.Point(24, 111);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(300, 28);
-            this.button1.TabIndex = 31;
+            this.button1.TabIndex = 34;
             this.button1.Text = "Dodaj";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -81,7 +81,7 @@
             this.comboBox1.Location = new System.Drawing.Point(130, 21);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(194, 21);
-            this.comboBox1.TabIndex = 32;
+            this.comboBox1.TabIndex = 31;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // comboBox2
@@ -91,7 +91,7 @@
             this.comboBox2.Location = new System.Drawing.Point(130, 46);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(194, 21);
-            this.comboBox2.TabIndex = 33;
+            this.comboBox2.TabIndex = 32;
             this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
             // comboBox3
@@ -101,7 +101,7 @@
             this.comboBox3.Location = new System.Drawing.Point(130, 71);
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(194, 21);
-            this.comboBox3.TabIndex = 34;
+            this.comboBox3.TabIndex = 33;
             this.comboBox3.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
             // 
             // CzlonekZespoluForm

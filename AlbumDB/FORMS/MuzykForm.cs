@@ -15,6 +15,9 @@ namespace AlbumDB.FORMS
     {
         bool modeForm; //0 - insert, 1 - update
         int IDToSQLQuery;
+
+        private Button addButton = new Button();
+
         public MuzykForm(bool mode, int id)
         {
             InitializeComponent();
@@ -26,7 +29,8 @@ namespace AlbumDB.FORMS
                 button1.Text = "Zamień";
                 loadValueFromQuery();
             }
-            this.AcceptButton = button1;
+            addButton.Click += button1_Click;
+            this.AcceptButton = addButton;
         }
 
         public void loadValueFromQuery()

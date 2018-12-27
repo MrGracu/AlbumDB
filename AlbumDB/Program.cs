@@ -53,6 +53,10 @@ namespace AlbumDB
                     FORMS.GatunekForm gatunekForm = new FORMS.GatunekForm(mode,id);
                     result = gatunekForm.ShowDialog();
                     break;
+                case "grupa":
+                    FORMS.GrupaForm grupaForm = new FORMS.GrupaForm(mode, id);
+                    result = grupaForm.ShowDialog();
+                    break;
                 case "muzyk":
                     FORMS.MuzykForm muzykForm = new FORMS.MuzykForm(mode, id);
                     result = muzykForm.ShowDialog();
@@ -68,6 +72,14 @@ namespace AlbumDB
                 case "stanowisko":
                     FORMS.StanowiskoForm stanowiskoForm = new FORMS.StanowiskoForm(mode, id);
                     result = stanowiskoForm.ShowDialog();
+                    break;
+                case "uprawnienia":
+                    FORMS.UprawnieniaForm uprawnieniaForm = new FORMS.UprawnieniaForm();
+                    result = uprawnieniaForm.ShowDialog();
+                    break;
+                case "uzytkownik":
+                    FORMS.UzytkownikForm uzytkownikForm = new FORMS.UzytkownikForm(mode, id);
+                    result = uzytkownikForm.ShowDialog();
                     break;
                 case "wytwornia":
                     FORMS.WytworniaForm wytworniaForm = new FORMS.WytworniaForm(mode, id);

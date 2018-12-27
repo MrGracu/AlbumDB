@@ -85,6 +85,12 @@
     <Compile Include="FORMS\GatunekForm.Designer.cs">
       <DependentUpon>GatunekForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FORMS\GrupaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FORMS\GrupaForm.Designer.cs">
+      <DependentUpon>GrupaForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="FORMS\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -109,6 +115,12 @@
     <Compile Include="FORMS\OcenaAlbumuForm.Designer.cs">
       <DependentUpon>OcenaAlbumuForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FORMS\UprawnieniaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FORMS\UprawnieniaForm.Designer.cs">
+      <DependentUpon>UprawnieniaForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="FORMS\PiosenkaForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -120,6 +132,12 @@
     </Compile>
     <Compile Include="FORMS\StanowiskoForm.Designer.cs">
       <DependentUpon>StanowiskoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FORMS\UzytkownikForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FORMS\UzytkownikForm.Designer.cs">
+      <DependentUpon>UzytkownikForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FORMS\WytworniaForm.cs">
       <SubType>Form</SubType>
@@ -144,6 +162,9 @@
     <EmbeddedResource Include="FORMS\GatunekForm.resx">
       <DependentUpon>GatunekForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FORMS\GrupaForm.resx">
+      <DependentUpon>GrupaForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FORMS\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -156,11 +177,17 @@
     <EmbeddedResource Include="FORMS\OcenaAlbumuForm.resx">
       <DependentUpon>OcenaAlbumuForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FORMS\UprawnieniaForm.resx">
+      <DependentUpon>UprawnieniaForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FORMS\PiosenkaForm.resx">
       <DependentUpon>PiosenkaForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FORMS\StanowiskoForm.resx">
       <DependentUpon>StanowiskoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FORMS\UzytkownikForm.resx">
+      <DependentUpon>UzytkownikForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FORMS\WytworniaForm.resx">
       <DependentUpon>WytworniaForm.cs</DependentUpon>

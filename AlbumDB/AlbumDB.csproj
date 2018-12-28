@@ -85,12 +85,6 @@
     <Compile Include="FORMS\GatunekForm.Designer.cs">
       <DependentUpon>GatunekForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="FORMS\GrupaForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FORMS\GrupaForm.Designer.cs">
-      <DependentUpon>GrupaForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="FORMS\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -115,11 +109,11 @@
     <Compile Include="FORMS\OcenaAlbumuForm.Designer.cs">
       <DependentUpon>OcenaAlbumuForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="FORMS\UprawnieniaForm.cs">
+    <Compile Include="FORMS\GrupaForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FORMS\UprawnieniaForm.Designer.cs">
-      <DependentUpon>UprawnieniaForm.cs</DependentUpon>
+    <Compile Include="FORMS\GrupaForm.Designer.cs">
+      <DependentUpon>GrupaForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FORMS\PiosenkaForm.cs">
       <SubType>Form</SubType>
@@ -162,9 +156,6 @@
     <EmbeddedResource Include="FORMS\GatunekForm.resx">
       <DependentUpon>GatunekForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FORMS\GrupaForm.resx">
-      <DependentUpon>GrupaForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FORMS\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -177,8 +168,8 @@
     <EmbeddedResource Include="FORMS\OcenaAlbumuForm.resx">
       <DependentUpon>OcenaAlbumuForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FORMS\UprawnieniaForm.resx">
-      <DependentUpon>UprawnieniaForm.cs</DependentUpon>
+    <EmbeddedResource Include="FORMS\GrupaForm.resx">
+      <DependentUpon>GrupaForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FORMS\PiosenkaForm.resx">
       <DependentUpon>PiosenkaForm.cs</DependentUpon>

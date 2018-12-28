@@ -73,10 +73,6 @@ namespace AlbumDB
                     FORMS.StanowiskoForm stanowiskoForm = new FORMS.StanowiskoForm(mode, id);
                     result = stanowiskoForm.ShowDialog();
                     break;
-                case "uprawnienia":
-                    FORMS.UprawnieniaForm uprawnieniaForm = new FORMS.UprawnieniaForm();
-                    result = uprawnieniaForm.ShowDialog();
-                    break;
                 case "uzytkownik":
                     FORMS.UzytkownikForm uzytkownikForm = new FORMS.UzytkownikForm(mode, id);
                     result = uzytkownikForm.ShowDialog();

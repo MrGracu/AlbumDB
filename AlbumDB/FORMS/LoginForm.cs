@@ -174,7 +174,7 @@ namespace AlbumDB.FORMS
                 textBox5_SetText();
         }
 
-        private static string HashSHA256(string text) //HASHING
+        public static string HashSHA256(string text) //HASHING
         {
             string result = "";
             using (var sha = new SHA256Managed())

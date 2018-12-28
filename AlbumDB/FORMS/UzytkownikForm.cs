@@ -26,7 +26,8 @@ namespace AlbumDB.FORMS
             IDToSQLQuery = id; //przekazuje zmniejszony
             if (modeForm)
             {
-                this.Text = "Edytuj Piosenkę";
+                this.Text = "Edytuj Uzytkownika";
+                textBox2.ReadOnly = true;
                 button1.Text = "Zamień";
                 loadValueFromQuery();
             }
@@ -69,7 +70,10 @@ namespace AlbumDB.FORMS
                 return;
             }
 
-            if (InsertIntoDatabase.Insert("piosenka", textBox1.Text, textBox2.Text, comboBox1.SelectedItem.ToString(), modeForm, IDToSQLQuery))
+            if (!modeForm)
+                textBox2.Text = LoginForm.HashSHA256(textBox2.Text);
+
+            if (InsertIntoDatabase.Insert("uzytkownik", comboBox1.SelectedItem.ToString(), textBox1.Text, textBox2.Text, modeForm, IDToSQLQuery))
             {
                 this.DialogResult = DialogResult.OK;
                 this.Close();

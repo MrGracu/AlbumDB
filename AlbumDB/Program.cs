@@ -461,6 +461,18 @@ namespace AlbumDB
                     }
                 }
 
+                if (table == "uzytkownik")
+                {
+                    using (OleDbCommand cmd = new OleDbCommand("SELECT ID FROM grupa WHERE ([nazwa] = @first)", conn))
+                    {
+                        cmd.Parameters.AddWithValue("@first", list[0]);
+                        conn.Open();
+                        dataExists = (int)cmd.ExecuteScalar();
+                        conn.Close();
+                        list[0] = dataExists;
+                    }
+                }
+
                 string sqlQuery = "";
                 dataExists = 0;
 
@@ -473,11 +485,13 @@ namespace AlbumDB
                 if (table == "czlonek_zespolu") sqlQuery = "SELECT COUNT(*) FROM czlonek_zespolu WHERE ([id_zespolu] = @first AND [id_muzyka] = @second AND [id_stanowiska] = @third AND [czy_usuniete]=false)";
                 if (table == "zespol") sqlQuery = "SELECT COUNT(*) FROM zespol WHERE ([nazwa] = @first AND [pochodzenie] = @second AND [rok_zalozenia] = @third AND [czy_usuniete]=false)";
                 if (table == "album") sqlQuery = "SELECT COUNT(*) FROM album WHERE ([nazwa] = @first AND [opis] = @second AND [data_wydania] = @third AND [id_zespolu] = @fourth AND [id_gatunek] = @fifth AND [id_wytwornia] = @sixth AND [czy_usuniete]=false)";
-                
+                if (table == "grupa") sqlQuery = "SELECT COUNT(*) FROM grupa WHERE ([nazwa] = @first AND [czy_usuniete]=false)";
+                if (table == "uzytkownik") sqlQuery = "SELECT COUNT(*) FROM uzytkownik WHERE ([login] = @second AND [czy_usuniete]=false)";
+
                 using (OleDbCommand cmd = new OleDbCommand(sqlQuery, conn))
                 {
                     cmd.Parameters.AddWithValue("@first", list[0]);
-                    if (table == "muzyk" || table == "piosenka" || table == "ocena_albumu" || table == "czlonek_zespolu" || table == "zespol" || table == "album")
+                    if (table == "muzyk" || table == "piosenka" || table == "ocena_albumu" || table == "czlonek_zespolu" || table == "zespol" || table == "album" || table=="uzytkownik")
                     {
                         cmd.Parameters.AddWithValue("@second", list[1]);
                         cmd.Parameters.AddWithValue("@third", list[2]);
@@ -499,7 +513,7 @@ namespace AlbumDB
                         modeForm = (bool)list[1];
                         IDSQLToQuery = (int)list[2];
                     }
-                    if (table == "muzyk" || table == "ocena_albumu" || table == "czlonek_zespolu" || table=="zespol")
+                    if (table == "muzyk" || table == "ocena_albumu" || table == "czlonek_zespolu" || table=="zespol" || table=="uzytkownik")
                     {
                         modeForm = (bool)list[3];
                         IDSQLToQuery = (int)list[4];
@@ -538,11 +552,13 @@ namespace AlbumDB
                         sqlInsertTab["czlonek_zespolu"] = "INSERT INTO czlonek_zespolu ([id_zespolu],[id_muzyka],[id_stanowiska]) VALUES (@first,@second,@third)";
                         sqlInsertTab["zespol"] = "INSERT INTO zespol ([nazwa],[pochodzenie],[rok_zalozenia]) VALUES (@first,@second,@third)";
                         sqlInsertTab["album"] = "INSERT INTO album ([nazwa],[opis],[data_wydania],[id_zespolu],[id_gatunek],[id_wytwornia]) VALUES (@first,@second,@third,@fourth,@fifth,@sixth)";
+                        sqlInsertTab["grupa"] = "INSERT INTO grupa ([nazwa]) VALUES (@first)"; //zrobić uprawnienia
+                        sqlInsertTab["uzytkownik"] = "INSERT INTO uzytkownik ([id_grupy],[login],[haslo]) VALUES (@first,@second,@third)";
 
                         using (OleDbCommand cmd = new OleDbCommand(sqlInsertTab[table], conn))
                         {
                             cmd.Parameters.AddWithValue("@first", list[0]);
-                            if (table == "muzyk" || table == "piosenka" || table == "ocena_albumu" || table == "czlonek_zespolu" || table == "zespol" || table == "album")
+                            if (table == "muzyk" || table == "piosenka" || table == "ocena_albumu" || table == "czlonek_zespolu" || table == "zespol" || table == "album" || table == "uzytkownik")
                             {
                                 cmd.Parameters.AddWithValue("@second", list[1]);
                                 cmd.Parameters.AddWithValue("@third", list[2]);
@@ -576,11 +592,13 @@ namespace AlbumDB
                         sqlInsertTab["czlonek_zespolu"] = "UPDATE czlonek_zespolu SET [id_zespolu]=@first,[id_muzyka]=@second,[id_stanowiska]=@third WHERE ID=" + IDSQLToQuery;
                         sqlInsertTab["zespol"] = "UPDATE zespol SET [nazwa]=@first,[pochodzenie]=@second,[rok_zalozenia]=@third WHERE ID=" + IDSQLToQuery;
                         sqlInsertTab["album"] = "UPDATE album SET [nazwa]=@first, [opis]=@second, [data_wydania]=@third, [id_zespolu]=@fourth,[id_gatunek]=@fifth,[id_wytwornia]=@sixth WHERE ID=" + IDSQLToQuery;
+                        sqlInsertTab["grupa"] = "UPDATE grupa SET [nazwa]=@first WHERE ID=" + IDSQLToQuery; //zrobić uprawnienia
+                        sqlInsertTab["uzytkownik"] = "UPDATE uzytkownik SET [id_grupy]=@first, [login]=@second, [haslo]=@third WHERE ID=" + IDSQLToQuery;
 
                         using (OleDbCommand cmd = new OleDbCommand(sqlInsertTab[table], conn))
                         {
                             cmd.Parameters.AddWithValue("@first", list[0]);
-                            if (table == "muzyk" || table == "piosenka" || table == "ocena_albumu" || table == "czlonek_zespolu" || table == "zespol" || table == "album")
+                            if (table == "muzyk" || table == "piosenka" || table == "ocena_albumu" || table == "czlonek_zespolu" || table == "zespol" || table == "album" || table == "uzytkownik")
                             {
                                 cmd.Parameters.AddWithValue("@second", list[1]);
                                 cmd.Parameters.AddWithValue("@third", list[2]);

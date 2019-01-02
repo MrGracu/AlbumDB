@@ -579,20 +579,20 @@ namespace AlbumDB
                     }
                     else //true = update
                     {
-                        Dictionary<string, string> sqlInsertTab = new Dictionary<string, string>();
-                        sqlInsertTab["gatunek"] = "UPDATE gatunek SET [nazwa]=@first WHERE ID=" + IDSQLToQuery;
-                        sqlInsertTab["wytwornia"] = "UPDATE wytwornia SET [nazwa]=@first WHERE ID=" + IDSQLToQuery;
-                        sqlInsertTab["stanowisko"] = "UPDATE stanowisko SET [nazwa]=@first WHERE ID=" + IDSQLToQuery;
-                        sqlInsertTab["muzyk"] = "UPDATE muzyk SET [imie]=@first,[nazwisko]=@second,[data_urodzenia]=@third WHERE ID=" + IDSQLToQuery;
-                        sqlInsertTab["piosenka"] = "UPDATE piosenka SET [tytul]=@first,[czas]=@second,[nr_piosenki]=@third,[id_albumu]=@fourth WHERE ID=" + IDSQLToQuery; ;
-                        sqlInsertTab["ocena_albumu"] = "UPDATE ocena_albumu SET [id_albumu]=@first,[id_ocena]=@second,[recenzja]=@third WHERE ID=" + IDSQLToQuery;
-                        sqlInsertTab["czlonek_zespolu"] = "UPDATE czlonek_zespolu SET [id_zespolu]=@first,[id_muzyka]=@second,[id_stanowiska]=@third WHERE ID=" + IDSQLToQuery;
-                        sqlInsertTab["zespol"] = "UPDATE zespol SET [nazwa]=@first,[pochodzenie]=@second,[rok_zalozenia]=@third WHERE ID=" + IDSQLToQuery;
-                        sqlInsertTab["album"] = "UPDATE album SET [nazwa]=@first, [opis]=@second, [data_wydania]=@third, [id_zespolu]=@fourth,[id_gatunek]=@fifth,[id_wytwornia]=@sixth WHERE ID=" + IDSQLToQuery;
-                        sqlInsertTab["grupa"] = "UPDATE grupa SET [nazwa]=@first WHERE ID=" + IDSQLToQuery; //zrobić uprawnienia
-                        sqlInsertTab["uzytkownik"] = "UPDATE uzytkownik SET [id_grupy]=@first, [login]=@second, [haslo]=@third WHERE ID=" + IDSQLToQuery;
+                        Dictionary<string, string> sqlUpdateTab = new Dictionary<string, string>();
+                        sqlUpdateTab["gatunek"] = "UPDATE gatunek SET [nazwa]=@first WHERE ID=" + IDSQLToQuery;
+                        sqlUpdateTab["wytwornia"] = "UPDATE wytwornia SET [nazwa]=@first WHERE ID=" + IDSQLToQuery;
+                        sqlUpdateTab["stanowisko"] = "UPDATE stanowisko SET [nazwa]=@first WHERE ID=" + IDSQLToQuery;
+                        sqlUpdateTab["muzyk"] = "UPDATE muzyk SET [imie]=@first,[nazwisko]=@second,[data_urodzenia]=@third WHERE ID=" + IDSQLToQuery;
+                        sqlUpdateTab["piosenka"] = "UPDATE piosenka SET [tytul]=@first,[czas]=@second,[nr_piosenki]=@third,[id_albumu]=@fourth WHERE ID=" + IDSQLToQuery; ;
+                        sqlUpdateTab["ocena_albumu"] = "UPDATE ocena_albumu SET [id_albumu]=@first,[id_ocena]=@second,[recenzja]=@third WHERE ID=" + IDSQLToQuery;
+                        sqlUpdateTab["czlonek_zespolu"] = "UPDATE czlonek_zespolu SET [id_zespolu]=@first,[id_muzyka]=@second,[id_stanowiska]=@third WHERE ID=" + IDSQLToQuery;
+                        sqlUpdateTab["zespol"] = "UPDATE zespol SET [nazwa]=@first,[pochodzenie]=@second,[rok_zalozenia]=@third WHERE ID=" + IDSQLToQuery;
+                        sqlUpdateTab["album"] = "UPDATE album SET [nazwa]=@first, [opis]=@second, [data_wydania]=@third, [id_zespolu]=@fourth,[id_gatunek]=@fifth,[id_wytwornia]=@sixth WHERE ID=" + IDSQLToQuery;
+                        sqlUpdateTab["grupa"] = "UPDATE grupa SET [nazwa]=@first WHERE ID=" + IDSQLToQuery; //zrobić uprawnienia
+                        sqlUpdateTab["uzytkownik"] = "UPDATE uzytkownik SET [id_grupy]=@first, [login]=@second, [haslo]=@third WHERE ID=" + IDSQLToQuery;
 
-                        using (OleDbCommand cmd = new OleDbCommand(sqlInsertTab[table], conn))
+                        using (OleDbCommand cmd = new OleDbCommand(sqlUpdateTab[table], conn))
                         {
                             cmd.Parameters.AddWithValue("@first", list[0]);
                             if (table == "muzyk" || table == "piosenka" || table == "ocena_albumu" || table == "czlonek_zespolu" || table == "zespol" || table == "album" || table == "uzytkownik")

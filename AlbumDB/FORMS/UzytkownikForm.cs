@@ -26,7 +26,7 @@ namespace AlbumDB.FORMS
             IDToSQLQuery = id; //przekazuje zmniejszony
             if (modeForm)
             {
-                this.Text = "Edytuj Uzytkownika";
+                this.Text = "Edytuj Użytkownika";
                 textBox2.ReadOnly = true;
                 button1.Text = "Zamień";
                 loadValueFromQuery();

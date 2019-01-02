@@ -133,7 +133,7 @@
             // 
             this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button2.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.button2.Location = new System.Drawing.Point(95, 235);
+            this.button2.Location = new System.Drawing.Point(96, 230);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(153, 26);
             this.button2.TabIndex = 4;

@@ -25,7 +25,7 @@ namespace AlbumDB.FORMS
             IDToSQLQuery = id; //przekazuje zmniejszony
             if (modeForm)
             {
-                this.Text = "Edytuj Grupe";
+                this.Text = "Edytuj Grupę";
                 button1.Text = "Zamień";
                 loadValueFromQuery();
             }
@@ -58,17 +58,15 @@ namespace AlbumDB.FORMS
                 return;
             }
 
-            if (InsertIntoDatabase.Insert("grupa", textBox1.Text, modeForm, IDToSQLQuery))
+            /*if (InsertIntoDatabase.Insert("grupa", textBox1.Text, modeForm, IDToSQLQuery))
             {
                 this.DialogResult = DialogResult.OK;
                 this.Close();
-            }
+            }*/
         }
 
         private void tableLayoutPanel1_CellPaint(object sender, TableLayoutCellPaintEventArgs e)
         {
-            
-
             if (e.Row > 0 && e.Row % 2 != 1)
                 e.Graphics.FillRectangle(Brushes.Gainsboro, e.CellBounds);
             else

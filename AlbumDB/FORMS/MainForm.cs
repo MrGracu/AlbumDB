@@ -16,6 +16,7 @@ namespace AlbumDB
     {
         int userGroup = 0;
         string userName = "";
+        Dictionary<string, bool[]> permissionsTab = new Dictionary<string, bool[]>();
 
         public MainForm(int group, string user)
         {
@@ -35,15 +36,32 @@ namespace AlbumDB
             /* END SET MainForm WIDTH & HEIGHT */
             string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=..\\..\\albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=;";
             using (OleDbConnection conn = new OleDbConnection(conString))
-            using (OleDbCommand cmd = new OleDbCommand("", conn))
+            using (OleDbCommand cmd = new OleDbCommand("SELECT [wyswietl_album], [wyswietl_czlonek_zespolu], [wyswietl_gatunek], [wyswietl_muzyk], [wyswietl_ocena], [wyswietl_ocena_albumu], [wyswietl_piosenka], [wyswietl_stanowisko], [wyswietl_wytwornia], [wyswietl_zespol], [wyswietl_uzytkownik], [wyswietl_grupa], [dodaj_album], [dodaj_czlonek_zespolu], [dodaj_gatunek], [dodaj_muzyk], [dodaj_ocena_albumu], [dodaj_piosenka], [dodaj_stanowisko], [dodaj_wytwornia], [dodaj_zespol], [dodaj_uzytkownik], [dodaj_grupa], [edytuj_album], [edytuj_czlonek_zespolu], [edytuj_gatunek], [edytuj_muzyk], [edytuj_ocena_albumu], [edytuj_piosenka], [edytuj_stanowisko], [edytuj_wytwornia], [edytuj_zespol], [edytuj_uzytkownik], [edytuj_grupa], [usun_album], [usun_czlonek_zespolu], [usun_gatunek], [usun_muzyk], [usun_ocena_albumu], [usun_piosenka], [usun_stanowisko], [usun_wytwornia], [usun_zespol], [usun_uzytkownik], [usun_grupa] FROM [grupa] WHERE grupa.czy_usuniete=False AND grupa.id="+userGroup.ToString(), conn))
             {
                 conn.Open();
+                OleDbDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    permissionsTab["album"] = new bool[] {(bool)reader["wyswietl_album"],(bool)reader["dodaj_album"],(bool)reader["edytuj_album"],(bool)reader["usun_album"]};
+                    permissionsTab["czlonek_zespolu"] = new bool[] {(bool)reader["wyswietl_czlonek_zespolu"],(bool)reader["dodaj_czlonek_zespolu"],(bool)reader["edytuj_czlonek_zespolu"],(bool)reader["usun_czlonek_zespolu"]};
+                    permissionsTab["gatunek"] = new bool[] {(bool)reader["wyswietl_gatunek"],(bool)reader["dodaj_gatunek"],(bool)reader["edytuj_gatunek"],(bool)reader["usun_gatunek"] };
+                    permissionsTab["muzyk"] = new bool[] {(bool)reader["wyswietl_muzyk"],(bool)reader["dodaj_muzyk"],(bool)reader["edytuj_muzyk"],(bool)reader["usun_muzyk"] };
+                    permissionsTab["ocena"] = new bool[] {(bool)reader["wyswietl_ocena"],false,false,false};
+                    permissionsTab["ocena_albumu"] = new bool[] {(bool)reader["wyswietl_ocena_albumu"],(bool)reader["dodaj_ocena_albumu"],(bool)reader["edytuj_ocena_albumu"],(bool)reader["usun_ocena_albumu"] };
+                    permissionsTab["piosenka"] = new bool[] {(bool)reader["wyswietl_piosenka"],(bool)reader["dodaj_piosenka"],(bool)reader["edytuj_piosenka"],(bool)reader["usun_piosenka"] };
+                    permissionsTab["stanowisko"] = new bool[] {(bool)reader["wyswietl_stanowisko"],(bool)reader["dodaj_stanowisko"],(bool)reader["edytuj_stanowisko"],(bool)reader["usun_stanowisko"] };
+                    permissionsTab["wytwornia"] = new bool[] {(bool)reader["wyswietl_wytwornia"],(bool)reader["dodaj_wytwornia"],(bool)reader["edytuj_wytwornia"],(bool)reader["usun_wytwornia"] };
+                    permissionsTab["zespol"] = new bool[] {(bool)reader["wyswietl_zespol"],(bool)reader["dodaj_zespol"],(bool)reader["edytuj_zespol"],(bool)reader["usun_zespol"] };
+                    permissionsTab["uzytkownik"] = new bool[] {(bool)reader["wyswietl_uzytkownik"],(bool)reader["dodaj_uzytkownik"],(bool)reader["edytuj_uzytkownik"],(bool)reader["usun_uzytkownik"] };
+                    permissionsTab["grupa"] = new bool[] {(bool)reader["wyswietl_grupa"],(bool)reader["dodaj_grupa"],(bool)reader["edytuj_grupa"],(bool)reader["usun_grupa"] };
+                }
                 DataTable dt = conn.GetSchema("Tables", new string[] { null, null, null, "TABLE" });
                 conn.Close();
 
                 foreach (DataRow row in dt.Rows)
                 {
-                    tabControl1.TabPages.Add(row.Field<string>("TABLE_NAME"));
+                    string tableName = row.Field<string>("TABLE_NAME");
+                    if(permissionsTab[tableName][0]) tabControl1.TabPages.Add(tableName);
                 }
             }
 
@@ -70,7 +88,7 @@ namespace AlbumDB
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if(WindowManage.SwitchWindow(tabControl1.SelectedTab.Name,false,0))
+            if(WindowManage.SwitchWindow(tabControl1.SelectedTab.Name,false,0,permissionsTab))
             {
                 int temp = tabControl1.SelectedIndex;
                 tabControl1.SelectedIndex = -1;
@@ -80,9 +98,9 @@ namespace AlbumDB
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if(e.ColumnIndex == dataGridView1.Columns[0].Index && e.RowIndex >= 0 && tabControl1.SelectedTab.Name != "ocena")
+            if(e.ColumnIndex == dataGridView1.Columns[0].Index && e.RowIndex >= 0 && permissionsTab[tabControl1.SelectedTab.Name][2])
             {
-                if (WindowManage.SwitchWindow(tabControl1.SelectedTab.Name, true, (int)dataGridView1.Rows[e.RowIndex].Cells[1].Value))
+                if (WindowManage.SwitchWindow(tabControl1.SelectedTab.Name, true, (int)dataGridView1.Rows[e.RowIndex].Cells[1].Value,permissionsTab))
                 {
                     int temp = tabControl1.SelectedIndex;
                     tabControl1.SelectedIndex = -1;
@@ -93,9 +111,9 @@ namespace AlbumDB
 
         private void dataGridView1_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (e.RowIndex >= 0 && tabControl1.SelectedTab.Name != "ocena")
+            if (e.RowIndex >= 0 && permissionsTab[tabControl1.SelectedTab.Name][2])
             {
-                if (WindowManage.SwitchWindow(tabControl1.SelectedTab.Name, true, (int)dataGridView1.Rows[e.RowIndex].Cells[1].Value))
+                if (WindowManage.SwitchWindow(tabControl1.SelectedTab.Name, true, (int)dataGridView1.Rows[e.RowIndex].Cells[1].Value,permissionsTab))
                 {
                     int temp = tabControl1.SelectedIndex;
                     tabControl1.SelectedIndex = -1;
@@ -107,18 +125,12 @@ namespace AlbumDB
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (tabControl1.SelectedIndex < 0) return;
-            if(tabControl1.SelectedTab.Name == "ocena")
-            {
-                button1.Enabled = false;
-                button2.Enabled = false;
-            }
-            else
-            {
-                button1.Enabled = true;
-                button2.Enabled = true;
-            }
+
             string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=..\\..\\albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
             string tableName = tabControl1.SelectedTab.Name;
+
+            button1.Enabled = permissionsTab[tableName][1]; //Add
+            button2.Enabled = permissionsTab[tableName][3]; //Delete
 
             Dictionary<string, string> sqlSelectTab = new Dictionary<string, string>();
             sqlSelectTab["ocena"] = "SELECT [ocena.id] As [ID], [ocena.wartosc] As [Wartość] FROM [ocena]";
@@ -156,7 +168,7 @@ namespace AlbumDB
                 }
                 conn.Close();
 
-                if(tableName != "ocena")
+                if(permissionsTab[tableName][2])
                 {
                     DataGridViewImageColumn imageColumnEdit = new DataGridViewImageColumn();
                     imageColumnEdit.Name = "edytuj";
@@ -169,7 +181,7 @@ namespace AlbumDB
 
         private void dataGridView1_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == dataGridView1.Columns[0].Index && e.RowIndex >= 0 && tabControl1.SelectedTab.Name != "ocena")
+            if (e.ColumnIndex == dataGridView1.Columns[0].Index && e.RowIndex >= 0 && permissionsTab[tabControl1.SelectedTab.Name][2])
                 dataGridView1.Cursor = Cursors.Hand;
             else
                 dataGridView1.Cursor = Cursors.Default;
@@ -188,43 +200,40 @@ namespace AlbumDB
 
         private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
         {
-            if(tabControl1.SelectedTab.Name != "ocena")
+            if(e.KeyCode == Keys.Delete && permissionsTab[tabControl1.SelectedTab.Name][3])
             {
-                if(e.KeyCode == Keys.Delete)
+                if (DeleteFromDatabase.Delete(tabControl1.SelectedTab.Name, dataGridView1.SelectedCells))
                 {
-                    if (DeleteFromDatabase.Delete(tabControl1.SelectedTab.Name, dataGridView1.SelectedCells))
+                    int temp = tabControl1.SelectedIndex;
+                    tabControl1.SelectedIndex = -1;
+                    tabControl1.SelectedIndex = temp;
+                    MessageBox.Show("Pomyślnie usunięto podany rekord wraz z jego powiązaniami (jeśli występowały).", "Informacja", MessageBoxButtons.OK);
+                }
+            }
+            else
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    if (permissionsTab[tabControl1.SelectedTab.Name][2])
                     {
-                        int temp = tabControl1.SelectedIndex;
-                        tabControl1.SelectedIndex = -1;
-                        tabControl1.SelectedIndex = temp;
-                        MessageBox.Show("Pomyślnie usunięto podany rekord wraz z jego powiązaniami (jeśli występowały).", "Informacja", MessageBoxButtons.OK);
+                        if (WindowManage.SwitchWindow(tabControl1.SelectedTab.Name, true, (int)dataGridView1.Rows[dataGridView1.SelectedRows[0].Index].Cells[1].Value,permissionsTab))
+                        {
+                            int temp = tabControl1.SelectedIndex;
+                            tabControl1.SelectedIndex = -1;
+                            tabControl1.SelectedIndex = temp;
+                        }
                     }
+                    e.SuppressKeyPress = true; //avoid default behavior
                 }
                 else
                 {
-                    if (e.KeyCode == Keys.Enter)
+                    if(e.KeyCode == Keys.Insert && permissionsTab[tabControl1.SelectedTab.Name][1])
                     {
-                        if (tabControl1.SelectedTab.Name != "ocena")
+                        if (WindowManage.SwitchWindow(tabControl1.SelectedTab.Name, false, 0,permissionsTab))
                         {
-                            if (WindowManage.SwitchWindow(tabControl1.SelectedTab.Name, true, (int)dataGridView1.Rows[dataGridView1.SelectedRows[0].Index].Cells[1].Value))
-                            {
-                                int temp = tabControl1.SelectedIndex;
-                                tabControl1.SelectedIndex = -1;
-                                tabControl1.SelectedIndex = temp;
-                            }
-                        }
-                        e.SuppressKeyPress = true; //avoid default behavior
-                    }
-                    else
-                    {
-                        if(e.KeyCode == Keys.Insert)
-                        {
-                            if (WindowManage.SwitchWindow(tabControl1.SelectedTab.Name, false, 0))
-                            {
-                                int temp = tabControl1.SelectedIndex;
-                                tabControl1.SelectedIndex = -1;
-                                tabControl1.SelectedIndex = temp;
-                            }
+                            int temp = tabControl1.SelectedIndex;
+                            tabControl1.SelectedIndex = -1;
+                            tabControl1.SelectedIndex = temp;
                         }
                     }
                 }

@@ -13,13 +13,15 @@ namespace AlbumDB.FORMS
 {
     public partial class GrupaForm : Form
     {
+        Dictionary<string, bool[]> permissionsTab;
         bool modeForm; //0 - insert, 1 - update
         int IDToSQLQuery;
 
         private Button addButton = new Button();
 
-        public GrupaForm(bool mode, int id)
+        public GrupaForm(bool mode, int id, Dictionary<string, bool[]> permTab)
         {
+            permissionsTab = permTab;
             InitializeComponent();
             modeForm = mode;
             IDToSQLQuery = id; //przekazuje zmniejszony

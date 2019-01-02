@@ -13,13 +13,15 @@ namespace AlbumDB.FORMS
 {
     public partial class PiosenkaForm : Form
     {
+        Dictionary<string, bool[]> permissionsTab;
         bool modeForm; //0 - insert, 1 - update
         int IDToSQLQuery;
 
         private Button addButton = new Button();
 
-        public PiosenkaForm(bool mode, int id)
+        public PiosenkaForm(bool mode, int id, Dictionary<string, bool[]> permTab)
         {
+            permissionsTab = permTab;
             InitializeComponent();
             fillComboBox(comboBox1, 1);
             modeForm = mode;
@@ -86,11 +88,9 @@ namespace AlbumDB.FORMS
                 conn.Open();
                 OleDbDataReader reader;
 
-                comboBox.Text = "";
-
                 if (comboValue == 1)
                 {
-                    comboBox.Items.Add("DODAJ NOWĄ WARTOŚĆ...");
+                    if (permissionsTab["album"][1]) comboBox.Items.Add("DODAJ NOWĄ WARTOŚĆ...");
                     using (OleDbCommand cmd = new OleDbCommand("SELECT nazwa FROM album WHERE [czy_usuniete] = false ORDER BY nazwa", conn))
                     {
                         reader = cmd.ExecuteReader();
@@ -99,14 +99,16 @@ namespace AlbumDB.FORMS
                     }
                 }
                 conn.Close();
+
+                comboBox.Text = "";
             }
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedIndex == 0)
+            if (comboBox1.SelectedIndex == 0 && permissionsTab["album"][1])
             {
-                WindowManage.SwitchWindow("album", false, 0);
+                WindowManage.SwitchWindow("album", false, 0, permissionsTab);
                 comboBox1.Items.Clear();
                 fillComboBox(comboBox1, 1);
             }

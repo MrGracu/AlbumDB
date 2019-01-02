@@ -13,13 +13,15 @@ namespace AlbumDB.FORMS
 {
     public partial class AlbumForm : Form
     {
+        Dictionary<string, bool[]> permissionsTab;
         bool modeForm; //0 - insert, 1 - update
         int IDToSQLQuery;
 
         private Button addButton = new Button();
 
-        public AlbumForm(bool mode, int id)
+        public AlbumForm(bool mode, int id, Dictionary<string, bool[]> permTab)
         {
+            permissionsTab = permTab;
             InitializeComponent();
             fillComboBox(comboBox1, 1);
             fillComboBox(comboBox2, 2);
@@ -102,42 +104,49 @@ namespace AlbumDB.FORMS
                 conn.Open();
                 OleDbDataReader reader;
 
-                comboBox.Items.Add("DODAJ NOWĄ WARTOŚĆ...");
-                comboBox.Text = "";
-
                 if (comboValue == 1)
+                {
+                    if (permissionsTab["zespol"][1]) comboBox.Items.Add("DODAJ NOWĄ WARTOŚĆ...");
                     using (OleDbCommand cmd = new OleDbCommand("SELECT nazwa FROM zespol WHERE [czy_usuniete] = false ORDER BY nazwa", conn))
                     {
                         reader = cmd.ExecuteReader();
                         while (reader.Read())
                             comboBox1.Items.Add(reader["nazwa"].ToString());
                     }
+                }
 
                 if (comboValue == 2)
+                {
+                    if (permissionsTab["gatunek"][1]) comboBox.Items.Add("DODAJ NOWĄ WARTOŚĆ...");
                     using (OleDbCommand cmd = new OleDbCommand("SELECT nazwa FROM gatunek WHERE [czy_usuniete] = false ORDER BY nazwa", conn))
                     {
                         reader = cmd.ExecuteReader();
                         while (reader.Read())
                             comboBox2.Items.Add(reader["nazwa"].ToString());
                     }
+                }
 
                 if (comboValue == 3)
+                {
+                    if (permissionsTab["wytwornia"][1]) comboBox.Items.Add("DODAJ NOWĄ WARTOŚĆ...");
                     using (OleDbCommand cmd = new OleDbCommand("SELECT nazwa FROM wytwornia WHERE [czy_usuniete] = false ORDER BY nazwa", conn))
                     {
                         reader = cmd.ExecuteReader();
                         while (reader.Read())
                             comboBox3.Items.Add(reader["nazwa"].ToString());
                     }
-
+                }
                 conn.Close();
+
+                comboBox.Text = "";
             }
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedIndex == 0)
+            if (comboBox1.SelectedIndex == 0 && permissionsTab["zespol"][1])
             {
-                WindowManage.SwitchWindow("zespol",false,0);
+                WindowManage.SwitchWindow("zespol",false,0, permissionsTab);
                 comboBox1.Items.Clear();
                 fillComboBox(comboBox1, 1);
             }
@@ -145,21 +154,21 @@ namespace AlbumDB.FORMS
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox2.SelectedIndex == 0)
+            if (comboBox2.SelectedIndex == 0 && permissionsTab["gatunek"][1])
             {
-                WindowManage.SwitchWindow("gatunek", false, 0);
+                WindowManage.SwitchWindow("gatunek", false, 0, permissionsTab);
                 comboBox2.Items.Clear();
-                fillComboBox(comboBox1, 2);
+                fillComboBox(comboBox2, 2);
             }
         }
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox3.SelectedIndex == 0)
+            if (comboBox3.SelectedIndex == 0 && permissionsTab["wytwornia"][1])
             {
-                WindowManage.SwitchWindow("wytwornia", false, 0);
+                WindowManage.SwitchWindow("wytwornia", false, 0, permissionsTab);
                 comboBox3.Items.Clear();
-                fillComboBox(comboBox1, 3);
+                fillComboBox(comboBox3, 3);
             }
         }
     }

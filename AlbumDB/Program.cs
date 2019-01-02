@@ -35,26 +35,26 @@ namespace AlbumDB
 
     public static class WindowManage
     {
-        public static bool SwitchWindow(string selectedItem, bool mode, int id)
+        public static bool SwitchWindow(string selectedItem, bool mode, int id, Dictionary<string, bool[]> permissionsTab)
         {
             bool returnValue = false;
             DialogResult result = DialogResult.Cancel;
             switch (selectedItem)
             {
                 case "album":
-                    FORMS.AlbumForm albumForm = new FORMS.AlbumForm(mode,id);
+                    FORMS.AlbumForm albumForm = new FORMS.AlbumForm(mode, id, permissionsTab);
                     result = albumForm.ShowDialog();
                     break;
                 case "czlonek_zespolu":
-                    FORMS.CzlonekZespoluForm czlonekZespoluForm = new FORMS.CzlonekZespoluForm(mode, id);
+                    FORMS.CzlonekZespoluForm czlonekZespoluForm = new FORMS.CzlonekZespoluForm(mode, id, permissionsTab);
                     result = czlonekZespoluForm.ShowDialog();
                     break;
                 case "gatunek":
-                    FORMS.GatunekForm gatunekForm = new FORMS.GatunekForm(mode,id);
+                    FORMS.GatunekForm gatunekForm = new FORMS.GatunekForm(mode, id);
                     result = gatunekForm.ShowDialog();
                     break;
                 case "grupa":
-                    FORMS.GrupaForm grupaForm = new FORMS.GrupaForm(mode, id);
+                    FORMS.GrupaForm grupaForm = new FORMS.GrupaForm(mode, id, permissionsTab);
                     result = grupaForm.ShowDialog();
                     break;
                 case "muzyk":
@@ -62,11 +62,11 @@ namespace AlbumDB
                     result = muzykForm.ShowDialog();
                     break;
                 case "ocena_albumu":
-                    FORMS.OcenaAlbumuForm ocenaAlbumuForm = new FORMS.OcenaAlbumuForm(mode,id);
+                    FORMS.OcenaAlbumuForm ocenaAlbumuForm = new FORMS.OcenaAlbumuForm(mode, id, permissionsTab);
                     result = ocenaAlbumuForm.ShowDialog();
                     break;
                 case "piosenka":
-                    FORMS.PiosenkaForm piosenkaForm = new FORMS.PiosenkaForm(mode, id);
+                    FORMS.PiosenkaForm piosenkaForm = new FORMS.PiosenkaForm(mode, id, permissionsTab);
                     result = piosenkaForm.ShowDialog();
                     break;
                 case "stanowisko":
@@ -74,7 +74,7 @@ namespace AlbumDB
                     result = stanowiskoForm.ShowDialog();
                     break;
                 case "uzytkownik":
-                    FORMS.UzytkownikForm uzytkownikForm = new FORMS.UzytkownikForm(mode, id);
+                    FORMS.UzytkownikForm uzytkownikForm = new FORMS.UzytkownikForm(mode, id, permissionsTab);
                     result = uzytkownikForm.ShowDialog();
                     break;
                 case "wytwornia":
@@ -89,6 +89,7 @@ namespace AlbumDB
 
             if (result == DialogResult.OK) returnValue = true;
             else returnValue = false;
+
             return returnValue;
         }
     }

@@ -29,6 +29,10 @@ namespace AlbumDB.FORMS
                 button1.Text = "Zamień";
                 loadValueFromQuery();
             }
+            else
+            {
+                numericUpDown1.Value = DateTime.Now.Year;
+            }
             addButton.Click += button1_Click;
             this.AcceptButton = addButton;
         }
@@ -40,14 +44,14 @@ namespace AlbumDB.FORMS
             {
                 conn.Open();
                 OleDbDataReader reader;
-                using (OleDbCommand cmd = new OleDbCommand("SELECT nazwa,rok_zalozenia,pochodzenie FROM zespol WHERE ID=" + IDToSQLQuery, conn))
+                using (OleDbCommand cmd = new OleDbCommand("SELECT [nazwa],[rok_zalozenia],[pochodzenie] FROM zespol WHERE id=" + IDToSQLQuery, conn))
                 {
                     reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
                         textBox1.Text = reader["nazwa"].ToString();
                         textBox2.Text = reader["pochodzenie"].ToString();
-                        numericUpDown1.Value = (int)reader["rok_zalozenia"];
+                        numericUpDown1.Value = decimal.Parse(reader["rok_zalozenia"].ToString());
                     }
                 }
                 conn.Close();
@@ -72,7 +76,6 @@ namespace AlbumDB.FORMS
         private void ZespolForm_Load(object sender, EventArgs e)
         {
             numericUpDown1.Maximum = DateTime.Now.Year;
-            numericUpDown1.Value = DateTime.Now.Year;
         }
     }
 }

@@ -44,7 +44,7 @@
             this.comboBox1.Location = new System.Drawing.Point(145, 68);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(183, 21);
-            this.comboBox1.TabIndex = 46;
+            this.comboBox1.TabIndex = 2;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // label3
@@ -58,10 +58,10 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(27, 106);
+            this.button1.Location = new System.Drawing.Point(27, 112);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(301, 28);
-            this.button1.TabIndex = 45;
+            this.button1.TabIndex = 3;
             this.button1.Text = "Dodaj";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -71,7 +71,7 @@
             this.textBox1.Location = new System.Drawing.Point(145, 16);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(183, 20);
-            this.textBox1.TabIndex = 39;
+            this.textBox1.TabIndex = 0;
             // 
             // label1
             // 
@@ -86,8 +86,9 @@
             // 
             this.textBox2.Location = new System.Drawing.Point(145, 42);
             this.textBox2.Name = "textBox2";
+            this.textBox2.PasswordChar = '●';
             this.textBox2.Size = new System.Drawing.Size(183, 20);
-            this.textBox2.TabIndex = 48;
+            this.textBox2.TabIndex = 1;
             // 
             // label2
             // 
@@ -102,7 +103,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(347, 153);
+            this.ClientSize = new System.Drawing.Size(347, 161);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.comboBox1);

@@ -304,41 +304,89 @@ namespace AlbumDB
             return returnValue;
         }
 
-        public static bool Delete(string table, DataGridViewSelectedCellCollection list) //Ustawienie wartosci czy_usuniete na true
+        private static bool deleteUzytkownik(int id)
+        {
+            bool returnValue = false;
+            using (OleDbConnection conn = new OleDbConnection(conString))
+            using (OleDbCommand cmd = new OleDbCommand("UPDATE uzytkownik SET [czy_usuniete]=true WHERE id=" + id.ToString() + " AND [czy_usuniete]=false", conn))
+            {
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                conn.Close();
+                returnValue = true;
+            }
+            return returnValue;
+        }
+
+        private static bool deleteGrupa(int id)
+        {
+            bool returnValue = false;
+            using (OleDbConnection conn = new OleDbConnection(conString))
+            {
+                using (OleDbCommand cmd = new OleDbCommand("SELECT id FROM uzytkownik WHERE id_grupy=" + id.ToString() + " AND [czy_usuniete]=false", conn))
+                {
+                    conn.Open();
+                    OleDbDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        deleteUzytkownik((int)reader["id"]);
+                    }
+                    conn.Close();
+                }
+                using (OleDbCommand cmd = new OleDbCommand("UPDATE grupa SET [czy_usuniete]=true WHERE id=" + id.ToString() + " AND [czy_usuniete]=false", conn))
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+                    returnValue = true;
+                }
+            }
+            return returnValue;
+        }
+
+        public static bool Delete(string table, bool mode, DataGridViewSelectedCellCollection list) //Ustawienie wartosci czy_usuniete na true; mode - zmienia nr kolumny z id w zaleznosci czy mozna edytowac
         {
             DialogResult result = MessageBox.Show("Czy na pewno chcesz usunąć ten rekord wraz z jego powiązaniami (jeśli istnieją)?", "Ostrzeżenie", MessageBoxButtons.YesNo);
             if (result != DialogResult.Yes) return false;
 
+            int nr = 1;
+            if (!mode) nr = 0;
             bool returnValue = false;
 
             switch (table)
             {
                 case "album":
-                    returnValue = deleteAlbum((int)list[1].Value);
+                    returnValue = deleteAlbum((int)list[nr].Value);
                     break;
                 case "czlonek_zespolu":
-                    returnValue = deleteCzlonek_zespolu((int)list[1].Value);
+                    returnValue = deleteCzlonek_zespolu((int)list[nr].Value);
                     break;
                 case "gatunek":
-                    returnValue = deleteGatunek((int)list[1].Value);
+                    returnValue = deleteGatunek((int)list[nr].Value);
                     break;
                 case "muzyk":
-                    returnValue = deleteMuzyk((int)list[1].Value);
+                    returnValue = deleteMuzyk((int)list[nr].Value);
                     break;
                 case "ocena_albumu":
-                    returnValue = deleteOcena_albumu_Piosenka(true, table, (int)list[1].Value);
+                    returnValue = deleteOcena_albumu_Piosenka(true, table, (int)list[nr].Value);
                     break;
                 case "piosenka":
-                    returnValue = deleteOcena_albumu_Piosenka(true, table, (int)list[1].Value);
+                    returnValue = deleteOcena_albumu_Piosenka(true, table, (int)list[nr].Value);
                     break;
                 case "stanowisko":
-                    returnValue = deleteStanowisko((int)list[1].Value);
+                    returnValue = deleteStanowisko((int)list[nr].Value);
                     break;
                 case "wytwornia":
-                    returnValue = deleteWytwornia((int)list[1].Value);
+                    returnValue = deleteWytwornia((int)list[nr].Value);
                     break;
                 case "zespol":
-                    returnValue = deleteZespol((int)list[1].Value);
+                    returnValue = deleteZespol((int)list[nr].Value);
+                    break;
+                case "grupa":
+                    returnValue = deleteGrupa((int)list[nr].Value);
+                    break;
+                case "uzytkownik":
+                    returnValue = deleteUzytkownik((int)list[nr].Value);
                     break;
             }
             return returnValue;
@@ -355,6 +403,8 @@ namespace AlbumDB
             string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=..\\..\\albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
             using (OleDbConnection conn = new OleDbConnection(conString))
             {
+                /* ZAMIANA TRESCI Z INNEJ TABELI NA KLUCZE OBCE */
+
                 int dataExists = 0;
 
                 if (table == "ocena_albumu" || table == "piosenka")
@@ -462,13 +512,15 @@ namespace AlbumDB
                 {
                     using (OleDbCommand cmd = new OleDbCommand("SELECT ID FROM grupa WHERE ([nazwa] = @first)", conn))
                     {
-                        cmd.Parameters.AddWithValue("@first", list[0]);
+                        cmd.Parameters.AddWithValue("@first", list[2]);
                         conn.Open();
                         dataExists = (int)cmd.ExecuteScalar();
                         conn.Close();
-                        list[0] = dataExists;
+                        list[2] = dataExists;
                     }
                 }
+
+                /* SPRAWDZENIE CZY DANY REKORD JUZ ISTNIEJE */
 
                 string sqlQuery = "";
                 dataExists = 0;
@@ -482,12 +534,25 @@ namespace AlbumDB
                 if (table == "czlonek_zespolu") sqlQuery = "SELECT COUNT(*) FROM czlonek_zespolu WHERE ([id_zespolu] = @first AND [id_muzyka] = @second AND [id_stanowiska] = @third AND [czy_usuniete]=false)";
                 if (table == "zespol") sqlQuery = "SELECT COUNT(*) FROM zespol WHERE ([nazwa] = @first AND [pochodzenie] = @second AND [rok_zalozenia] = @third AND [czy_usuniete]=false)";
                 if (table == "album") sqlQuery = "SELECT COUNT(*) FROM album WHERE ([nazwa] = @first AND [opis] = @second AND [data_wydania] = @third AND [id_zespolu] = @fourth AND [id_gatunek] = @fifth AND [id_wytwornia] = @sixth AND [czy_usuniete]=false)";
-                if (table == "grupa") sqlQuery = "SELECT COUNT(*) FROM grupa WHERE ([nazwa] = @first AND [czy_usuniete]=false)";
-                if (table == "uzytkownik") sqlQuery = "SELECT COUNT(*) FROM uzytkownik WHERE ([login] = @second AND [czy_usuniete]=false)";
+                if (table == "grupa")
+                {
+                    sqlQuery = "SELECT COUNT(*) FROM grupa WHERE ([nazwa] = @first AND [id] NOT LIKE @second AND [czy_usuniete]=false)";
+                    if (!(bool)list[46]) sqlQuery = "SELECT COUNT(*) FROM grupa WHERE ([nazwa] = @first AND [czy_usuniete]=false)";
+                }
+                if (table == "uzytkownik")
+                {
+                    sqlQuery = "SELECT COUNT(*) FROM uzytkownik WHERE (StrComp([login], \"@first\", 0)=0 AND [id] NOT LIKE @second AND [czy_usuniete]=false)";
+                    if (!(bool)list[3]) sqlQuery = "SELECT COUNT(*) FROM uzytkownik WHERE (StrComp([login], \"@first\", 0)=0 AND [czy_usuniete]=false)";
+                }
 
                 using (OleDbCommand cmd = new OleDbCommand(sqlQuery, conn))
                 {
                     cmd.Parameters.AddWithValue("@first", list[0]);
+                    if (table == "uzytkownik" && (bool)list[3] || table == "grupa" && (bool)list[46])
+                    {
+                        if (table == "uzytkownik") cmd.Parameters.AddWithValue("@second", list[4]);
+                        else cmd.Parameters.AddWithValue("@second", list[47]);
+                    }
                     if (table == "muzyk" || table == "piosenka" || table == "ocena_albumu" || table == "czlonek_zespolu" || table == "zespol" || table == "album" || table=="uzytkownik")
                     {
                         cmd.Parameters.AddWithValue("@second", list[1]);
@@ -525,15 +590,31 @@ namespace AlbumDB
                         modeForm = (bool)list[6];
                         IDSQLToQuery = (int)list[7];
                     }
+                    if (table == "grupa")
+                    {
+                        modeForm = (bool)list[46];
+                        IDSQLToQuery = (int)list[47];
+                    }
+                    if (table == "uzytkownik")
+                    {
+                        modeForm = (bool)list[3];
+                        IDSQLToQuery = (int)list[4];
+                    }
 
                     conn.Open();
-                    dataExists = (int)cmd.ExecuteScalar();
+                    if (table == "uzytkownik" && list[0].ToString() == "Gość") dataExists = 1;
+                    else dataExists = (int)cmd.ExecuteScalar();
                     conn.Close();
                 }
 
                 if(dataExists > 0)
                 {
-                    MessageBox.Show("Podany element juz istnieje!", "Ostrzeżenie", MessageBoxButtons.OK);
+                    if (table == "uzytkownik") MessageBox.Show("Użytkownik o podanym loginie już istnieje!", "Ostrzeżenie", MessageBoxButtons.OK);
+                    else
+                    {
+                        if (table == "grupa") MessageBox.Show("Grupa o podanej nazwie już istnieje!", "Ostrzeżenie", MessageBoxButtons.OK);
+                        else MessageBox.Show("Podany element juz istnieje!", "Ostrzeżenie", MessageBoxButtons.OK);
+                    }
                 }
                 else
                 {
@@ -549,25 +630,32 @@ namespace AlbumDB
                         sqlInsertTab["czlonek_zespolu"] = "INSERT INTO czlonek_zespolu ([id_zespolu],[id_muzyka],[id_stanowiska]) VALUES (@first,@second,@third)";
                         sqlInsertTab["zespol"] = "INSERT INTO zespol ([nazwa],[pochodzenie],[rok_zalozenia]) VALUES (@first,@second,@third)";
                         sqlInsertTab["album"] = "INSERT INTO album ([nazwa],[opis],[data_wydania],[id_zespolu],[id_gatunek],[id_wytwornia]) VALUES (@first,@second,@third,@fourth,@fifth,@sixth)";
-                        sqlInsertTab["grupa"] = "INSERT INTO grupa ([nazwa]) VALUES (@first)"; //zrobić uprawnienia
-                        sqlInsertTab["uzytkownik"] = "INSERT INTO uzytkownik ([id_grupy],[login],[haslo]) VALUES (@first,@second,@third)";
+                        sqlInsertTab["grupa"] = "INSERT INTO grupa ([nazwa],[wyswietl_album],[dodaj_album],[edytuj_album],[usun_album],[wyswietl_czlonek_zespolu],[dodaj_czlonek_zespolu],[edytuj_czlonek_zespolu],[usun_czlonek_zespolu],[wyswietl_gatunek],[dodaj_gatunek],[edytuj_gatunek],[usun_gatunek],[wyswietl_grupa],[dodaj_grupa],[edytuj_grupa],[usun_grupa],[wyswietl_muzyk],[dodaj_muzyk],[edytuj_muzyk],[usun_muzyk],[wyswietl_ocena],[wyswietl_ocena_albumu],[dodaj_ocena_albumu],[edytuj_ocena_albumu],[usun_ocena_albumu],[wyswietl_piosenka],[dodaj_piosenka],[edytuj_piosenka],[usun_piosenka],[wyswietl_stanowisko],[dodaj_stanowisko],[edytuj_stanowisko],[usun_stanowisko],[wyswietl_uzytkownik],[dodaj_uzytkownik],[edytuj_uzytkownik],[usun_uzytkownik],[wyswietl_wytwornia],[dodaj_wytwornia],[edytuj_wytwornia],[usun_wytwornia],[wyswietl_zespol],[dodaj_zespol],[edytuj_zespol],[usun_zespol]) VALUES (@first,@second,@third,@fourth,@fifth,@sixth,@perm6,@perm7,@perm8,@perm9,@perm10,@perm11,@perm12,@perm13,@perm14,@perm15,@perm16,@perm17,@perm18,@perm19,@perm20,@perm21,@perm22,@perm23,@perm24,@perm25,@perm26,@perm27,@perm28,@perm29,@perm30,@perm31,@perm32,@perm33,@perm34,@perm35,@perm36,@perm37,@perm38,@perm39,@perm40,@perm41,@perm42,@perm43,@perm44,@perm45)";
+                        sqlInsertTab["uzytkownik"] = "INSERT INTO uzytkownik ([login],[haslo],[id_grupy]) VALUES (@first,@second,@third)";
 
                         using (OleDbCommand cmd = new OleDbCommand(sqlInsertTab[table], conn))
                         {
                             cmd.Parameters.AddWithValue("@first", list[0]);
-                            if (table == "muzyk" || table == "piosenka" || table == "ocena_albumu" || table == "czlonek_zespolu" || table == "zespol" || table == "album" || table == "uzytkownik")
+                            if (table == "muzyk" || table == "piosenka" || table == "ocena_albumu" || table == "czlonek_zespolu" || table == "zespol" || table == "album" || table == "grupa" || table == "uzytkownik")
                             {
                                 cmd.Parameters.AddWithValue("@second", list[1]);
                                 cmd.Parameters.AddWithValue("@third", list[2]);
                             }
-                            if (table == "piosenka" || table == "album")
+                            if (table == "piosenka" || table == "album" || table == "grupa")
                             {
                                 cmd.Parameters.AddWithValue("@fourth", list[3]);
                             }
-                            if (table == "album")
+                            if (table == "album" || table == "grupa")
                             {
                                 cmd.Parameters.AddWithValue("@fifth", list[4]);
                                 cmd.Parameters.AddWithValue("@sixth", list[5]);
+                            }
+                            if (table == "grupa")
+                            {
+                                for (int i = 6; i <= 45; i++)
+                                {
+                                    cmd.Parameters.AddWithValue("@perm"+i.ToString(), list[i]);
+                                }
                             }
 
                             conn.Open();
@@ -589,25 +677,34 @@ namespace AlbumDB
                         sqlUpdateTab["czlonek_zespolu"] = "UPDATE czlonek_zespolu SET [id_zespolu]=@first,[id_muzyka]=@second,[id_stanowiska]=@third WHERE ID=" + IDSQLToQuery;
                         sqlUpdateTab["zespol"] = "UPDATE zespol SET [nazwa]=@first,[pochodzenie]=@second,[rok_zalozenia]=@third WHERE ID=" + IDSQLToQuery;
                         sqlUpdateTab["album"] = "UPDATE album SET [nazwa]=@first, [opis]=@second, [data_wydania]=@third, [id_zespolu]=@fourth,[id_gatunek]=@fifth,[id_wytwornia]=@sixth WHERE ID=" + IDSQLToQuery;
-                        sqlUpdateTab["grupa"] = "UPDATE grupa SET [nazwa]=@first WHERE ID=" + IDSQLToQuery; //zrobić uprawnienia
-                        sqlUpdateTab["uzytkownik"] = "UPDATE uzytkownik SET [id_grupy]=@first, [login]=@second, [haslo]=@third WHERE ID=" + IDSQLToQuery;
+                        sqlUpdateTab["grupa"] = "UPDATE grupa SET [nazwa]=@first,[wyswietl_album]=@second,[dodaj_album]=@third,[edytuj_album]=@fourth,[usun_album]=@fifth,[wyswietl_czlonek_zespolu]=@sixth,[dodaj_czlonek_zespolu]=@perm6,[edytuj_czlonek_zespolu]=@perm7,[usun_czlonek_zespolu]=@perm8,[wyswietl_gatunek]=@perm9,[dodaj_gatunek]=@perm10,[edytuj_gatunek]=@perm11,[usun_gatunek]=@perm12,[wyswietl_grupa]=@perm13,[dodaj_grupa]=@perm14,[edytuj_grupa]=@perm15,[usun_grupa]=@perm16,[wyswietl_muzyk]=@perm17,[dodaj_muzyk]=@perm18,[edytuj_muzyk]=@perm19,[usun_muzyk]=@perm20,[wyswietl_ocena]=@perm21,[wyswietl_ocena_albumu]=@perm22,[dodaj_ocena_albumu]=@perm23,[edytuj_ocena_albumu]=@perm24,[usun_ocena_albumu]=@perm25,[wyswietl_piosenka]=@perm26,[dodaj_piosenka]=@perm27,[edytuj_piosenka]=@perm28,[usun_piosenka]=@perm29,[wyswietl_stanowisko]=@perm30,[dodaj_stanowisko]=@perm31,[edytuj_stanowisko]=@perm32,[usun_stanowisko]=@perm33,[wyswietl_uzytkownik]=@perm34,[dodaj_uzytkownik]=@perm35,[edytuj_uzytkownik]=@perm36,[usun_uzytkownik]=@perm37,[wyswietl_wytwornia]=@perm38,[dodaj_wytwornia]=@perm39,[edytuj_wytwornia]=@perm40,[usun_wytwornia]=@perm41,[wyswietl_zespol]=@perm42,[dodaj_zespol]=@perm43,[edytuj_zespol]=@perm44,[usun_zespol]=@perm45 WHERE ID=" + IDSQLToQuery;
+                        if(modeForm) sqlUpdateTab["uzytkownik"] = "UPDATE uzytkownik SET [login]=@first, [haslo]=@second, [id_grupy]=@third WHERE ID=" + IDSQLToQuery;
+                        else sqlUpdateTab["uzytkownik"] = "UPDATE uzytkownik SET [login]=@first, [id_grupy]=@second WHERE ID=" + IDSQLToQuery;
 
                         using (OleDbCommand cmd = new OleDbCommand(sqlUpdateTab[table], conn))
                         {
                             cmd.Parameters.AddWithValue("@first", list[0]);
-                            if (table == "muzyk" || table == "piosenka" || table == "ocena_albumu" || table == "czlonek_zespolu" || table == "zespol" || table == "album" || table == "uzytkownik")
+                            if (table == "uzytkownik" && !modeForm) cmd.Parameters.AddWithValue("@second", list[2]);
+                            if (table == "muzyk" || table == "piosenka" || table == "ocena_albumu" || table == "czlonek_zespolu" || table == "zespol" || table == "album" || table == "uzytkownik" && modeForm || table == "grupa")
                             {
                                 cmd.Parameters.AddWithValue("@second", list[1]);
                                 cmd.Parameters.AddWithValue("@third", list[2]);
                             }
-                            if (table == "piosenka" || table == "album")
+                            if (table == "piosenka" || table == "album" || table == "grupa")
                             {
                                 cmd.Parameters.AddWithValue("@fourth", list[3]);
                             }
-                            if (table == "album")
+                            if (table == "album" || table == "grupa")
                             {
                                 cmd.Parameters.AddWithValue("@fifth", list[4]);
                                 cmd.Parameters.AddWithValue("@sixth", list[5]);
+                            }
+                            if (table == "grupa")
+                            {
+                                for (int i = 6; i <= 45; i++)
+                                {
+                                    cmd.Parameters.AddWithValue("@perm" + i.ToString(), list[i]);
+                                }
                             }
 
                             conn.Open();

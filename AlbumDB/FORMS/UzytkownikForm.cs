@@ -16,6 +16,7 @@ namespace AlbumDB.FORMS
         Dictionary<string, bool[]> permissionsTab;
         bool modeForm; //0 - insert, 1 - update
         int IDToSQLQuery;
+        string hash = "0000";
 
         private Button addButton = new Button();
 
@@ -29,8 +30,21 @@ namespace AlbumDB.FORMS
             if (modeForm)
             {
                 this.Text = "Edytuj Użytkownika";
-                textBox2.ReadOnly = true;
                 button1.Text = "Zamień";
+                label2.Text = "Hasło użytkownika:\n(Jeśli puste -\nnie zostanie zmienione)";
+                label3.Location = new Point(
+                     label3.Location.X,
+                     label3.Location.Y + 26
+                 );
+                comboBox1.Location = new Point(
+                     comboBox1.Location.X,
+                     comboBox1.Location.Y + 26
+                 );
+                button1.Location = new Point(
+                     button1.Location.X,
+                     button1.Location.Y + 26
+                 );
+                this.Size = new Size(this.Size.Width, this.Size.Height + 26);
                 loadValueFromQuery();
             }
             addButton.Click += button1_Click;
@@ -44,13 +58,13 @@ namespace AlbumDB.FORMS
             {
                 conn.Open();
                 OleDbDataReader reader;
-                using (OleDbCommand cmd = new OleDbCommand("SELECT id_grupy,login,haslo FROM uzytkownik WHERE ID=" + IDToSQLQuery, conn))
+                using (OleDbCommand cmd = new OleDbCommand("SELECT id_grupy,haslo,login FROM uzytkownik WHERE ID=" + IDToSQLQuery, conn))
                 {
                     reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
                         textBox1.Text = reader["login"].ToString();
-                        textBox2.Text = reader["haslo"].ToString();
+                        hash = reader["haslo"].ToString();
 
                         using (OleDbCommand cmdID = new OleDbCommand("SELECT nazwa FROM grupa WHERE id=" + (int)reader["id_grupy"], conn))
                         {
@@ -66,16 +80,23 @@ namespace AlbumDB.FORMS
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text.Length == 0 || textBox2.Text.Length == 0 || comboBox1.Text == "")
+            if (((textBox1.Text.Length == 0 || comboBox1.Text == "") && modeForm) || ((textBox1.Text.Length == 0 || textBox2.Text.Length == 0 || comboBox1.Text == "") && !modeForm))
             {
                 MessageBox.Show("Wprowadż poprawne wartości do wszystkich pól", "Ostrzeżenie", MessageBoxButtons.OK);
                 return;
             }
 
-            if (!modeForm)
-                textBox2.Text = LoginForm.HashSHA256(textBox2.Text);
+            if (textBox2.Text.Length > 0)
+            {
+                if (textBox2.Text.Length < 4)
+                {
+                    MessageBox.Show("Minimalna długość hasła wynosi 4 znaki!", "Ostrzeżenie", MessageBoxButtons.OK);
+                    return;
+                }
+                else hash = LoginForm.HashSHA256(textBox2.Text);
+            }
 
-            if (InsertIntoDatabase.Insert("uzytkownik", comboBox1.SelectedItem.ToString(), textBox1.Text, textBox2.Text, modeForm, IDToSQLQuery))
+            if (InsertIntoDatabase.Insert("uzytkownik", textBox1.Text, hash, comboBox1.SelectedItem.ToString(), modeForm, IDToSQLQuery))
             {
                 this.DialogResult = DialogResult.OK;
                 this.Close();

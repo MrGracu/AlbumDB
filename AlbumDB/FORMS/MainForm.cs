@@ -86,26 +86,64 @@ namespace AlbumDB
             tabControl1.SelectedIndex = 0;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void ManageElement(bool mode)
         {
-            if(WindowManage.SwitchWindow(tabControl1.SelectedTab.Name,false,0,permissionsTab))
+            int nr = 1;
+            if (!permissionsTab[tabControl1.SelectedTab.Name][2]) nr = 0;
+
+            int UserID = -1;
+            if (tabControl1.SelectedTab.Name == "uzytkownik" && mode)
             {
+                string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=..\\..\\albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
+                using (OleDbConnection conn = new OleDbConnection(conString))
+                using (OleDbCommand cmd = new OleDbCommand("SELECT [id] FROM uzytkownik WHERE [login]=\"" + userName + "\" AND [id_grupy]="+userGroup+" AND [czy_usuniete]=false", conn))
+                {
+                    conn.Open();
+                    OleDbDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        UserID = (int)reader["id"];
+                    }
+                    conn.Close();
+                }
+            }
+
+            if (WindowManage.SwitchWindow(tabControl1.SelectedTab.Name, mode, (int)dataGridView1.Rows[dataGridView1.SelectedRows[0].Index].Cells[nr].Value, permissionsTab))
+            {
+                if ((tabControl1.SelectedTab.Name == "uzytkownik" && UserID == (int)dataGridView1.Rows[dataGridView1.SelectedRows[0].Index].Cells[nr].Value || tabControl1.SelectedTab.Name == "grupa" && userGroup == (int)dataGridView1.Rows[dataGridView1.SelectedRows[0].Index].Cells[nr].Value) && mode)
+                {
+                    if(tabControl1.SelectedTab.Name == "grupa") MessageBox.Show("Edytowano uprawnienia grupy do której należy obecnie zalogowany użytkownik.\nAby kontynuować proszę zalogować się ponownie.", "Informacja", MessageBoxButtons.OK);
+                    else MessageBox.Show("Edytowano dane obecnie użytkownika, który jest obecnie zalogowany.\nAby kontynuować proszę zalogować się ponownie.", "Informacja", MessageBoxButtons.OK);
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }
                 int temp = tabControl1.SelectedIndex;
                 tabControl1.SelectedIndex = -1;
                 tabControl1.SelectedIndex = temp;
             }
         }
 
+        private void DeleteElement()
+        {
+            if (DeleteFromDatabase.Delete(tabControl1.SelectedTab.Name, permissionsTab[tabControl1.SelectedTab.Name][2], dataGridView1.SelectedCells))
+            {
+                int temp = tabControl1.SelectedIndex;
+                tabControl1.SelectedIndex = -1;
+                tabControl1.SelectedIndex = temp;
+                MessageBox.Show("Pomyślnie usunięto podany rekord wraz z jego powiązaniami (jeśli występowały).", "Informacja", MessageBoxButtons.OK);
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ManageElement(false);
+        }
+
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if(e.ColumnIndex == dataGridView1.Columns[0].Index && e.RowIndex >= 0 && permissionsTab[tabControl1.SelectedTab.Name][2])
             {
-                if (WindowManage.SwitchWindow(tabControl1.SelectedTab.Name, true, (int)dataGridView1.Rows[e.RowIndex].Cells[1].Value,permissionsTab))
-                {
-                    int temp = tabControl1.SelectedIndex;
-                    tabControl1.SelectedIndex = -1;
-                    tabControl1.SelectedIndex = temp;
-                }
+                ManageElement(true);
             }
         }
 
@@ -113,12 +151,7 @@ namespace AlbumDB
         {
             if (e.RowIndex >= 0 && permissionsTab[tabControl1.SelectedTab.Name][2])
             {
-                if (WindowManage.SwitchWindow(tabControl1.SelectedTab.Name, true, (int)dataGridView1.Rows[e.RowIndex].Cells[1].Value,permissionsTab))
-                {
-                    int temp = tabControl1.SelectedIndex;
-                    tabControl1.SelectedIndex = -1;
-                    tabControl1.SelectedIndex = temp;
-                }
+                ManageElement(true);
             }
         }
 
@@ -136,7 +169,7 @@ namespace AlbumDB
             sqlSelectTab["ocena"] = "SELECT [ocena.id] As [ID], [ocena.wartosc] As [Wartość] FROM [ocena]";
             sqlSelectTab["gatunek"] = "SELECT [gatunek.id] As [ID], [gatunek.nazwa] As [Nazwa] FROM [gatunek] WHERE gatunek.czy_usuniete=False";
             sqlSelectTab["grupa"] = "SELECT [grupa.id] As [ID], [grupa.nazwa] As [Nazwa], [grupa.wyswietl_album] As [Wyświetl album], [grupa.wyswietl_czlonek_zespolu] As [Wyświetl członek zespołu], [grupa.wyswietl_gatunek] As [Wyświetl gatunek], [grupa.wyswietl_muzyk] As [Wyświetl muzyk], [grupa.wyswietl_ocena] As [Wyświetl ocena], [grupa.wyswietl_ocena_albumu] As [Wyświetl ocena albumu], [grupa.wyswietl_piosenka] As [Wyświetl piosenka], [grupa.wyswietl_stanowisko] As [Wyświetl stanowisko], [grupa.wyswietl_wytwornia] As [Wyświetl wytwórnia], [grupa.wyswietl_zespol] As [Wyświetl zespół], [grupa.wyswietl_uzytkownik] As [Wyświetl użytkownik], [grupa.wyswietl_grupa] As [Wyświetl grupa], [grupa.dodaj_album] As [Dodaj album], [grupa.dodaj_czlonek_zespolu] As [Dodaj członek zespołu], [grupa.dodaj_gatunek] As [Dodaj gatunek], [grupa.dodaj_muzyk] As [Dodaj muzyk], [grupa.dodaj_ocena_albumu] As [Dodaj ocena albumu], [grupa.dodaj_piosenka] As [Dodaj piosenka], [grupa.dodaj_stanowisko] As [Dodaj stanowisko], [grupa.dodaj_wytwornia] As [Dodaj wytwórnia], [grupa.dodaj_zespol] As [Dodaj zespół], [grupa.dodaj_uzytkownik] As [Dodaj użytkownik], [grupa.dodaj_grupa] As [Dodaj grupa], [grupa.edytuj_album] As [Edytuj album], [grupa.edytuj_czlonek_zespolu] As [Edytuj członek zespołu], [grupa.edytuj_gatunek] As [Edytuj gatunek], [grupa.edytuj_muzyk] As [Edytuj muzyk], [grupa.edytuj_ocena_albumu] As [Edytuj ocena albumu], [grupa.edytuj_piosenka] As [Edytuj piosenka], [grupa.edytuj_stanowisko] As [Edytuj stanowisko], [grupa.edytuj_wytwornia] As [Edytuj wytwórnia], [grupa.edytuj_zespol] As [Edytuj zespół], [grupa.edytuj_uzytkownik] As [Edytuj użytkownik], [grupa.edytuj_grupa] As [Edytuj grupa], [grupa.usun_album] As [Usuń album], [grupa.usun_czlonek_zespolu] As [Usuń członek zespołu], [grupa.usun_gatunek] As [Usuń gatunek], [grupa.usun_muzyk] As [Usuń muzyk], [grupa.usun_ocena_albumu] As [Usuń ocena albumu], [grupa.usun_piosenka] As [Usuń piosenka], [grupa.usun_stanowisko] As [Usuń stanowisko], [grupa.usun_wytwornia] As [Usuń wytwórnia], [grupa.usun_zespol] As [Usuń zespół], [grupa.usun_uzytkownik] As [Usuń użytkownik], [grupa.usun_grupa] As [Usuń grupa] FROM [grupa] WHERE grupa.czy_usuniete=False";
-            sqlSelectTab["uzytkownik"] = "SELECT [uzytkownik.id] As [ID], [grupa.nazwa] As [Nazwa grupy], [uzytkownik.login] AS [Login], [uzytkownik.haslo] AS [Hasło] FROM ([uzytkownik] INNER JOIN grupa ON uzytkownik.id_grupy = grupa.id) WHERE grupa.czy_usuniete=False";
+            sqlSelectTab["uzytkownik"] = "SELECT [uzytkownik.id] As [ID], [grupa.nazwa] As [Nazwa grupy], [uzytkownik.login] AS [Login], [uzytkownik.haslo] AS [Hasło] FROM ([uzytkownik] INNER JOIN grupa ON uzytkownik.id_grupy = grupa.id) WHERE uzytkownik.czy_usuniete=False";
             sqlSelectTab["wytwornia"] = "SELECT [wytwornia.id] As [ID], [wytwornia.nazwa] As [Nazwa] FROM [wytwornia] WHERE wytwornia.czy_usuniete=False";
             sqlSelectTab["stanowisko"] = "SELECT [stanowisko.id] As [ID], [stanowisko.nazwa] As [Nazwa] FROM [stanowisko] WHERE stanowisko.czy_usuniete=False";
             sqlSelectTab["muzyk"] = "SELECT [muzyk.id] AS [ID], [muzyk.imie] As [Imię], [muzyk.nazwisko] As [Nazwisko], [muzyk.data_urodzenia] As [Data urodzenia] FROM [muzyk] WHERE muzyk.czy_usuniete=False";
@@ -189,26 +222,18 @@ namespace AlbumDB
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (DeleteFromDatabase.Delete(tabControl1.SelectedTab.Name, dataGridView1.SelectedCells))
-            {
-                int temp = tabControl1.SelectedIndex;
-                tabControl1.SelectedIndex = -1;
-                tabControl1.SelectedIndex = temp;
-                MessageBox.Show("Pomyślnie usunięto podany rekord wraz z jego powiązaniami (jeśli występowały).", "Informacja", MessageBoxButtons.OK);
-            }
+            DeleteElement();
         }
 
         private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
         {
+            if (tabControl1.SelectedIndex < 0) return;
+
             if(e.KeyCode == Keys.Delete && permissionsTab[tabControl1.SelectedTab.Name][3])
             {
-                if (DeleteFromDatabase.Delete(tabControl1.SelectedTab.Name, dataGridView1.SelectedCells))
-                {
-                    int temp = tabControl1.SelectedIndex;
-                    tabControl1.SelectedIndex = -1;
-                    tabControl1.SelectedIndex = temp;
-                    MessageBox.Show("Pomyślnie usunięto podany rekord wraz z jego powiązaniami (jeśli występowały).", "Informacja", MessageBoxButtons.OK);
-                }
+                if ((tabControl1.SelectedTab.Name == "grupa" && dataGridView1.SelectedRows[0].Index <= 2) || (tabControl1.SelectedTab.Name == "uzytkownik" && dataGridView1.SelectedRows[0].Index == 0)) return;
+
+                DeleteElement();
             }
             else
             {
@@ -216,12 +241,7 @@ namespace AlbumDB
                 {
                     if (permissionsTab[tabControl1.SelectedTab.Name][2])
                     {
-                        if (WindowManage.SwitchWindow(tabControl1.SelectedTab.Name, true, (int)dataGridView1.Rows[dataGridView1.SelectedRows[0].Index].Cells[1].Value,permissionsTab))
-                        {
-                            int temp = tabControl1.SelectedIndex;
-                            tabControl1.SelectedIndex = -1;
-                            tabControl1.SelectedIndex = temp;
-                        }
+                        ManageElement(true);
                     }
                     e.SuppressKeyPress = true; //avoid default behavior
                 }
@@ -229,12 +249,7 @@ namespace AlbumDB
                 {
                     if(e.KeyCode == Keys.Insert && permissionsTab[tabControl1.SelectedTab.Name][1])
                     {
-                        if (WindowManage.SwitchWindow(tabControl1.SelectedTab.Name, false, 0,permissionsTab))
-                        {
-                            int temp = tabControl1.SelectedIndex;
-                            tabControl1.SelectedIndex = -1;
-                            tabControl1.SelectedIndex = temp;
-                        }
+                        ManageElement(false);
                     }
                 }
             }
@@ -244,6 +259,15 @@ namespace AlbumDB
         {
             this.DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        private void dataGridView1_RowStateChanged(object sender, DataGridViewRowStateChangedEventArgs e)
+        {
+            if((tabControl1.SelectedTab.Name == "grupa" || tabControl1.SelectedTab.Name == "uzytkownik") && dataGridView1.SelectedRows.Count > 0)
+            {
+                if ((tabControl1.SelectedTab.Name == "grupa" && dataGridView1.SelectedRows[0].Index <= 2) || (tabControl1.SelectedTab.Name == "uzytkownik" && dataGridView1.SelectedRows[0].Index == 0)) button2.Enabled = false;
+                else button2.Enabled = true;
+            }
         }
     }
 }

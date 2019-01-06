@@ -210,6 +210,7 @@ namespace AlbumDB
                     dataGridView1.Columns.Insert(0, imageColumnEdit);
                 }
             }
+            dataGridView1.Select();
         }
 
         private void dataGridView1_CellMouseEnter(object sender, DataGridViewCellEventArgs e)

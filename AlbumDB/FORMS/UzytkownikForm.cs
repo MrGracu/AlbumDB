@@ -46,6 +46,7 @@ namespace AlbumDB.FORMS
                  );
                 this.Size = new Size(this.Size.Width, this.Size.Height + 26);
                 loadValueFromQuery();
+                if (id == 1) comboBox1.Enabled = false;
             }
             addButton.Click += button1_Click;
             this.AcceptButton = addButton;

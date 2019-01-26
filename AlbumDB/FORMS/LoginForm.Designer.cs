@@ -110,6 +110,7 @@
             // 
             this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.textBox2.Location = new System.Drawing.Point(85, 95);
+            this.textBox2.MaxLength = 120;
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(209, 27);
             this.textBox2.TabIndex = 2;
@@ -213,6 +214,7 @@
             // 
             this.textBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.textBox5.Location = new System.Drawing.Point(70, 126);
+            this.textBox5.MaxLength = 120;
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(209, 27);
             this.textBox5.TabIndex = 5;
@@ -224,6 +226,7 @@
             // 
             this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.textBox4.Location = new System.Drawing.Point(70, 84);
+            this.textBox4.MaxLength = 120;
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(209, 27);
             this.textBox4.TabIndex = 4;

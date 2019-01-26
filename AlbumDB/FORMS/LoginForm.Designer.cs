@@ -161,11 +161,11 @@
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label1.ForeColor = System.Drawing.Color.Red;
-            this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Location = new System.Drawing.Point(13, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(353, 47);
+            this.label1.Size = new System.Drawing.Size(328, 47);
             this.label1.TabIndex = 6;
-            this.label1.Text = "Podany użytkownik nie istnieje!";
+            this.label1.Text = "Podany użytkownik nie istnieje lub podane hasło jest nieprawidłowe!";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.label1.Visible = false;
             // 

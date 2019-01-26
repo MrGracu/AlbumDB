@@ -228,7 +228,7 @@ namespace AlbumDB.FORMS
             if (this.DialogResult == DialogResult.OK) this.Close();
             else
             {
-                label1.Text = "Podany użytkownik nie istnieje!";
+                label1.Text = "Podany użytkownik nie istnieje lub podane hasło jest nieprawidłowe!";
                 label1.Visible = true;
             }
         }
@@ -307,7 +307,7 @@ namespace AlbumDB.FORMS
                     conn.Close();
                 }
 
-                if (dataExists > 0)
+                if (dataExists > 0 || textBox3.Text == "Gość")
                 {
                     label2.Text = "Użytkownik o podanym loginie już istnieje!";
                     label2.Visible = true;

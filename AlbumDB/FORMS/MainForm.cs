@@ -34,7 +34,8 @@ namespace AlbumDB
             /* SET MainForm WIDTH & HEIGHT */
             this.MinimumSize = new Size(340 + button3.Width, 240);
             /* END SET MainForm WIDTH & HEIGHT */
-            string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=..\\..\\albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=;";
+            this.KeyPreview = true;
+            string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=;";
             using (OleDbConnection conn = new OleDbConnection(conString))
             using (OleDbCommand cmd = new OleDbCommand("SELECT [wyswietl_album], [wyswietl_czlonek_zespolu], [wyswietl_gatunek], [wyswietl_muzyk], [wyswietl_ocena], [wyswietl_ocena_albumu], [wyswietl_piosenka], [wyswietl_stanowisko], [wyswietl_wytwornia], [wyswietl_zespol], [wyswietl_uzytkownik], [wyswietl_grupa], [dodaj_album], [dodaj_czlonek_zespolu], [dodaj_gatunek], [dodaj_muzyk], [dodaj_ocena_albumu], [dodaj_piosenka], [dodaj_stanowisko], [dodaj_wytwornia], [dodaj_zespol], [dodaj_uzytkownik], [dodaj_grupa], [edytuj_album], [edytuj_czlonek_zespolu], [edytuj_gatunek], [edytuj_muzyk], [edytuj_ocena_albumu], [edytuj_piosenka], [edytuj_stanowisko], [edytuj_wytwornia], [edytuj_zespol], [edytuj_uzytkownik], [edytuj_grupa], [usun_album], [usun_czlonek_zespolu], [usun_gatunek], [usun_muzyk], [usun_ocena_albumu], [usun_piosenka], [usun_stanowisko], [usun_wytwornia], [usun_zespol], [usun_uzytkownik], [usun_grupa] FROM [grupa] WHERE grupa.czy_usuniete=False AND grupa.id="+userGroup.ToString(), conn))
             {
@@ -94,7 +95,7 @@ namespace AlbumDB
             int UserID = -1;
             if (tabControl1.SelectedTab.Name == "uzytkownik" && mode)
             {
-                string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=..\\..\\albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
+                string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
                 using (OleDbConnection conn = new OleDbConnection(conString))
                 using (OleDbCommand cmd = new OleDbCommand("SELECT [id] FROM uzytkownik WHERE [login]=\"" + userName + "\" AND [id_grupy]="+userGroup+" AND [czy_usuniete]=false", conn))
                 {
@@ -159,7 +160,7 @@ namespace AlbumDB
         {
             if (tabControl1.SelectedIndex < 0) return;
 
-            string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=..\\..\\albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
+            string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
             string tableName = tabControl1.SelectedTab.Name;
 
             button1.Enabled = permissionsTab[tableName][1]; //Add
@@ -268,6 +269,17 @@ namespace AlbumDB
             {
                 if ((tabControl1.SelectedTab.Name == "grupa" && dataGridView1.SelectedRows[0].Index <= 2) || (tabControl1.SelectedTab.Name == "uzytkownik" && dataGridView1.SelectedRows[0].Index == 0)) button2.Enabled = false;
                 else button2.Enabled = true;
+            }
+        }
+
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.F1)
+            {
+                e.SuppressKeyPress = true; //avoid default behavior
+                e.Handled = true;
+                FORMS.AboutForm aboutForm = new FORMS.AboutForm();
+                aboutForm.ShowDialog();
             }
         }
     }

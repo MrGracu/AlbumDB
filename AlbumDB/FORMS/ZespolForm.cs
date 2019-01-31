@@ -39,7 +39,7 @@ namespace AlbumDB.FORMS
 
         public void loadValueFromQuery()
         {
-            string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=..\\..\\albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
+            string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
             using (OleDbConnection conn = new OleDbConnection(conString))
             {
                 conn.Open();

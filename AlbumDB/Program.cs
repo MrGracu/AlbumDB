@@ -15,6 +15,19 @@ namespace AlbumDB
         [STAThread]
         static void Main()
         {
+
+            /****************************************************************
+             * 
+             *   Źródło bazy danych (albumy_muz.mdb) zostało podmienione na:
+             *      "Data Source=albumy_muz.mdb;"
+             *   ze ścieżki:
+             *      "Data Source=..\\..\\albumy_muz.mdb;".
+             *   Dlatego po ponownym uruchomieniu aplikacji baza jest
+             *   kopiowana do folderu z aplikacją przez co zmiany nie są
+             *   zaposywane.
+             * 
+             ************************************************************** */
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             
@@ -96,7 +109,7 @@ namespace AlbumDB
 
     public static class DeleteFromDatabase
     {
-        const string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=..\\..\\albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
+        const string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
 
         private static bool deleteOcena_albumu_Piosenka(bool mode, string table, int id) //true - bezposrednio po id; false - posrednio po id_albumu
         {
@@ -400,7 +413,7 @@ namespace AlbumDB
             bool returnValue = false;
             bool modeForm = false; //dodawanie; true - update
             int IDSQLToQuery = 0;
-            string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=..\\..\\albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
+            string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
             using (OleDbConnection conn = new OleDbConnection(conString))
             {
                 /* ZAMIANA TRESCI Z INNEJ TABELI NA KLUCZE OBCE */

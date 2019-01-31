@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // zestaw atrybutów. Zmień wartości tych atrybutów, aby zmodyfikować informacje
 // powiązane z zestawem.
 [assembly: AssemblyTitle("AlbumDB")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Program pozwalający zarządzać bazą danych albumów muzycznych, która jest dołączona do aplikacji.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("AlbumDB")]
-[assembly: AssemblyCopyright("Copyright ©  2018")]
+[assembly: AssemblyCopyright("Copyright © 2018 by Gracjan Mika and Patryk Potoczak")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

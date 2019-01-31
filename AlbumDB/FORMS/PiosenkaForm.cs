@@ -38,7 +38,7 @@ namespace AlbumDB.FORMS
 
         public void loadValueFromQuery()
         {
-            string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=..\\..\\albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
+            string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
             using (OleDbConnection conn = new OleDbConnection(conString))
             {
                 conn.Open();
@@ -50,7 +50,7 @@ namespace AlbumDB.FORMS
                     {
                         textBox1.Text = reader["tytul"].ToString();
                         dateTimePicker2.Value = (DateTime)reader["czas"];
-                        numericUpDown1.Value = (int)reader["nr_piosenki"];
+                        numericUpDown1.Value = decimal.Parse(reader["nr_piosenki"].ToString());
 
                         using (OleDbCommand cmdID = new OleDbCommand("SELECT nazwa FROM album WHERE id=" + (int)reader["id_albumu"], conn))
                         {
@@ -82,7 +82,7 @@ namespace AlbumDB.FORMS
 
         private void fillComboBox(ComboBox comboBox, int comboValue)
         {
-            string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=..\\..\\albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
+            string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
             using (OleDbConnection conn = new OleDbConnection(conString))
             {
                 conn.Open();

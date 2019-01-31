@@ -253,12 +253,15 @@
             this.ClientSize = new System.Drawing.Size(349, 327);
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.HelpButton = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Logowanie - Albumy Muzyczne DB";
+            this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.LoginForm_HelpButtonClicked);
             this.Load += new System.EventHandler(this.LoginForm_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.LoginForm_KeyDown);
             this.tabControl1.ResumeLayout(false);
             this.login.ResumeLayout(false);
             this.login.PerformLayout();

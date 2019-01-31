@@ -15,7 +15,7 @@ namespace AlbumDB.FORMS
 {
     public partial class LoginForm : Form
     {
-        string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=..\\..\\albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
+        string conString = @"Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=albumy_muz.mdb;" + "Persist Security Info=True;" + "Jet OLEDB:Database Password=myPassword;";
 
         public int ReturnGroup { get; set; }
         public string ReturnUser { get; set; }
@@ -28,6 +28,7 @@ namespace AlbumDB.FORMS
             InitializeComponent();
             registerButton.Click += delegate { Register(); };
             loginButton.Click += delegate { LogIn(); };
+            this.KeyPreview = true;
         }
 
         private void LoginForm_Load(object sender, EventArgs e)
@@ -338,9 +339,24 @@ namespace AlbumDB.FORMS
 
         private void tabControl1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+
+        }
+
+        private void LoginForm_HelpButtonClicked(object sender, CancelEventArgs e)
+        {
+            e.Cancel = true;
+            FORMS.AboutForm aboutForm = new FORMS.AboutForm();
+            aboutForm.ShowDialog();
+        }
+
+        private void LoginForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F1)
             {
-                Register();
+                e.SuppressKeyPress = true; //avoid default behavior
+                e.Handled = true;
+                FORMS.AboutForm aboutForm = new FORMS.AboutForm();
+                aboutForm.ShowDialog();
             }
         }
     }

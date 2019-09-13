@@ -138,7 +138,7 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(153, 26);
             this.button2.TabIndex = 4;
-            this.button2.Text = "Zaloguj jako gość";
+            this.button2.Text = "Zaloguj jako Gość";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 

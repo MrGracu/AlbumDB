@@ -114,7 +114,7 @@ namespace AlbumDB
                 if ((tabControl1.SelectedTab.Name == "uzytkownik" && UserID == (int)dataGridView1.Rows[dataGridView1.SelectedRows[0].Index].Cells[nr].Value || tabControl1.SelectedTab.Name == "grupa" && userGroup == (int)dataGridView1.Rows[dataGridView1.SelectedRows[0].Index].Cells[nr].Value) && mode)
                 {
                     if(tabControl1.SelectedTab.Name == "grupa") MessageBox.Show("Edytowano uprawnienia grupy do której należy obecnie zalogowany użytkownik.\nAby kontynuować proszę zalogować się ponownie.", "Informacja", MessageBoxButtons.OK);
-                    else MessageBox.Show("Edytowano dane obecnie użytkownika, który jest obecnie zalogowany.\nAby kontynuować proszę zalogować się ponownie.", "Informacja", MessageBoxButtons.OK);
+                    else MessageBox.Show("Edytowano dane użytkownika, który jest obecnie zalogowany.\nAby kontynuować proszę zalogować się ponownie.", "Informacja", MessageBoxButtons.OK);
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
